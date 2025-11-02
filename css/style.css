@@ -73,24 +73,11 @@ body {
 /* Garis bawah animasi */
 .navbar .nav-link::after {
     content: '';
-    position: absolute;
-    left: 0;
-    border-bottom: -4px;
-    height: 2px;
-    width: 0;
-    background-color: rgba(40, 167, 70, 0.8);
-    transition: width 0.3s ease;
+    display: block;
+    padding-bottom: 0.3 rem;
+    border-bottom: 0.15rem solid rgba(40, 167, 70, 0.589);
     transform: scaleX(0);
-}
-
-/* Saat hover atau aktif */
-.navbar .nav-link:hover::after,
-.navbar .nav-link.active::after {
-    width: 100%;
-}
-
-.navbar .nav-link:hover {
-    color: var(--primary) !important;
+    transition: transform 0.1s ease;
 }
 
 .navbar .nav-link:hover::after {
@@ -100,7 +87,6 @@ body {
 .navbar .nav-link:hover {
     color: var(--primary) !important;
 }
-
 
 .navbar .navbar-extra a {
     color: #fff;
