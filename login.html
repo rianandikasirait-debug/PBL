@@ -153,9 +153,13 @@
                 return;
             }
 
-            const userData = JSON.parse(savedData);
+            const users = JSON.parse(savedData);
 
-            if (email === userData.email && password === userData.password) {
+            const userData = users.find(user => user.email === email && user.password === password);
+
+            // 3. Cek apakah pengguna ditemukan
+            if (userData) {
+                // Jika 'userData' ditemukan (bukan null/undefined)
                 alert("Login berhasil!");
 
                 if (userData.role === "admin") {
@@ -165,8 +169,8 @@
                         role: "admin"
                     }
                     localStorage.setItem("adminData", JSON.stringify(adminData));
+                    window.location.href = "admin/dashboard_admin.html"; // Pastikan path ini benar
 
-                    window.location.href = "admin/dashboard_admin.html";
                 } else if (userData.role === "peserta") {
                     const pesertaData = {
                         name: userData.name,
@@ -174,15 +178,16 @@
                         role: "peserta"
                     }
                     localStorage.setItem("pesertaData", JSON.stringify(pesertaData));
-                    
-                    window.location.href = "peserta/dashboard_peserta.html";
+                    window.location.href = "peserta/dashboard_peserta.html"; // Pastikan path ini benar
+
                 } else {
                     alert("Role pengguna tidak dikenali!");
                 }
             } else {
+                // Jika tidak ditemukan di dalam array
                 alert("Email atau password salah!");
             }
-        });
+        }); 
     </script>
 </body>
 

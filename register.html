@@ -123,8 +123,6 @@
                                 <div class="mb-3">
                                     <label for="role" class="form-label">Daftar sebagai</label>
                                     <select id="role" class="form-select rounded-pill" required>
-                                        <option value="">-- Pilih Role --</option>
-                                        <option value="admin">Admin (Notulis)</option>
                                         <option value="peserta">Peserta</option>
                                     </select>
                                 </div>
@@ -159,9 +157,9 @@
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
-            const role = document.getElementById('role').value;
+            const role = "peserta";
 
-            if (!name || !email || !password || !role) {
+            if (!name || !email || !password ) {
                 alert('Mohon isi semua kolom sebelum mendaftar!');
                 return;
             }
