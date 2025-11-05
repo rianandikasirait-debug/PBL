@@ -1,3 +1,8 @@
+/* =========================================
+   SMARTNOTE LANDING PAGE - STYLE.CSS
+   ========================================= */
+
+/* ROOT */
 :root {
     --primary: #00d462;
     --bg: #010101;
@@ -12,22 +17,28 @@
     text-decoration: none;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
     font-family: 'Poppins', sans-serif;
     color: #fff;
 }
 
-/* Navbar */
+/* =========================================
+   NAVBAR
+   ========================================= */
 .navbar {
     background-color: rgba(1, 1, 1, 0.5);
-    /* border-bottom: 1.3px solid var(--primary); */
     position: fixed;
     border-bottom: 2px solid rgba(1, 1, 1, 0.2);
     top: 0;
     left: 0;
     right: 0;
-    z-index: 9999;
+    z-index: 1030;
     padding: 0.8rem 7%;
+    transition: background-color 0.3s ease;
 }
 
 .navbar .navbar-logo {
@@ -48,33 +59,14 @@ body {
     margin: 0 0.5rem;
     margin-top: 0.3rem;
     position: relative;
-}
-
-.nav-link2:hover {
-    border-color: rgba(48, 226, 90, 0.8);
-    /* Lebih gelap saat hover */
-    background-color: rgba(40, 167, 70, 0.283);
-    /* Latar transparan */
-    color: #31e85c;
-    /* Teks lebih gelap */
-}
-
-
-.navbar .nav-link {
-    position: relative;
-    display: inline-block; /* penting agar underline sesuai panjang teks */
-    color: #fff !important;
-    font-size: 1.1rem;
-    margin: 0 0.5rem;
-    margin-top: 0.3rem;
+    display: inline-block;
     transition: color 0.3s ease;
 }
 
-/* Garis bawah animasi */
+/* Hover underline */
 .navbar .nav-link::after {
     content: '';
     display: block;
-    padding-bottom: 0.3 rem;
     border-bottom: 0.15rem solid rgba(40, 167, 70, 0.589);
     transform: scaleX(0);
     transition: transform 0.1s ease;
@@ -88,95 +80,54 @@ body {
     color: var(--primary) !important;
 }
 
-.navbar .navbar-extra a {
-    color: #fff;
-    margin-left: 0.8rem;
-    transition: 0.2s;
-}
-
-.navbar .navbar-extra a:hover {
-    color: var(--primary);
-}
-
-
-
-/* Hover nav-link1 */
-.nav-link1:hover {
-    border-color: #dddddd;
-    /* Border putih lebih gelap saat hover */
-    background-color: rgba(255, 255, 255, 0.1);
-    /* Opsional: latar sedikit terang */
-    color: #ffffff;
-}
-
-/* Masuk */
+/* Tombol Masuk */
 .nav-link1 {
     border: 1.5px solid rgba(255, 255, 255, 0.5);
-    /* Putih transparan 50% */
     border-radius: 0.5rem;
-    /* Sudut membulat */
     padding: 7px 15px;
-    text-decoration: none;
     color: #ffffff;
-    /* Teks putih */
     background-color: transparent;
     transition: all 0.3s ease;
     display: flex;
     margin-left: 0.5rem;
-    margin-top: 0.4rem;
+    text-decoration: none;
 }
 
 .nav-link1:hover {
     border-color: rgba(255, 255, 255, 0.8);
-    /* Agak lebih gelap saat hover */
     background-color: rgba(255, 255, 255, 0.274);
-    /* Latar sedikit terang */
-    color: #ffffff;
 }
 
-/* Daftar */
+/* Tombol Daftar */
 .nav-link2 {
     border: 1.5px solid rgba(40, 167, 69, 0.5);
-    /* Hijau transparan */
     border-radius: 0.5rem;
-    /* Sudut membulat */
     padding: 7px 15px;
-    text-decoration: none;
     color: var(--primary);
-    /* Teks hijau */
     background-color: transparent;
     transition: all 0.3s ease;
     display: flex;
     margin-left: 0.5rem;
-    margin-top: 0.4rem;
+    text-decoration: none;
 }
 
+.nav-link2:hover {
+    border-color: rgba(48, 226, 90, 0.8);
+    background-color: rgba(40, 167, 70, 0.283);
+    color: #31e85c;
+}
 
+/* Navbar Responsif */
 @media (max-width: 991px) {
     .navbar {
         padding: 1rem 5%;
         background-color: rgba(0, 0, 0, 0.938);
-        transition: background-color 0.3s ease;
     }
-
-    .navbar a {
-        display: inline-block;
-        width: auto; /* penting biar garis sesuai teks */
-    }
-
-
-/* font hubungi kami */
-#hubungi-kami h2 {
-    color: black;
 }
 
-#footer p {
-    color: #fff;
-}}
-
-
-
-/* ================= HERO SECTION ================= */
+/* =========================================
+   HERO SECTION
+   ========================================= */
 .hero-section {
     position: relative;
     height: 100vh;
@@ -189,10 +140,8 @@ body {
     justify-content: center;
     text-align: center;
     color: white;
-    overflow: hidden;
 }
 
-/* Overlay hitam transparan di atas gambar */
 .hero-section .overlay {
     position: absolute;
     top: 0;
@@ -203,15 +152,6 @@ body {
     z-index: 1;
 }
 
-.hero-section h1 span {
-    color: var(--primary);
-}
-
-.hero-section p span {
-    color: var(--primary);
-}
-
-/* Konten teks hero */
 .hero-content {
     position: relative;
     z-index: 2;
@@ -223,7 +163,6 @@ body {
 .hero-content h1 {
     font-size: 2.8rem;
     font-weight: 700;
-    letter-spacing: 0.5px;
     margin-bottom: 1rem;
     background: #fff;
     -webkit-background-clip: text;
@@ -241,23 +180,169 @@ body {
     margin-bottom: 2rem;
 }
 
-
-.navbar {
-    z-index: 1030;
-    /* default Bootstrap */
+/* =========================================
+   KEUNGGULAN SMARTNOTE
+   ========================================= */
+.text-primary-gradient {
+    background-image: linear-gradient(#000000 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
+.placeholder-img {
+    width: 100%;
+    height: 180px;
+    background-color: #000;
+    border: 1px solid #ddd;
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.placeholder-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.placeholder-img:hover img {
+    transform: scale(1.05);
+}
+
+/* Card */
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 123, 255, 0.15) !important;
+}
+
+/* =========================================
+   KONTAK & FOOTER
+   ========================================= */
+#hubungi-kami {
+    scroll-margin-top: 70px;
+    color: #000;
+}
+
+footer {
+    padding: 20px 0;
+}
+
+/* =========================================
+   MODAL
+   ========================================= */
 .modal {
     z-index: 2000;
-    /* pastikan di atas navbar */
 }
 
+#imageModalLabel {
+    color: #000;
+}
+
+/* =========================================
+   GLOBAL
+   ========================================= */
+section {
+    padding: 60px 0;
+}
 
 #hero,
 #fitur-unggulan,
-#tim,
 #hubungi-kami {
-    scroll-margin-top: 80px;
-    /* atau 70px kalau navbarnya lebih kecil */
+    scroll-margin-top: 75px;
 }
 
+#hero p span {
+    color: var(--primary);
+}
+
+/* Tombol navbar responsif */
+@media (max-width: 992px) {
+    .nav-link1,
+    .nav-link2 {
+        display: block;
+        width: 100%;
+        text-align: center;
+        margin: 0.4rem 0;
+        padding: 10px 0;
+        border-radius: 0.4rem;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 768px) {
+    #hero h1 {
+        padding-top: 50px;
+        font-size: 25px;
+    }
+
+    #hero p {
+        font-size: 16px;
+    }
+
+    .navbar .navbar-logo {
+        font-size: 25px;
+    }
+
+    .navbar .nav-link, .navbar .nav-link1, .navbar .nav-link2 {
+        font-size: 14px;
+    }
+    .nav-link1,
+    .nav-link2 {
+        width: 30%;
+        font-size: 1rem;
+        padding: 10px 0;
+        border-width: 1px;
+        text-decoration: none;
+    }
+}
+
+@media (max-width: 576px) {
+    #hero h1 {
+        padding-top: 50px;
+        font-size: 20px;
+    }
+
+    #hero p {
+        font-size: 12px;
+    }
+
+    .navbar .navbar-logo {
+        font-size: 20px;
+    }
+
+    .navbar .nav-link, .navbar .nav-link1, .navbar .nav-link2 {
+        font-size: 15px;
+    }
+    .nav-link1,
+    .nav-link2 {
+        font-size: 0.9rem;
+        padding: 8px 0px;
+        border-width: 1px;
+        border-radius: 0.3rem;
+        text-decoration: none;
+    }
+}
+
+
+/* =========================================
+    ANIMASI
+   ========================================= */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

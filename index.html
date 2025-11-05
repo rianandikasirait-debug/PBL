@@ -20,150 +20,6 @@
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons"></script>
-
-    <style>
-        /* CSS Kustom */
-        body {
-            /* Font Poppins diterapkan */
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .hero-bg {
-            /* Warna gradient Hero Section (Biru ke Hijau) */
-            background: linear-gradient(135deg, #00d462 0%, #00a6ffff 100%);
-        }
-
-        /* WARNA TEXT GRADIENT (Biru-Hijau) */
-        .text-primary-gradient {
-            background-image: linear-gradient(135deg, #007bff 0%, #00d462 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-
-        /* KOTAK PLACEHOLDER GAMBAR FITUR (NETRAL) */
-        .placeholder-img {
-            width: 100%;
-            height: 180px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            margin-bottom: 1rem;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: bold;
-            border-radius: 0;
-            overflow: hidden;
-            cursor: pointer;
-        }
-
-        .placeholder-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-
-        .placeholder-img:hover img {
-            transform: scale(1.05);
-        }
-
-
-        /* GAYA TEAM FOTO (Lingkaran) */
-        .team-img {
-            width: 150px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 50%;
-            margin: 0 auto 1rem auto;
-            border: 4px solid #fff;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .team-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        /* GAYA TAMBAHAN: EFEK HOVER KARTU */
-        .card {
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 123, 255, 0.15) !important;
-        }
-
-
-        section {
-            padding: 60px 0;
-        }
-
-        footer {
-            padding: 20px 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* PERBAIKAN RESPONSIVITAS MOBILE DENGAN MEDIA QUERIES (Fokus perbaikan font di sini) */
-        @media (max-width: 768px) {
-            /* Untuk layar dengan lebar di bawah 768px (seperti ponsel) */
-
-            /* Kurangi padding section agar lebih ringkas */
-            section {
-                padding: 40px 0;
-            }
-
-            /* PERBAIKAN FONT MOBILE: Judul utama di Hero */
-            .display-4 {
-                font-size: 1.8rem !important;
-            }
-
-            /* PERBAIKAN FONT MOBILE: Deskripsi utama di Hero */
-            .lead {
-                font-size: 1rem !important;
-            }
-
-            /* Jarak antar kolom di Team dan Fitur agar lebih rapat */
-            .row.g-4 {
-                --bs-gutter-y: 2rem;
-            }
-
-            /* PERBAIKAN FONT MOBILE: Judul kartu */
-            .card-title {
-                font-size: 1rem !important;
-                /* Dikecilkan */
-            }
-
-            /* Khusus untuk kartu tim di mode mobile */
-            .team-img {
-                width: 120px;
-                height: 120px;
-            }
-
-            /* PERBAIKAN FONT MOBILE: Deskripsi kartu tim/fitur */
-            .team-card .card-text,
-            .card-text {
-                font-size: 0.8rem !important;
-            }
-        }
-
-        #hubungi-kami {
-            scroll-margin-top: 70px;
-            color: #000000;
-
-        }
-
-        #hero {
-            min-height: 80vh;
-        }
-    </style>
 </head>
 
 <body>
@@ -185,27 +41,29 @@
                 <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="#hero">Beranda</a></li>
                     <li class="nav-item"><a class="nav-link" href="#fitur-unggulan">Fitur</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#tim">Tim</a></li>
                     <li class="nav-item"><a class="nav-link" href="#hubungi-kami">Kontak</a></li>
                     <li class="nav-item1"><a class="nav-link1" href="login.html">Masuk</a></li>
                     <li class="nav-item2"><a class="nav-link2" href="register.html">Daftar</a></li>
                 </ul>
-
+            </div>
+        </div>
     </nav>
     <!-- Navbar End -->
 
-<header id="hero" class="hero-section">
-    <div class="overlay"></div>
+    <!-- Deskripsi Landing Page start -->
+    <header id="hero" class="hero-section">
+        <div class="overlay"></div>
     <div class="hero-content">
         <h1>Selamat Datang di Smart<span>Note</span></h1>
         <p>Sebuah layanan Website yang menyedikan fitur fitur yang Anda 
             cari khususnya para Notulis dan Anda yang sebagai peserta 
-            rapat disebuah Komunitas tertentu. Silahkan daftar diri Anda 
+            rapat disebuah komunitas atau organisasi tertentu. Silahkan daftar diri Anda 
             untuk melihat fitur fitur didalamnya. Selamat menikmati website ini, Smart<span>Note</span> siap membantu Anda</p>
-    </div>
-</header>
+        </div>
+    </header>
+    <!-- Deskripsi Landing Page end -->
 
-    <!-- Keunggulan SmartNote -->
+    <!-- Keunggulan SmartNote start-->
     <section id="fitur-unggulan" class="py-5 bg-white">
         <div class="container">
             <h2 class="text-center mb-5 text-primary-gradient">Keunggulan SmartNote</h2>
@@ -252,57 +110,12 @@
                             unduh untuk mengakses lampiran rapat.</p>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
+    <!-- Keunggulan SmartNote end -->
 
-    <section id="tim" class="py-5 bg-light">
-        <div class="container">
-            <h2 class="text-center mb-5 text-primary-gradient">Anggota Tim PBL SmartNote</h2>
-            <div class="row text-center g-4 justify-content-center">
-
-                <div class="col-md-3 col-6">
-                    <div class="card p-3 shadow-sm h-100 border-0 team-card">
-                        <img src="file/yanz.jpg" alt="Foto Rian - Ketua Proyek" class="team-img">
-                        <h5 class="card-title mt-2">Rian (Ketua Proyek dan Frontend Developer)</h5>
-                        <p class="card-text text-muted">Mengimplementasikan desain visual menjadi kode tampilan yang
-                            interaktif.</p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="card p-3 shadow-sm h-100 border-0 team-card">
-                        <img src="file/yo.jpg" alt="Foto Yohana - Spesialis UI/UX" class="team-img">
-                        <h5 class="card-title mt-2">Yohana (Spesialis UI/UX)</h5>
-                        <p class="card-text text-muted">Bertanggung jawab atas desain antarmuka dan pengalaman pengguna.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="card p-3 shadow-sm h-100 border-0 team-card">
-                        <img src="file/del.jpg" alt="Foto Della - Frontend Developer" class="team-img">
-                        <h5 class="card-title mt-2">Della (Spesialis UI/UX)</h5>
-                        <p class="card-text text-muted">Bertanggung jawab atas desain antarmuka dan pengalaman pengguna.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="col-md-3 col-6">
-                    <div class="card p-3 shadow-sm h-100 border-0 team-card">
-                        <img src="file/dit.jpg" alt="Foto Didit - Backend Developer" class="team-img">
-                        <h5 class="card-title mt-2">Didit (Backend Developer)</h5>
-                        <p class="card-text text-muted">Mengembangkan logika server, database, dan API untuk
-                            fungsionalitas.</p>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-
+    <!-- Contact start -->
     <section id="hubungi-kami" class="py-5">
         <div class="container">
             <h2 class="text-center mb-5">Hubungi Kami</h2>
@@ -334,12 +147,15 @@
             </div>
         </div>
     </section>
+    <!-- Contact end -->
 
+    <!-- Footer start -->
     <footer id="footer" class="bg-light text-center py-3">
         <div class="container">
             <p class="m-0 text-muted">&copy; 2025 SmartNote</p>
         </div>
     </footer>
+    <!-- Footer end -->
 
     <div class="modal fade" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl modal-dialog-centered">
