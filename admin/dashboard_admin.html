@@ -117,13 +117,15 @@
                 <div>
                     <h5 class="fw-bold mb-4 ms-3">Menu</h5>
                     <ul class="nav flex-column">
-                        <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
+                        <li>
+                            <a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
                         </li>
-                        <li><a class="nav-link" href="notulen.html"><i
-                                    class="bi bi-journal-text me-2"></i>Notulen</a></li>
-                        <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola
-                                Pengguna</a></li>
-                        <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a>
+                        <li>
+                            <a class="nav-link" href="notulen.html"><i class="bi bi-journal-text me-2"></i>Notulen</a></li>
+                        <li>
+                            <a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                        <li>
+                            <a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a>
                         </li>
                     </ul>
                 </div>
@@ -179,23 +181,23 @@
         <div class="row g-3 mb-4">
             <div class="col-md-4">
                 <div class="highlight-card">
-                    <span class="text-muted">31/12/2313</span>
-                    <h6 class="mt-1 mb-1">we2qw</h6>
-                    <p>12312312...</p>
+                    <span class="text-muted">31/12/2025</span>
+                    <h6 class="mt-1 mb-1">Rapat Akhir Tahun</h6>
+                    <p>......</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="highlight-card">
-                    <span class="text-muted">20/10/2025</span>
-                    <h6 class="mt-1 mb-1">hari ini</h6>
-                    <p>wadaskldmalsd...</p>
+                    <span class="text-muted">30/12/2025</span>
+                    <h6 class="mt-1 mb-1">Evaluasi Kinerja</h6>
+                    <p>......</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="highlight-card">
-                    <span class="text-muted">31/12/0331</span>
-                    <h6 class="mt-1 mb-1">eawd</h6>
-                    <p>12313eqwdawd...</p>
+                    <span class="text-muted">29/12/2025</span>
+                    <h6 class="mt-1 mb-1">Rapat Tim Proyek</h6>
+                    <p>......</p>
                 </div>
             </div>
         </div>
@@ -272,53 +274,78 @@
                     },
                     {
                         judul: "Evaluasi Kinerja",
-                        tanggal: "10/10/2025",
+                        tanggal: "30/12/2025",
                         pembuat: "Didit"
                     },
                     {
                         judul: "Rapat Tim Proyek",
-                        tanggal: "05/09/2025",
+                        tanggal: "29/09/2025",
                         pembuat: "Sinta"
                     },
                     {
                         judul: "Rapat Divisi",
-                        tanggal: "20/10/2025",
+                        tanggal: "20/11/2025",
                         pembuat: "Admin"
                     },
                     {
                         judul: "Meeting Harian",
-                        tanggal: "02/11/2025",
+                        tanggal: "12/11/2025",
                         pembuat: "Rian"
                     },
                     {
                         judul: "Koordinasi Bulanan",
-                        tanggal: "12/11/2025",
+                        tanggal: "02/11/2025",
                         pembuat: "Admin"
                     },
                     {
                         judul: "Evaluasi Anggaran",
-                        tanggal: "01/08/2025",
+                        tanggal: "25/10/2025",
                         pembuat: "Didit"
                     },
                     {
-                        judul: "Kickoff Proyek Baru",
-                        tanggal: "15/09/2025",
+                        judul: "Kick Off Proyek Baru",
+                        tanggal: "15/10/2025",
                         pembuat: "Sinta"
                     },
                     {
                         judul: "Laporan Triwulan",
-                        tanggal: "28/07/2025",
+                        tanggal: "28/09/2025",
                         pembuat: "Rian"
                     },
                     {
                         judul: "Briefing Pagi",
-                        tanggal: "03/11/2025",
+                        tanggal: "07/09/2025",
                         pembuat: "Admin"
                     },
                     {
                         judul: "Rapat Koordinasi HR",
-                        tanggal: "20/11/2025",
+                        tanggal: "20/08/2025",
                         pembuat: "Didit"
+                    },
+                    {
+                        judul: "Presentasi Hasil Survei",
+                        tanggal: "13/08/2025",
+                        pembuat: "Hana"
+                    },
+                    {
+                        judul: "Rapat Pengembangan Produk Baru",
+                        tanggal: "20/07/2025",
+                        pembuat: "Hana"
+                    },
+                    {
+                        judul: "Finalisasi Strategi",
+                        tanggal: "29/06/2025",
+                        pembuat: "Admin"
+                    },
+                    {
+                        judul: "Laporan Keuangan dan Proyeksi",
+                        tanggal: "12/05/2025",
+                        pembuat: "Hana"
+                    },
+                    {
+                        judul: "Tinjauan Keamanan Data",
+                        tanggal: "09/04/2025",
+                        pembuat: "Hana"
                     },
                 ];
 
@@ -432,7 +459,7 @@
                 filterPembuat.addEventListener("change", () => {
                     currentPage = 1;
                     updateTable();
-                });
+                }); 
                 rowsPerPageSelect.addEventListener("change", () => {
                     rowsPerPage =
                         rowsPerPageSelect.value === "all" ?
