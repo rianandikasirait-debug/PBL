@@ -121,12 +121,10 @@
                     <ul class="nav flex-column">
                         <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
                         </li>
-                        <li><a class="nav-link" href="notulen_admin.html"><i
+                        <li><a class="nav-link" href="notulen.html"><i
                                     class="bi bi-journal-text me-2"></i>Notulen</a></li>
                         <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola
                                 Pengguna</a></li>
-                        <li><a class="nav-link" href="tambah_peserta_admin.html"><i
-                                    class="bi bi-person-plus me-2"></i>Tambah Pengguna</a></li>
                         <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a>
                         </li>
                     </ul>
@@ -149,12 +147,10 @@
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
             <ul class="nav flex-column">
                 <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-                <li><a class="nav-link active" href="notulen_admin.html"><i
+                <li><a class="nav-link active" href="notulen.html"><i
                             class="bi bi-journal-text me-2"></i>Notulen</a></li>
                 <li><a class="nav-link" href="kelola_pengguna.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a>
                 </li>
-                <li><a class="nav-link" href="tambah_pengguna.html"><i class="bi bi-person-plus me-2"></i>Tambah
-                        Pengguna</a></li>
                 <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
             </ul>
         </div>
@@ -169,11 +165,10 @@
     <!-- Main Content -->
     <div class="main-content">
         <div class="topbar">
-            <div class="search-box input-group">
-                <span class="input-group-text bg-white border-end-0"><i class="bi bi-search"></i></span>
-                <input type="text" class="form-control border-start-0" placeholder="Search...">
+            <div>
+
             </div>
-            <span>Halo, faza <i class="bi bi-person ms-2"></i></span>
+            <span>Halo,Admin 👋 </span>
         </div>
 
         <div class="form-wrapper">
@@ -196,6 +191,8 @@
                 <div class="mb-3">
                     <label class="form-label">Isi Notulen</label>
                     <textarea class="form-control" rows="5">asdasdasdasda</textarea>
+                </div>
+
                 <div class="mb-3">
                     <label class="form-label">Ganti Lampiran (Opsional)</label>
                     <input type="file" class="form-control" />
@@ -235,7 +232,7 @@
                 </div>
 
                 <div class="d-flex justify-content-between align-items-center mt-4">
-                    <a href="notulen_admin.html" class="text-decoration-none text-muted">Kembali</a>
+                    <a href="notulen.html" class="text-decoration-none text-muted">Kembali</a>
                     <button id="simpan_perubahan" type="submit" class="btn btn-save px-4 py-2">Simpan Perubahan</button>
                 </div>
             </form>
@@ -259,6 +256,7 @@
                     window.location.href = "../login.html";
                 }
             });
+
         // logout mobile
         const logoutBtnMobile = document.getElementById("logoutBtnMobile");
     if (logoutBtnMobile) {
@@ -271,6 +269,7 @@
         });
     }
         });
+
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
