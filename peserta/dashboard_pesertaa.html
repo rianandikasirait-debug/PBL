@@ -87,8 +87,8 @@
         .btn-view {
             color: #0d6efd;
         }
-        .text-success i.bi-download {
-            color: #198754 !important;
+        td a.text-success i.bi-download {
+            color: #198754 !important; 
         }
         .search-table {
             width: 250px;
@@ -371,10 +371,11 @@
                   <td>${item.judul}</td>
                   <td>${item.tanggal}</td>
                   <td>${item.pembuat}</td>
-                  <td class="text-center">
-                    <a href="detail_rapat_peserta.html?id=${nomorUrut - 1}" class="btn btn-sm text-primary" title="Lihat"><i class="bi bi-eye"></i></a>
-                    <a href="../file/notulen_rapat.pdf" class="btn btn-sm **text-success**" title="Download" download> <i class="bi bi-download"></i></a>
-                </td>
+                  <td class="text-center"> 
+                    <a href="detail_rapat_peserta.html?id=${nomorUrut - 1}" class="text-primary me-2 px-2" title="Lihat"><i class="bi bi-eye"></i></a>
+                    <a href="../file/notulen_rapat.pdf" class="text-success" title="Download" download> <i class="bi bi-download"></i></a>
+                    
+                    </td>
                 </tr>
               `;
                     tableBody.insertAdjacentHTML("beforeend", row);
