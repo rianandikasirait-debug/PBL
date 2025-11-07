@@ -118,7 +118,6 @@
 </head>
 
 <body>
-    <!-- navbar -->
     <nav class="navbar navbar-light bg-white sticky-top px-3">
         <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
@@ -126,7 +125,6 @@
         </button>
     </nav>
 
-    <!-- sidebar mobile -->
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas"
         aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-body p-0">
@@ -152,7 +150,6 @@
         </div>
     </div>
 
-    <!-- Sidebar desktop -->
     <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
         <div>
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
@@ -176,23 +173,24 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div><h4><b>Kelola Pengguna Sistem</b></h4>
+            <div>
+                <h4><b>Kelola Pengguna Sistem</b></h4>
             </div>
-            <div >
+            <div>
                 <span>Halo, Admin 👋</span>
             </div>
         </div>
 
         <div class="table-wrapper">
             <div class="d-flex justify-content-between align-items-center mb-3">
-                <h5 class="fw-semibold m-0">
+                <h5 class="fw-semibold m-0 d-flex align-items-center">
                     <i class="bi bi-people-fill me-2"></i>
+                    <input type="text" id="searchInput" class="form-control search-box" placeholder="Cari pengguna...">
                 </h5>
                 <a href="tambah_peserta_admin.html" class="btn btn-success d-flex align-items-center gap-2">
-                    <i class="bi bi-plus-circle"></i> Tambah
+                    <i class="bi bi-plus-circle"></i> Tambah Pengguna
                 </a>
             </div>
 
@@ -208,12 +206,10 @@
                     </tr>
                 </thead>
                 <tbody id="userTableBody">
-                    <!-- Data pengguna diisi lewat JavaScript -->
-                </tbody>
+                    </tbody>
             </table>
         </div>
     </div>
-
     <script>
         // Data pengguna (simulasi)
         const users = [{
@@ -244,6 +240,34 @@
                 role: "Peserta",
                 photo: "https://randomuser.me/api/portraits/men/12.jpg"
             },
+            {
+                id: 3,
+                name: "yohana",
+                email: "yohana@gmail.com",
+                role: "Peserta",
+                photo: "https://randomuser.me/api/portraits/men/56.jpg"
+            },
+            {
+                id: 4,
+                name: "hana",
+                email: "hana@gmail.com",
+                role: "Peserta",
+                photo: "https://randomuser.me/api/portraits/men/12.jpg"
+            },
+            {
+                id: 3,
+                name: "hana13",
+                email: "hana13@gmail.com",
+                role: "Peserta",
+                photo: "https://randomuser.me/api/portraits/men/56.jpg"
+            },
+            {
+                id: 4,
+                name: "admin",
+                email: "admin@gmail.com",
+                role: "Peserta",
+                photo: "https://randomuser.me/api/portraits/men/12.jpg"
+            },
         ];
 
         const tbody = document.getElementById("userTableBody");
@@ -251,6 +275,11 @@
         // Fungsi render tabel
         function renderTable(data) {
             tbody.innerHTML = "";
+            if (data.length === 0) {
+                const emptyRow = `<tr><td colspan="6" class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</td></tr>`;
+                tbody.insertAdjacentHTML("beforeend", emptyRow);
+                return;
+            }
             data.forEach((u, index) => {
                 const row = `
                     <tr>
@@ -280,18 +309,22 @@
         }
 
         // Fitur search
-        document.getElementById("searchInput").addEventListener("input", function () {
-            const keyword = this.value.toLowerCase();
-            const filtered = users.filter(
-                (u) =>
-                u.name.toLowerCase().includes(keyword) ||
-                u.email.toLowerCase().includes(keyword) ||
-                u.role.toLowerCase().includes(keyword)
-            );
-            renderTable(filtered);
-        });
+        const searchInput = document.getElementById("searchInput");
+        // Memastikan elemen ada sebelum menambahkan listener
+        if (searchInput) {
+            searchInput.addEventListener("input", function () {
+                const keyword = this.value.toLowerCase();
+                const filtered = users.filter(
+                    (u) =>
+                    u.name.toLowerCase().includes(keyword) ||
+                    u.email.toLowerCase().includes(keyword) ||
+                    u.role.toLowerCase().includes(keyword)
+                );
+                renderTable(filtered);
+            });
+        }
 
-        // Tampilkan data awal
+        // Tampilkan data awal (Ini akan berjalan dengan sukses sekarang)
         renderTable(users);
 
         // Logout desktop
