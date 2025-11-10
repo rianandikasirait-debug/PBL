@@ -305,7 +305,9 @@ section {
         font-size: 25px;
     }
 
-    .navbar .nav-link, .navbar .nav-link1, .navbar .nav-link2 {
+    .navbar .nav-link,
+    .navbar .nav-link1,
+    .navbar .nav-link2 {
         font-size: 14px;
     }
 
@@ -335,7 +337,9 @@ section {
         font-size: 20px;
     }
 
-    .navbar .nav-link, .navbar .nav-link1, .navbar .nav-link2 {
+    .navbar .nav-link,
+    .navbar .nav-link1,
+    .navbar .nav-link2 {
         font-size: 15px;
     }
 
@@ -410,5 +414,234 @@ section {
     #cta .btn {
         font-size: 1rem;
         padding: 10px 20px;
+    }
+}
+
+/* =========================================
+    DASHBOARD (scoped to .admin)
+   ========================================= */
+
+.dashboard_admin {
+    /* opsional: set background default dashboard */
+    --dashboard_admin-bg: #faf8f5;
+}
+
+/* sidebar */
+.dashboard_admin .sidebar-content {
+    min-width: 250px;
+    background: #fff;
+    height: 100%;
+    border-right: 1px solid #eee;
+    padding: 1.5rem 1rem;
+}
+
+.dashboard_admin .sidebar-content .nav-link {
+    color: #555;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+}
+
+.dashboard_admin .sidebar-content .nav-link.active,
+.dashboard_admin .sidebar-content .nav-link:hover {
+    background-color: #00b050;
+    color: #fff;
+}
+
+/* logout */
+.dashboard_admin .logout-btn {
+    border: 1px solid #f8d7da;
+    color: #dc3545;
+    border-radius: 0.5rem;
+}
+
+/* main konten */
+.dashboard_admin .main-content {
+    margin-left: 260px;
+    padding: 1.5rem;
+}
+
+/* responsif */
+@media (max-width: 991.98px) {
+    .dashboard_admin .main-content {
+        margin-left: 0;
+    }
+}
+
+/* highlight card */
+.dashboard_admin .highlight-card {
+    background-color: #fff;
+    border-radius: 1rem;
+    border: 1px solid #00b050;
+    padding: 1rem;
+    box-shadow: 8px 8px 0px 0px #00b050;
+    transition: 0.2s;
+}
+
+.dashboard_admin .highlight-card:hover {
+    box-shadow: 14px 14px 0px 0px #00b050;
+}
+
+.dashboard_admin .highlight-card h6 {
+    font-weight: 600;
+}
+
+.dashboard_admin .highlight-card p {
+    color: #777;
+    font-size: 0.9rem;
+}
+
+/* table wrapper */
+.dashboard_admin .table-wrapper {
+    background: #fff;
+    border-radius: 1rem;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* button colors */
+.dashboard_admin .btn-view {
+    color: #0d6efd;
+}
+
+.dashboard_admin .btn-edit {
+    color: #198754;
+}
+
+.dashboard_admin .btn-delete {
+    color: #dc3545;
+}
+
+/* tombol tambah */
+.dashboard_admin .btn-tambah {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 38px;
+    padding: 0 12px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    border: 1px solid #00b050;
+    background-color: #00b050;
+    color: #fff;
+    line-height: 1;
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.dashboard_admin .btn-tambah i {
+    font-size: 1rem;
+    margin-right: 6px;
+}
+
+.dashboard_admin .btn-tambah:hover {
+    background-color: #02913f;
+    border-color: #02913f;
+}
+
+/* table layout */
+.dashboard_admin .search-table {
+    width: 250px;
+}
+
+.dashboard_admin .table-responsive table {
+    table-layout: fixed;
+}
+
+/* kolom lebar */
+.dashboard_admin .table th:nth-child(1),
+.dashboard_admin .table td:nth-child(1) {
+    width: 5%;
+    min-width: 50px;
+}
+
+.dashboard_admin .table th:nth-child(2),
+.dashboard_admin .table td:nth-child(2) {
+    width: 40%;
+    min-width: 180px;
+}
+
+.dashboard_admin .table th:nth-child(3),
+.dashboard_admin .table td:nth-child(3) {
+    width: 20%;
+    min-width: 100px;
+    white-space: nowrap;
+}
+
+.dashboard_admin .table th:nth-child(4),
+.dashboard_admin .table td:nth-child(4) {
+    width: 20%;
+    min-width: 100px;
+}
+
+.dashboard_admin .table th:nth-child(5),
+.dashboard_admin .table td:nth-child(5) {
+    width: 15%;
+    min-width: 100px;
+}
+
+/* tombol container */
+.dashboard_admin .tambah-container {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* header controls */
+.dashboard_admin .table-header {
+    width: 100%;
+}
+
+.dashboard_admin .table-header .controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.dashboard_admin .table-header .controls select,
+.dashboard_admin .table-header .controls input,
+.dashboard_admin .table-header .btn-tambah {
+    height: 42px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+}
+
+.dashboard_admin .table-header .controls select.form-select,
+.dashboard_admin .table-header .controls input.form-control {
+    border: 1.5px solid #00b050;
+    color: #333;
+}
+
+.dashboard_admin .table-header #filterPembuat {
+    width: 170px;
+}
+
+.dashboard_admin .table-header #rowsPerPage {
+    width: 120px;
+}
+
+.dashboard_admin .table-header .search-table {
+    flex: 1;
+    min-width: 180px;
+}
+
+/* kecilkan untuk mobile */
+@media (max-width: 768px) {
+    .dashboard_admin .table-header .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .dashboard_admin .table-header .controls>* {
+        width: 100% !important;
+    }
+
+    .dashboard_admin .tambah-container {
+        width: 100%;
     }
 }
