@@ -11,6 +11,27 @@
     
     <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
      <style>
+    .btn-save {
+    background-color: #00b050;
+    color: #fff;
+    border: none;
+    }
+    .btn-save.dropdown-toggle:focus,
+    .btn-save.dropdown-toggle:active:focus,
+    .btn-save.dropdown-toggle:hover:focus,
+    .btn-save.dropdown-toggle:active {
+    background-color: #00b050 !important; 
+    color: #fff !important; 
+    border-color: #00b050 !important; 
+    box-shadow: none !important;
+    }
+
+    .dropdown.show .btn-save.dropdown-toggle {
+    background-color: #00b050 !important;
+    color: #fff !important;
+    border-color: #00b050 !important;
+    }
+
     .form-label {
     font-weight: 500;
     }
@@ -134,12 +155,12 @@
                     <label class="form-label">Upload file (opsional)</label>
                     <input type="file" class="form-control" id="fileInput">
                 </div>
-    
+
             <!-- Dropdown Peserta -->
        <div class="mb-3">
           <label class="form-label">Peserta Notulen</label>
           <div class="dropdown w-50">
-            <button class="btn btn-outline-success w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               Pilih Peserta
             </button>
@@ -168,7 +189,7 @@
                   <label class="form-check-label" for="n4">Citra Ayu</label>
                 </div>
               </div>
-              <button type="button" class="btn btn-success w-100 mt-3" id="addButton">Tambah</button>
+              <button type="button" class="btn btn-save w-100 mt-3" id="addButton">Tambah</button>
             </div>
           </div>
 

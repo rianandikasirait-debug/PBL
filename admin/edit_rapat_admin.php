@@ -7,6 +7,8 @@
 <title>Edit Rapat - Admin</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <style>
     body {
     background-color: #faf8f5;
@@ -57,18 +59,31 @@
     padding: 2rem;
     box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
     }
-
     .btn-save {
-    background-color: #00b050;
-    color: #fff;
-    border: none;
+        background-color: #00b050;
+        color: #fff;
+        border: none;
     }
 
     .btn-save:hover {
-    background-color: #009443;
-    color: #fff;
+        background-color: #009443;
+        color: #fff;
     }
-
+    .btn-save.dropdown-toggle:focus,
+    .btn-save.dropdown-toggle:active:focus,
+    .btn-save.dropdown-toggle:hover:focus,
+    .btn-save.dropdown-toggle:active {
+        background-color: #00b050 !important; 
+        color: #fff !important; 
+        border-color: #00b050 !important; 
+        box-shadow: none !important; 
+    }
+    .dropdown.show .btn-save.dropdown-toggle {
+        background-color: #00b050 !important;
+        color: #fff !important;
+        border-color: #00b050 !important;
+    }
+    
     .btn-back {
     background-color: #f8f9fa;
     border: 1px solid #ccc;
@@ -190,7 +205,7 @@
 
         <div class="mb-3">
           <label class="form-label">Isi Notulen</label>
-          <textarea class="form-control" rows="5" name="isi_notulen">Lorem ipsum dolor sit amet...</textarea>
+            <textarea id="isi" rows="10" placeholder="Tulis isi notulen..."></textarea>
         </div>
 
         <div class="mb-3">
@@ -203,7 +218,7 @@
         <div class="mb-3">
           <label class="form-label">Peserta Notulen</label>
           <div class="dropdown w-50">
-            <button class="btn btn-outline-success w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
+            <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">
               Pilih Peserta
             </button>
@@ -234,7 +249,7 @@
                   <label class="form-check-label" for="n4">Citra Ayu</label>
                 </div>
               </div>
-              <button type="button" class="btn btn-success w-100 mt-3" id="addButton">Tambah</button>
+              <button type="button" class="btn btn-save w-100 mt-3" id="addButton">Tambah</button>
             </div>
           </div>
 
@@ -255,8 +270,33 @@
     </div>
   </div>
 
-  <!-- Script -->
   <script>
+    // === TINYMCE INITIALIZATION ===
+        tinymce.init({
+            selector: '#isi', 
+            height: 350,
+            menubar: 'edit view insert format tools table help', 
+            plugins: [
+                "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+                "help", "image", "insertdatetime", "link", "lists", "media",
+                "preview", "searchreplace", "table", "visualblocks", "wordcount"
+            ],
+            toolbar: "undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    if (editor.getContent() === '') {
+                        editor.setContent('<p>Tulis isi notulen...</p>');
+                    }
+                });
+                editor.on('click', function (e) {
+                    if (editor.getContent() === '<p>Tulis isi notulen...</p>') {
+                        editor.setContent('');
+                    }
+                });
+            }
+        });
+
     // ===================
     // Logout dan Simpan
     // ===================
