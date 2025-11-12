@@ -27,9 +27,9 @@
                 <div>
                     <h5 class="fw-bold mb-4 ms-3">Menu</h5>
                     <ul class="nav flex-column">
-                        <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-                        <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                        <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+                        <li><a class="nav-link" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+                        <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                        <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
                     </ul>
                 </div>
 
@@ -46,9 +46,9 @@
         <div>
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
             <ul class="nav flex-column">
-                <li><a class="nav-link active" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
-                <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+                <li><a class="nav-link active" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
+                <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
             </ul>
         </div>
 
@@ -68,7 +68,7 @@
 
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard_admin.html">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="dashboard_admin.php">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tambah notulen</li>
             </ol>
         </nav>
@@ -195,7 +195,7 @@
         document.getElementById("logoutBtn").addEventListener("click", function () {
             if (confirm("Apakah kamu yakin ingin logout?")) {
                 localStorage.removeItem("userData");
-                window.location.href = "../login.html";
+                window.location.href = "../login.php";
             }
         });
 
@@ -205,7 +205,7 @@
             logoutBtnMobile.addEventListener("click", function () {
                 if (confirm("Apakah kamu yakin ingin logout?")) {
                     localStorage.removeItem("adminData");
-                    window.location.href = "../login.html";
+                    window.location.href = "../login.php";
                 }
             });
         }
