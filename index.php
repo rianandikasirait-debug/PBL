@@ -19,6 +19,28 @@
     <script src="https://unpkg.com/feather-icons"></script>
 </head>
 
+<style>
+    /* Tombol Masuk */
+.nav-link1 {
+    border: 1.5px solid rgba(40, 167, 69, 0.5);
+    border-radius: 0.5rem;
+    padding: 10px 15px;
+    color: var(--primary);
+    background-color: transparent;
+    transition: all 0.3s ease;
+    display: flex;
+    margin-left: 0.5rem;
+    text-decoration: none;
+}
+
+.nav-link1:hover {
+    border-color: rgba(48, 226, 90, 0.8);
+    background-color: rgba(40, 167, 70, 0.283);
+    color: #31e85c;
+}
+
+</style>
+
 <body>
 
     <!-- Navbar Start -->
