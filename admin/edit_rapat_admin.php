@@ -7,6 +7,8 @@
 <title>Edit Rapat - Admin</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <style>
     body {
     background-color: #faf8f5;
@@ -194,7 +196,7 @@
 
         <div class="mb-3">
           <label class="form-label">Isi Notulen</label>
-          <textarea class="form-control" rows="5" name="isi_notulen">Lorem ipsum dolor sit amet...</textarea>
+            <textarea id="isi" rows="10" placeholder="Tulis isi notulen..."></textarea>
         </div>
 
         <div class="mb-3">
@@ -257,8 +259,33 @@
     </div>
   </div>
 
-  <!-- Script -->
   <script>
+    // === TINYMCE INITIALIZATION ===
+        tinymce.init({
+            selector: '#isi', 
+            height: 350,
+            menubar: 'edit view insert format tools table help', 
+            plugins: [
+                "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+                "help", "image", "insertdatetime", "link", "lists", "media",
+                "preview", "searchreplace", "table", "visualblocks", "wordcount"
+            ],
+            toolbar: "undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    if (editor.getContent() === '') {
+                        editor.setContent('<p>Tulis isi notulen...</p>');
+                    }
+                });
+                editor.on('click', function (e) {
+                    if (editor.getContent() === '<p>Tulis isi notulen...</p>') {
+                        editor.setContent('');
+                    }
+                });
+            }
+        });
+
     // ===================
     // Logout dan Simpan
     // ===================
