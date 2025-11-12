@@ -1,25 +1,25 @@
-    <!DOCTYPE html>
-    <html lang="id">
+<!DOCTYPE html>
+<html lang="id">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Tambah Notulen</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-        <link rel="stylesheet" href="../css/admin.min.css">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tambah Notulen</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/admin.min.css">
+    
+    <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+</head>
 
-        <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-        
+<body>
+    <nav class="navbar navbar-light bg-white sticky-top px-3">
+        <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas"
+            data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
+            <i class="bi bi-list"></i>
+        </button>
+    </nav>
 
-    <body>
-        <!-- navbar -->
-        <nav class="navbar navbar-light bg-white sticky-top px-3">
-            <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas"
-                data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
-                <i class="bi bi-list"></i>
-            </button>
-    <!-- sidebar mobile -->
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas"
         aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-body p-0">
@@ -27,9 +27,9 @@
                 <div>
                     <h5 class="fw-bold mb-4 ms-3">Menu</h5>
                     <ul class="nav flex-column">
-                        <li><a class="nav-link" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-                        <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                        <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+                        <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+                        <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                        <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
                     </ul>
                 </div>
 
@@ -42,14 +42,13 @@
         </div>
     </div>
 
-    <!-- Sidebar Desktop -->
     <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
         <div>
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
             <ul class="nav flex-column">
-                <li><a class="nav-link active" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
-                <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
+                <li><a class="nav-link active" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
+                <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
             </ul>
         </div>
 
@@ -58,7 +57,6 @@
         </div>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
@@ -68,197 +66,149 @@
             </div>
         </div>
 
-        <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard_admin.php">Dashboard</a></li>
+                <li class="breadcrumb-item"><a href="dashboard_admin.html">Dashboard</a></li>
                 <li class="breadcrumb-item active" aria-current="page">Tambah notulen</li>
             </ol>
         </nav>
 
-        <!-- sidebar mobile -->
-        <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas"
-            aria-labelledby="sidebarOffcanvasLabel">
-            <div class="offcanvas-body p-0">
-                <div class="sidebar-content d-flex flex-column justify-content-between h-100">
-                    <div>
-                        <h5 class="fw-bold mb-4 ms-3">Menu</h5>
-                        <ul class="nav flex-column">
-                            <li><a class="nav-link" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-                            <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                            <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
-                        </ul>
-                    </div>
+        <div class="form-section">
+            <h5 class="fw-semibold mb-4">Tambah Notulen</h5>
 
-                    <div class="text-center mt-4">
-                        <button id="logoutBtnMobile" class="btn logout-btn px-4 py-2">
-                            <i class="bi bi-box-arrow-right me-2"></i>Logout
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Sidebar Desktop -->
-        <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
-            <div>
-                <h5 class="fw-bold mb-4 ms-3">Menu</h5>
-                <ul class="nav flex-column">
-                    <li><a class="nav-link active" href="dashboard_admin.html"><i class="bi bi-grid me-2"></i>Dashboard</a>
-                    <li><a class="nav-link" href="kelola_rapat_admin.html"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
-                    <li><a class="nav-link" href="profile.html"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
-                </ul>
+            <div id="alertBox" class="alert alert-success" role="alert" style="display: none;">
+                Notulen berhasil disimpan!!!
             </div>
 
-            <div class="text-center">
-                <button id="logoutBtn" class="btn logout-btn px-4 py-2"><i class="bi bi-box-arrow-right me-2"></i>Logout</button>
-            </div>
-        </div>
-
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                </div>
-                <div class="profile">
-                    <span>Halo, Admin 👋</span>
-                </div>
-            </div>
-
-            <!-- Breadcrumb -->
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="dashboard_admin.html">Dashboard</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Tambah notulen</li>
-                </ol>
-            </nav>
-
-            <!-- Form Tambah Notulen -->
-            <div class="form-section">
-                <h5 class="fw-semibold mb-4">Tambah Notulen</h5>
-
-                <div id="alertBox" class="alert alert-success" role="alert">
-                    Notulen berhasil disimpan!!!
+            <form id="notulenForm">
+                <div class="mb-3">
+                    <label class="form-label">Judul</label>
+                    <input type="text" class="form-control" id="judul" placeholder="Masukkan judul rapat" required>
                 </div>
 
-                <form id="notulenForm">
-                    <div class="mb-3">
-                        <label class="form-label">Judul</label>
-                        <input type="text" class="form-control" id="judul" placeholder="Masukkan judul rapat">
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label">Tanggal</label>
+                    <input type="date" class="form-control" id="tanggal" required>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Tanggal</label>
-                        <input type="date" class="form-control" id="tanggal" required>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label">Isi</label>
+                    <textarea id="isi" rows="10" placeholder="Tulis isi notulen..."></textarea>
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Isi</label>
-                        <!-- <textarea class="form-control" rows="5" id="isi" placeholder="Tulis isi notulen..." required></textarea> -->
-                        <textarea id="default-editor">
-                            <p><em>Tulis Isi Notulen</em></p>
-                        </textarea>
-                    </div>
+                <div class="mb-3">
+                    <label class="form-label">Upload file (opsional)</label>
+                    <input type="file" class="form-control" id="fileInput">
+                </div>
 
-                    <div class="mb-3">
-                        <label class="form-label">Upload file (opsional)</label>
-                        <input type="file" class="form-control" id="fileInput">
-                    </div>
-
-                    <div class="mb-3">
-                        <label class="form-label">Peserta Notulen</label>
-                        <div class="p-3 rounded" style="background-color: #ffffff;">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="rian" id="rian">
-                                <label class="form-check-label" for="rian">rian</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="tes" id="tes">
-                                <label class="form-check-label" for="tes">tes</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="yudha" id="yudha">
-                                <label class="form-check-label" for="yudha">yudha</label>
-                            </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="rian12" id="rian12">
-                                <label class="form-check-label" for="rian12">rian12</label>
-                            </div>
+                <div class="mb-3">
+                    <label class="form-label">Peserta Notulen</label>
+                    <div class="p-3 rounded" style="background-color: #ffffff;">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="rian" id="rian">
+                            <label class="form-check-label" for="rian">rian</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="tes" id="tes">
+                            <label class="form-check-label" for="tes">tes</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="yudha" id="yudha">
+                            <label class="form-check-label" for="yudha">yudha</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="rian12" id="rian12">
+                            <label class="form-check-label" for="rian12">rian12</label>
                         </div>
                     </div>
+                </div>
 
-                    <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-save px-4">Simpan</button>
-                    </div>
-                </form>
-            </div>
+                <div class="d-flex justify-content-end">
+                    <button type="submit" class="btn btn-save px-4">Simpan</button>
+                </div>
+            </form>
         </div>
+    </div>
 
-        <script>
-            tinymce.init({
-            selector: 'textarea',
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // === TINYMCE INITIALIZATION ===
+        tinymce.init({
+            selector: '#isi', // Memastikan selector sesuai dengan ID textarea
+            height: 350,
+            menubar: 'edit view insert format tools table help', // Tambahkan menu bar
             plugins: [
-                'anchor', 'autolink', 'charmap', 'codesample', 'emoticons', 'link', 'lists', 'media', 'searchreplace', 'table', 'visualblocks', 'wordcount',
-                'checklist', 'mediaembed', 'casechange', 'formatpainter', 'pageembed', 'a11ychecker', 'tinymcespellchecker', 'permanentpen', 'powerpaste', 'advtable', 'advcode', 'advtemplate', 'ai', 'uploadcare', 'mentions', 'tinycomments', 'tableofcontents', 'footnotes', 'mergetags', 'autocorrect', 'typography', 'inlinecss', 'markdown','importword', 'exportword', 'exportpdf'
+                "advlist", "anchor", "autolink", "charmap", "code", "fullscreen",
+                "help", "image", "insertdatetime", "link", "lists", "media",
+                "preview", "searchreplace", "table", "visualblocks", "wordcount"
             ],
-            toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography uploadcare | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-            tinycomments_mode: 'embedded',
-            tinycomments_author: 'Author name',
-            mergetags_list: [
-            { value: 'First.Name', title: 'First Name' },
-            { value: 'Email', title: 'Email' },
-            ],
-            ai_request: (request, respondWith) => respondWith.string(() => Promise.reject('See docs to implement AI Assistant')),
-            uploadcare_public_key: '210639d10c2a64858499',
-            });
-
-
-            // Simulasi penyimpanan form
-            document.getElementById("notulenForm").addEventListener("submit", function (e) {
-                e.preventDefault();
-
-                const judul = document.getElementById("judul").value;
-                const tanggal = document.getElementById("tanggal").value;
-                const isi = document.getElementById("isi").value;
-
-                const peserta = [];
-                document.querySelectorAll(".form-check-input:checked").forEach(cb => {
-                    peserta.push(cb.value);
+            toolbar: "undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
+            
+            // Opsional: Untuk menyesuaikan tampilan placeholder agar terlihat seperti di gambar sebelumnya.
+            setup: function (editor) {
+                editor.on('init', function (e) {
+                    if (editor.getContent() === '') {
+                        editor.setContent('<p>Tulis isi notulen...</p>');
+                    }
                 });
-
-                console.log({
-                    judul, tanggal, isi, peserta
-                });
-
-                const alertBox = document.getElementById("alertBox");
-                alertBox.style.display = "block";
-
-                setTimeout(() => {
-                    alertBox.style.display = "none";
-                    document.getElementById("notulenForm").reset();
-                }, 2000);
-            });
-
-            // Logout Desktop
-            document.getElementById("logoutBtn").addEventListener("click", function () {
-                if (confirm("Apakah kamu yakin ingin logout?")) {
-                    localStorage.removeItem("userData");
-                    window.location.href = "../login.html";
-                }
-            });
-
-            // Logout Mobile
-            const logoutBtnMobile = document.getElementById("logoutBtnMobile");
-            if (logoutBtnMobile) {
-                logoutBtnMobile.addEventListener("click", function () {
-                    if (confirm("Apakah kamu yakin ingin logout?")) {
-                        localStorage.removeItem("adminData");
-                        window.location.href = "../login.html";
+                editor.on('click', function (e) {
+                    if (editor.getContent() === '<p>Tulis isi notulen...</p>') {
+                        editor.setContent('');
                     }
                 });
             }
-        </script>
+        });
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    </body>
-    </html>
+        // === LOGIC FORM & LOGOUT ===
+        // Simulasi penyimpanan form
+        document.getElementById("notulenForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+
+            const judul = document.getElementById("judul").value;
+            const tanggal = document.getElementById("tanggal").value;
+            
+            // PERBAIKAN 2: Ambil konten dari INSTANCE TINYMCE
+            const isi = tinymce.get('isi').getContent(); 
+
+            const peserta = [];
+            document.querySelectorAll(".form-check-input:checked").forEach(cb => {
+                peserta.push(cb.value);
+            });
+
+            console.log({
+                judul, tanggal, isi, peserta
+            });
+
+            const alertBox = document.getElementById("alertBox");
+            alertBox.style.display = "block"; // Tampilkan alert
+
+            // Reset form dan editor setelah simpan
+            setTimeout(() => {
+                alertBox.style.display = "none";
+                document.getElementById("notulenForm").reset();
+                tinymce.get('isi').setContent(''); // Kosongkan editor
+            }, 2000);
+        });
+
+        // Logout Desktop
+        document.getElementById("logoutBtn").addEventListener("click", function () {
+            if (confirm("Apakah kamu yakin ingin logout?")) {
+                localStorage.removeItem("userData");
+                window.location.href = "../login.html";
+            }
+        });
+
+        // Logout Mobile
+        const logoutBtnMobile = document.getElementById("logoutBtnMobile");
+        if (logoutBtnMobile) {
+            logoutBtnMobile.addEventListener("click", function () {
+                if (confirm("Apakah kamu yakin ingin logout?")) {
+                    localStorage.removeItem("adminData");
+                    window.location.href = "../login.html";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
