@@ -1,3 +1,6 @@
+<?php
+session_start(); 
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -33,17 +36,26 @@
                         <div class="card-body">
                             <h4 class="card-title text-center mb-4">Login</h4>
 
-                            <form id="loginform">
+                            <?php
+                            if (isset($_SESSION['login_error'])) {
+                                echo '<div class="alert alert-danger" role="alert">';
+                                echo htmlspecialchars($_SESSION['login_error']); 
+                                echo '</div>';
+                                unset($_SESSION['login_error']);
+                            }
+                            ?>
+
+                            <form id="loginform" action="proses/proses_login.php" method="post">
                                 <div class="mb-3">
                                     <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control rounded-pill" id="email"
-                                        placeholder="Email" />
+                                    <input type="email" class="form-control rounded-pill" id="email" placeholder="Email"
+                                        name="email" required />
                                 </div>
 
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <input type="password" class="form-control rounded-pill" id="password"
-                                        placeholder="Password" />
+                                        placeholder="Password" name="password" required />
                                 </div>
 
                                 <div class="text-end mb-3">
@@ -54,9 +66,10 @@
 
                                 <p class="text-center small mb-0">
                                     Belum punya akun?
-                                    <a href="register.html" class="link-custom-green">Daftar</a>
+                                    <a href="register.php" class="link-custom-green">Daftar</a>
                                 </p>
                             </form>
+
                         </div>
                     </div>
                 </div>
@@ -64,9 +77,10 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
     </script>
-    <script src="js/login.js"></script>
+
 </body>
 
 </html>
