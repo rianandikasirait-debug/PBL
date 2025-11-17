@@ -138,48 +138,6 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const inputNama = document.getElementById("nama");
-            const inputEmail = document.getElementById("email");
-            const form = document.querySelector("form");
-            const adminData = JSON.parse(localStorage.getItem("adminData"));
-
-            if (adminData && adminData.name && adminData.email) {
-                inputNama.value = adminData.name;
-                inputEmail.value = adminData.email;
-            } else {
-                alert("Data admin tidak ditemukan. Silakan login kembali.");
-                window.location.href = "../login.php";
-                return;
-            }
-
-        form.addEventListener("submit", function (event) {
-            event.preventDefault();
-
-            const konfirmasi = confirm("Yakin ingin menyimpan?");
-            if (!konfirmasi) return;
-
-            const namaBaru = inputNama.value.trim();
-            if (namaBaru === "") {
-                alert("Nama tidak boleh kosong!");
-                return;
-            }
-
-            adminData.name = namaBaru;
-            localStorage.setItem("adminData", JSON.stringify(adminData));
-
-            // sinkron ke userdata
-            const userData = JSON.parse(localStorage.getItem("userData"));
-            if (userData && userData.email === adminData.email) {
-                userData.name = namaBaru;
-                localStorage.setItem("userData", JSON.stringify(userData));
-            }
-
-            alert("Profil berhasil diperbarui!");
-            window.location.href = "profile.php";
-        });
-
-
         document.getElementById("logoutBtn").addEventListener("click", function () {
             const confirmLogout = confirm("Apakah kamu yakin ingin logout?");
             if (confirmLogout) {
@@ -198,7 +156,6 @@
                 }
             });
         }
-        });
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

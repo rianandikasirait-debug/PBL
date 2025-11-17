@@ -103,11 +103,22 @@
             </table>
 
             <div class="d-flex justify-content-end">
-                <a href="edit_profile_admin.php" class="btn btn-edit"><i class="bi bi-pencil me-2"></i>Edit
+                <a href="edit_profile_admin.php" class="btn btn-edit"><i id="editprofile" class="bi bi-pencil me-2"></i>Edit
                     Profil</a>
             </div>
         </div>
     </div>
+    <script>
+        
+        document.addEventListener('DOMContentLoaded', function () {
+            const btnTambah = document.getElementById('editprofile');
+            if (btnTambah) {
+                btnTambah.addEventListener('click', function () {
+                    window.location.href = 'edit_profile_admin.php';
+                });
+            }
+        });
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 

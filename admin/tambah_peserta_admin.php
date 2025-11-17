@@ -1,5 +1,9 @@
+<?php
+// Mulai session untuk bisa menampilkan pesan
+session_start();
+?>
 <!DOCTYPE html>
-.php lang="id">
+<html lang="id">
 
 <head>
     <meta charset="UTF-8">
@@ -11,7 +15,6 @@
 </head>
 
 <body>
-    <!-- navbar -->
     <nav class="navbar navbar-light bg-white sticky-top px-3">
         <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas"
             data-bs-target="#sidebarOffcanvas" aria-controls="sidebarOffcanvas">
@@ -19,7 +22,6 @@
         </button>
     </nav>
 
-    <!-- sidebar mobile -->
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas"
         aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-body p-0">
@@ -31,8 +33,10 @@
                         </li>
                         <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola
                                 Pengguna</a></li>
+
                         <li><a class="nav-link active" href="tambah_peserta_admin.php"><i
                                     class="bi bi-person-plus me-2"></i>Tambah Pengguna</a></li>
+
                         <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a>
                         </li>
                     </ul>
@@ -47,13 +51,15 @@
         </div>
     </div>
 
-    <!-- Sidebar desktop -->
     <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
         <div>
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
             <ul class="nav flex-column">
                 <li><a class="nav-link" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
-                <li><a class="nav-link active" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola Pengguna</a></li>
+                <li><a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola
+                        Pengguna</a></li>
+
+
                 <li><a class="nav-link" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a></li>
             </ul>
         </div>
@@ -64,9 +70,7 @@
         </div>
     </div>
 
-    <!-- Main content -->
     <div class="main-content">
-        <!-- Breadcrumb -->
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a href="kelola_rapat_admin.php">Kelola Pengguna</a></li>
@@ -75,98 +79,103 @@
         </nav>
 
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-            </div>
+            <h5 class="fw-semibold"><i class="bi bi-person-plus-fill me-2"></i>Tambah Pengguna Baru</h5>
             <div class="profile">
                 <span>Halo, Admin 👋</span>
             </div>
         </div>
 
         <div class="form-section">
-            <h5 class="fw-semibold mb-4"><i class="bi bi-person-plus-fill me-2"></i>Tambah Pengguna Baru</h5>
+            <div class="card shadow-sm border-success">
+                <div class="card-body">
 
-            <div id="alertBox" class="alert alert-success" role="alert">
-                Pengguna berhasil ditambahkan!!!
+                    <?php
+                    // Menampilkan pesan sukses (jika ada) dari session
+                    if (isset($_SESSION['success_message'])) {
+                        echo '<div class="alert alert-success" role="alert">';
+                        echo htmlspecialchars($_SESSION['success_message']);
+                        echo '</div>';
+                        unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
+                    }
+                    
+                    // Menampilkan pesan error (jika ada) dari session
+                    if (isset($_SESSION['error_message'])) {
+                        echo '<div class="alert alert-danger" role="alert">';
+                        echo htmlspecialchars($_SESSION['error_message']);
+                        echo '</div>';
+                        unset($_SESSION['error_message']); // Hapus pesan setelah ditampilkan
+                    }
+                    ?>
+
+                    <form id="addUserForm" action="../proses/proses_tambah_peserta.php" method="POST">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" id="nama" name="nama" class="form-control"
+                                placeholder="Masukkan nama pengguna baru" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" id="email" name="email" class="form-control"
+                                placeholder="Masukkan email pengguna baru" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Username</label>
+                            <input type="text" id="username" name="username" class="form-control"
+                                placeholder="Masukkan username unik" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Password</label>
+                            <input type="password" id="password" name="password" class="form-control"
+                                placeholder="Minimal 8 karakter" minlength="8" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select id="role" name="role" class="form-select" required disabled>
+                                <option value="peserta" selected>Peserta</option>
+                            </select>
+                            <small class="text-muted">Role akan otomatis diatur sebagai 'Peserta'.</small>
+                        </div>
+
+                        <hr>
+                        <div class="d-flex justify-content-end gap-3">
+                            <button type="reset" class="btn btn-secondary">Batal</button>
+                            <button type="submit" class="btn btn-success"><i
+                                    class="bi bi-person-plus me-2"></i>Tambahkan
+                                Pengguna</button>
+                        </div>
+                    </form>
+
+                </div>
             </div>
-
-            <form id="addUserForm">
-                <div class="mb-3">
-                    <label class="form-label">Nama Lengkap</label>
-                    <input type="text" id="nama" class="form-control" placeholder="Masukkan nama pengguna baru"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="Masukkan email pengguna baru"
-                        required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Password</label>
-                    <input type="password" id="password" class="form-control" placeholder="Minimal 6 karakter"
-                        minlength="6" required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Role</label>
-                    <select id="role" class="form-select" required>
-                        <option value="Peserta">Peserta</option>
-                    </select>
-                    <small class="text-muted">Pilih peran untuk pengguna baru.</small>
-                </div>
-
-                <hr>
-                <div class="d-flex justify-content-end gap-3">
-                    <button type="button" class="btn btn-cancel" onclick="resetForm()">Batal</button>
-                    <button type="submit" class="btn btn-save"><i class="bi bi-person-plus me-2"></i>Tambahkan
-                        Pengguna</button>
-                </div>
-            </form>
         </div>
     </div>
-
     <script>
-        const form = document.getElementById("addUserForm");
-        const alertBox = document.getElementById("alertBox");
+        // cek URL apakah ada ?added=1
+        const params = new URLSearchParams(window.location.search);
 
-        form.addEventListener("submit", (e) => {
-            e.preventDefault();
-
-            const nama = document.getElementById("nama").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const role = document.getElementById("role").value;
-
-            if (!nama || !email || !password) {
-                alert("Semua field wajib diisi!");
-                return;
-            }
-
-            console.log("Data pengguna baru:", {
-                nama,
-                email,
-                password,
-                role
-            });
-
-            alertBox.style.display = "block";
-            form.reset();
-
-            setTimeout(() => {
-                alertBox.style.display = "none";
-            }, 2000);
-        });
-
-        function resetForm() {
-            form.reset();
+        if (params.get("added") === "1") {
+            alert("Pengguna berhasil ditambahkan!");
+            // hapus param biar gak muncul lagi saat refresh
+            params.delete("added");
+            window.history.replaceState({}, "", window.location.pathname);
         }
 
+        if (params.get("added") === "0") {
+            alert("Gagal menambahkan pengguna!");
+            params.delete("added");
+            window.history.replaceState({}, "", window.location.pathname);
+        }
+    </script>
+    <script>
         // Logout function
         document.getElementById("logoutBtn").addEventListener("click", function () {
             const confirmLogout = confirm("Apakah kamu yakin ingin logout?");
             if (confirmLogout) {
-                localStorage.removeItem("userData");
+                // Path logout ini SUDAH BENAR
                 window.location.href = "../login.php";
             }
         });
@@ -176,7 +185,7 @@
             logoutBtnMobile.addEventListener("click", function () {
                 const konfirmasiLogout = confirm("Apakah kamu yakin ingin logout?");
                 if (konfirmasiLogout) {
-                    localStorage.removeItem("adminData");
+                    // Path logout ini SUDAH BENAR
                     window.location.href = "../login.php";
                 }
             });
@@ -184,6 +193,7 @@
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 
 </html>
