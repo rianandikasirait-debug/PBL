@@ -5,7 +5,7 @@ require_once __DIR__ . '/../koneksi.php';
 // 1. AMBIL DATA PENGGUNA (HANYA PESERTA)
 $all_users = [];
 // ==== PERUBAHAN DI SINI: Menambahkan "WHERE role = 'peserta'" ====
-$sql = "SELECT id, foto, nama, username, email, role FROM users WHERE role = 'peserta' ORDER BY nama ASC";
+$sql = "SELECT id, foto, nama, nik, email, role FROM users WHERE role = 'peserta' ORDER BY nama ASC";
 $result = $conn->query($sql);
 
 if ($result && $result->num_rows > 0) {
@@ -111,7 +111,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
                         <th>NO</th>
                         <th>FOTO</th>
                         <th>NAMA</th>
-                        <th>USERNAME</th>
+                        <th>NIK</th>
                         <th>EMAIL</th>
                         <th>ROLE</th>
                         <th>AKSI</th>
@@ -175,7 +175,7 @@ echo '<!-- DEBUG: $all_users = ' . htmlspecialchars(json_encode($all_users, JSON
                 <td>${start + index + 1}</td>
                 <td><img src="${photoPath}" alt="${u.nama || ''}" class="user-photo" style="width:48px;height:48px;object-fit:cover;border-radius:4px;"></td>
                 <td>${u.nama || ''}</td>
-                <td>${u.username || ''}</td>
+                <td>${u.nik || ''}</td>
                 <td>${u.email || ''}</td>
                 <td><span class="badge-role">${u.role || ''}</span></td>
                 <td>
@@ -309,7 +309,7 @@ echo '<!-- DEBUG: $all_users = ' . htmlspecialchars(json_encode($all_users, JSON
                 (u) =>
                     (u.nama && u.nama.toLowerCase().includes(keyword)) ||
                     (u.email && u.email.toLowerCase().includes(keyword)) ||
-                    (u.username && u.username.toLowerCase().includes(keyword)) ||
+                    (u.nik && u.nik.toLowerCase().includes(keyword)) ||
                     (u.role && u.role.toLowerCase().includes(keyword))
             );
             currentPage = 1;

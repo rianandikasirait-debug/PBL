@@ -97,7 +97,7 @@ if (!$authenticated) {
 session_regenerate_id(true);
 
 $_SESSION['user_id'] = $user['id'];
-$_SESSION['user_name'] = $user['nama'] ?? $user['username'] ?? '';
+$_SESSION['user_name'] = $user['nama'] ?? $user['nik'] ?? '';
 $_SESSION['user_role'] = $user['role'] ?? 'peserta';
 
 // Redirect berdasarkan role
