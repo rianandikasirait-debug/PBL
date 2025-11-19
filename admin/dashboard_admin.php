@@ -149,7 +149,7 @@ if ($result) {
                     <thead class="table-light border-0" style="background-color: #e8f6ee;">
                         <tr class="text-success">
                             <th scope="col">No</th>
-                            <th scope="col">Judul Rapat</th>
+                            <th scope="col" class="text-start">Judul Rapat</th>
                             <th scope="col">Tanggal</th>
                             <th scope="col">Pembuat</th>
                             <th scope="col" class="text-center">Aksi</th>
@@ -205,7 +205,7 @@ if ($result) {
 
                     tr.innerHTML = `
             <td>${nomorUrut}</td>
-            <td>${judul}</td>
+            <td class="text-start">${judul}</td>
             <td>${tanggal}</td>
             <td>${pesertaText}</td>
             <td class="text-center">
