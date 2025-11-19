@@ -92,21 +92,21 @@ if ($result) {
                 <div class="highlight-card">
                     <span class="text-muted">31/12/2025</span>
                     <h6 class="mt-1 mb-1">Rapat Akhir Tahun</h6>
-                    <p>......</p>
+                    <p>Tinjauan kinerja dan pencapaian target sepanjang tahun serta proyeksi strategi tahun mendatang</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="highlight-card">
                     <span class="text-muted">30/12/2025</span>
                     <h6 class="mt-1 mb-1">Evaluasi Kinerja</h6>
-                    <p>......</p>
+                    <p>Pembahasan hasil kerja individual dan tim. Fokus pada peningkatan dan umpan balik konstruktif</p>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="highlight-card">
                     <span class="text-muted">29/12/2025</span>
                     <h6 class="mt-1 mb-1">Rapat Tim Proyek</h6>
-                    <p>......</p>
+                    <p>Koordinasi terakhir untuk memastikan tugas proyek selesai dan siap untuk pelaporan akhir</p>
                 </div>
             </div>
         </div>
