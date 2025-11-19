@@ -1047,3 +1047,66 @@ body {
 .table th {
     padding: 0.55rem 0.75rem;
 }
+
+/*notulen admin*/
+    .btn-save {
+    background-color: #00b050;
+    color: #fff;
+    border: none;
+    }
+    .btn-save.dropdown-toggle:focus,
+    .btn-save.dropdown-toggle:active:focus,
+    .btn-save.dropdown-toggle:hover:focus,
+    .btn-save.dropdown-toggle:active {
+    background-color: #00b050 !important; 
+    color: #fff !important; 
+    border-color: #00b050 !important; 
+    box-shadow: none !important;
+    }
+
+    .dropdown.show .btn-save.dropdown-toggle {
+    background-color: #00b050 !important;
+    color: #fff !important;
+    border-color: #00b050 !important;
+    }
+
+    .form-label {
+    font-weight: 500;
+    }
+
+    .dropdown-menu {
+    width: 100%;
+    max-height: 250px;
+    overflow-y: auto;
+    }
+
+    .search-box {
+    padding: 8px;
+    }
+
+    .added-list {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-top: 10px;
+    width: 50%;
+    }
+
+    .added-item {
+    background: #f8f9fa;
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin: 5px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    }
+    .select-all-box {
+      background-color: #f8f9fa; /* abu-abu muda */
+    border-radius: 8px;
+    padding: 3px 10px;
+    margin-top: 5px;
+    margin-bottom: 8px;
+    border: 1px solid #e0e0e0;
+    }

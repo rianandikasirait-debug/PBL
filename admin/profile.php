@@ -1,3 +1,34 @@
+<?php
+session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit;
+}
+
+$nama  = $_SESSION['user_name'] ?? '';
+$email = $_SESSION['user_email'] ?? '';
+$role  = $_SESSION['user_role'] ?? '';
+
+// Fungsi masking email: tampilkan 1 huruf pertama lalu *** lalu @domain.com
+function mask_email(string $email): string {
+    if (empty($email)) return '';
+    $parts = explode('@', $email);
+    if (count($parts) !== 2) return htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+
+    [$user, $domain] = $parts;
+    $userLen = mb_strlen($user);
+    if ($userLen <= 1) {
+        $maskedUser = '*';
+    } else {
+        $first = mb_substr($user, 0, 1);
+        $maskedUser = $first . str_repeat('*', max(1, $userLen - 1));
+    }
+    return htmlspecialchars($maskedUser . '@' . $domain, ENT_QUOTES, 'UTF-8');
+}
+
+$nama_html = htmlspecialchars((string)$nama, ENT_QUOTES, 'UTF-8');
+$email_masked = mask_email($email);
+?>
 <!DOCTYPE html>
 <html lang="id">
 
@@ -55,10 +86,12 @@
             <h5 class="fw-bold mb-4 ms-3">Menu</h5>
             <ul class="nav flex-column">
                 <li>
-                    <a class="nav-link" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a></li>
+                    <a class="nav-link" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
+                </li>
                 <li>
                     <a class="nav-link" href="kelola_rapat_admin.php"><i class="bi bi-people me-2"></i>Kelola
-                        Pengguna</a></li>
+                        Pengguna</a>
+                </li>
                 <li>
                     <a class="nav-link active" href="profile.php"><i class="bi bi-person-circle me-2"></i>Profile</a>
                 </li>
@@ -89,27 +122,29 @@
                 <tbody>
                     <tr>
                         <th style="width: 20%;">Nama:</th>
-                        <td id="nama">didit</td>
+                        <td><?= $nama_html ?></td>
                     </tr>
                     <tr>
                         <th>Email:</th>
-                        <td id="email">didit25@gmail.com</td>
+                        <td><?= $email_masked ?></td>
                     </tr>
+
+                    <!-- Role disembunyikan (tetap ada di HTML tapi tidak tampil) -->
                     <tr>
                         <th>Role:</th>
-                        <td><span class="badge-role" id="role">Admin</span></td>
+                        <td><?= htmlspecialchars((string) $role, ENT_QUOTES, 'UTF-8') ?></td>
                     </tr>
                 </tbody>
             </table>
-
             <div class="d-flex justify-content-end">
-                <a href="edit_profile_admin.php" class="btn btn-edit"><i id="editprofile" class="bi bi-pencil me-2"></i>Edit
+                <a href="edit_profile_admin.php" class="btn btn-edit"><i id="editprofile"
+                        class="bi bi-pencil me-2"></i>Edit
                     Profil</a>
             </div>
         </div>
     </div>
     <script>
-        
+
         document.addEventListener('DOMContentLoaded', function () {
             const btnTambah = document.getElementById('editprofile');
             if (btnTambah) {
