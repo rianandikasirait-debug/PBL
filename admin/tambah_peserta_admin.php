@@ -14,11 +14,9 @@ if ($error_msg)
 <html lang="id">
 
 <head>
-    <!-- head kamu -->
 </head>
 
 <body>
-    <!-- ... konten ... -->
 
     <?php if ($success_msg): ?>
         <script>

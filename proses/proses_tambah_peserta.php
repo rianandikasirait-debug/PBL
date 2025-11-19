@@ -61,5 +61,5 @@ try {
 }
 
 $conn->close();
-header('Location: ../admin/tambah_peserta_admin.php');
+header('Location: ../admin/kelola_rapat_admin.php');
 exit;

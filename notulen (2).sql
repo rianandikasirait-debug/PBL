@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 17, 2025 at 06:26 AM
+-- Generation Time: Nov 19, 2025 at 04:35 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -59,7 +59,7 @@ CREATE TABLE `users` (
   `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'user.jpg',
   `nama` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `username` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `nik` int NOT NULL,
   `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
   `role` enum('admin','peserta') COLLATE utf8mb4_general_ci DEFAULT 'peserta',
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -69,8 +69,10 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `foto`, `nama`, `email`, `username`, `password`, `role`, `created_at`) VALUES
-(2, 'default.jpg', 'DIDIT', 'admin@gmail.com', 'didit', '$2y$10$Uj9t2KoBzbkr9U1EOH0rze7S3.mfpKtXFkfHbqFebg7fEzfmSuoD2', 'admin', '2025-11-11 06:52:44');
+INSERT INTO `users` (`id`, `foto`, `nama`, `email`, `nik`, `password`, `role`, `created_at`) VALUES
+(1, 'user.jpg', 'admin', 'admin@gmail.com', 123456, '$2y$10$hOd/rJAASQBcZdrzURsCZODO4XvM7jXq61E2RT3VX9EIj73kjvJl2', 'admin', '2025-11-17 08:23:59'),
+(15, 'user.jpg', 'yohana', 'yohana@gmail.com', 213456, '$2y$10$SoNQ7cQX1MdohIjWs3f6nOZPGja9Ew7bixQ6HhvNC/bgRqHDUSbC6', 'peserta', '2025-11-17 08:27:36'),
+(17, 'user.jpg', 'rian', 'rian@gmail.com', 908765, '$2y$10$XV5rqbg2wbZtx4empI3PQ..DzPCjdN264396USI320l4lAPuNh8h.', 'peserta', '2025-11-19 04:17:50');
 
 --
 -- Indexes for dumped tables
@@ -81,7 +83,7 @@ INSERT INTO `users` (`id`, `foto`, `nama`, `email`, `username`, `password`, `rol
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`username`);
+  ADD UNIQUE KEY `username` (`nik`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -91,7 +93,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
