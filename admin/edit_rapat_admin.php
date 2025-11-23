@@ -74,7 +74,7 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
 
     .sidebar-content .nav-link.active,
     .sidebar-content .nav-link:hover {
-      background-color: #00b050;
+      background-color: #00c853;
       color: #fff;
     }
 
@@ -103,13 +103,13 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
     }
 
     .btn-save {
-      background-color: #00b050;
+      background-color: #00c853;
       color: #fff;
       border: none;
     }
 
     .btn-save:hover {
-      background-color: #009443;
+      background-color: #00c853;
       color: #fff;
     }
 
@@ -117,16 +117,16 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
     .btn-save.dropdown-toggle:active:focus,
     .btn-save.dropdown-toggle:hover:focus,
     .btn-save.dropdown-toggle:active {
-      background-color: #00b050 !important;
+      background-color: #00c853 !important;
       color: #fff !important;
-      border-color: #00b050 !important;
+      border-color: #00c853 !important;
       box-shadow: none !important;
     }
 
     .dropdown.show .btn-save.dropdown-toggle {
-      background-color: #00b050 !important;
+      background-color: #00c853 !important;
       color: #fff !important;
-      border-color: #00b050 !important;
+      border-color: #00c853 !important;
     }
 
     .btn-back {

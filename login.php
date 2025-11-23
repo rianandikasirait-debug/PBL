@@ -1,81 +1,65 @@
-<?php
-session_start(); 
-?>
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="css/login.css" />
+    <!-- CSS -->
+    <link rel="stylesheet" href="login.css">
 </head>
 
-<body>
-    <div class="container">
-        <div class="row align-items-center justify-content-center">
-            <div class="col-md-6 col-lg-5 login-text mb-4 mb-md-0">
-                <h2>
-                    Akses <span class="text-custom-green">notulen</span>, dokumen, dan
-                    fitur lainnya dengan mudah.
-                </h2>
-                <p>Silakan masuk ke akun Anda untuk melanjutkan.</p>
-            </div>
+<!-- PENTING! Tanpa ini CSS tidak aktif -->
+<body data-page="login">
 
-            <div class="col-md-5 col-lg-4">
-                <div class="login-frame">
-                    <div class="card p-4">
-                        <div class="card-body">
-                            <h4 class="card-title text-center mb-4">Login</h4>
+<div class="auth-container">
 
-                            <?php
-                            if (isset($_SESSION['login_error'])) {
-                                echo '<div class="alert alert-danger" role="alert">';
-                                echo htmlspecialchars($_SESSION['login_error']); 
-                                echo '</div>';
-                                unset($_SESSION['login_error']);
-                            }
-                            ?>
-
-                            <form id="loginform" action="proses/proses_login.php" method="POST">
-                                <div class="mb-3">
-                                    <label for="email" class="form-label">Email</label>
-                                    <input type="email" class="form-control rounded-pill" id="email" placeholder="Email"
-                                        name="email" required />
-                                </div>
-
-                                <div class="mb-3">
-                                    <label for="password" class="form-label">Password</label>
-                                    <input type="password" class="form-control rounded-pill" id="password"
-                                        placeholder="Password" name="password" required />
-                                </div>
-
-                                <div class="text-end mb-3">
-                                    <button type="submit" class="btn btn-custom-green rounded-pill px-4">
-                                        Login
-                                    </button>
-                                </div>
-                            </form>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <!-- SISI KIRI -->
+    <div class="auth-sidebar">
+        <h1>
+            Akses <span class="text-green">notulen</span>, dokumen, dan fitur lainnya dengan mudah.
+        </h1>
+        <p class="lead">Silakan masuk ke akun Anda untuk melanjutkan.</p>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-    </script>
+    <!-- SISI KANAN -->
+    <div class="auth-main">
+        <div class="auth-card">
+            <h3>Login</h3>
+
+            <?php
+            if (isset($_SESSION['login_error'])) {
+                echo '<div class="alert alert-danger small mb-3">'.htmlspecialchars($_SESSION['login_error']).'</div>';
+                unset($_SESSION['login_error']);
+            }
+            ?>
+
+            <form action="proses/proses_login.php" method="POST">
+                <div class="form-group mb-3">
+                    <label>Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Email Anda" required>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label>Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Password" required>
+                </div>
+
+                <div class="auth-footer justify-content-end">
+                    <button type="submit" class="btn btn-green">Login</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
 
 </body>
-
 </html>

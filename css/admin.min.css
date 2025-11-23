@@ -1,3 +1,7 @@
+:root {
+    --primary: #00c853;
+}
+
 body {
     background-color: #faf8f5;
     font-family: "Poppins", sans-serif;
@@ -20,7 +24,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: #00c853;
     color: #fff;
 }
 
@@ -44,14 +48,14 @@ body {
 .highlight-card {
     background-color: #fff;
     border-radius: 1rem;
-    border: 1px solid #00b050;
+    border: 1px solid var(--primary);
     padding: 1rem;
-    box-shadow: 8px 8px 0px 0px #00b050;
+    box-shadow: 8px 8px 0px 0px var(--primary);
     transition: 0.2s;
 }
 
 .highlight-card:hover {
-    box-shadow: 14px 14px 0px 0px #00b050;
+    box-shadow: 14px 14px 0px 0px var(--primary);
 }
 
 .highlight-card h6 {
@@ -143,8 +147,8 @@ body {
     font-size: 0.875rem;
     font-weight: 600;
     border-radius: 0.25rem;
-    border: 1px solid #00b050;
-    background-color: #00b050;
+    border: 1px solid var(--primary);
+    background-color: var(--primary);
     color: #fff;
     text-decoration: none;
     transition: 0.2s;
@@ -184,7 +188,7 @@ body {
 
 .table-header .controls select.form-select,
 .table-header .controls input.form-control {
-    border: 1.5px solid #00b050;
+    border: 1.5px solid var(--primary);
     color: #333;
 }
 
@@ -234,7 +238,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -291,7 +295,7 @@ body {
 }
 
 .btn-back {
-    color: #00b050;
+    color: var(--primary);
     text-decoration: none;
     font-weight: 500;
 }
@@ -329,7 +333,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -366,7 +370,7 @@ body {
 }
 
 .btn-save {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -415,7 +419,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -444,7 +448,7 @@ body {
 }
 
 .btn-save {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
     border: none;
 }
@@ -517,7 +521,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -574,7 +578,7 @@ body {
 }
 
 .btn-success {
-    background-color: #00b050 !important;
+    background-color: var(--primary) !important;
     border: none;
     font-weight: 500;
 }
@@ -645,7 +649,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -675,8 +679,8 @@ body {
 }
 
 .pagination .page-item.active .page-link {
-    background-color: #00b050;
-    border-color: #00b050;
+    background-color: var(--primary);
+    border-color: var(--primary);
 }
 
 .pagination .page-link {
@@ -688,7 +692,7 @@ body {
 }
 
 .btn-add {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
     border: none;
     border-radius: 50px;
@@ -723,7 +727,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -759,7 +763,7 @@ body {
 }
 
 .form-control:focus {
-    border-color: #00b050;
+    border-color: var(--primary);
     box-shadow: 0 0 5px rgba(0, 176, 80, 0.4);
 }
 
@@ -770,7 +774,7 @@ body {
 }
 
 .btn-save {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: white;
     font-weight: 600;
     border-radius: 0.5rem;
@@ -800,7 +804,7 @@ body {
 
 .breadcrumb-item a {
     text-decoration: none;
-    color: #00b050;
+    color: var(--primary);
     font-weight: 500;
 }
 
@@ -830,7 +834,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -860,7 +864,7 @@ body {
 }
 
 .badge-role {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: white;
     font-size: 0.8rem;
     border-radius: 0.5rem;
@@ -868,7 +872,7 @@ body {
 }
 
 .btn-edit {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: white;
     border: none;
     border-radius: 0.5rem;
@@ -909,7 +913,7 @@ body {
 
 .sidebar-content .nav-link.active,
 .sidebar-content .nav-link:hover {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
 }
 
@@ -945,12 +949,12 @@ body {
 }
 
 .form-control:focus {
-    border-color: #00b050;
+    border-color: var(--primary);
     box-shadow: 0 0 5px rgba(0, 176, 80, 0.4);
 }
 
 .btn-save {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: white;
     font-weight: 600;
     border-radius: 0.5rem;
@@ -991,7 +995,7 @@ body {
 
 .breadcrumb-item a {
     text-decoration: none;
-    color: #00b050;
+    color: var(--primary);
     font-weight: 500;
 }
 
@@ -1050,7 +1054,7 @@ body {
 
 /*notulen admin*/
     .btn-save {
-    background-color: #00b050;
+    background-color: var(--primary);
     color: #fff;
     border: none;
     }
@@ -1058,16 +1062,16 @@ body {
     .btn-save.dropdown-toggle:active:focus,
     .btn-save.dropdown-toggle:hover:focus,
     .btn-save.dropdown-toggle:active {
-    background-color: #00b050 !important; 
+    background-color: var(--primary) !important; 
     color: #fff !important; 
-    border-color: #00b050 !important; 
+    border-color: var(--primary) !important; 
     box-shadow: none !important;
     }
 
     .dropdown.show .btn-save.dropdown-toggle {
-    background-color: #00b050 !important;
+    background-color: var(--primary) !important;
     color: #fff !important;
-    border-color: #00b050 !important;
+    border-color: var(--primary) !important;
     }
 
     .form-label {
