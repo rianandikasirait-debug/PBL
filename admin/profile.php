@@ -4,7 +4,7 @@ if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit;
 }
-
+$id = $_SESSION['user_id'] ??'';
 $nama  = $_SESSION['user_name'] ?? '';
 $email = $_SESSION['user_email'] ?? '';
 $role  = $_SESSION['user_role'] ?? '';
@@ -137,7 +137,7 @@ $email_masked = mask_email($email);
                 </tbody>
             </table>
             <div class="d-flex justify-content-end">
-                <a href="edit_profile_admin.php" class="btn btn-edit"><i id="editprofile"
+                <a href="edit_profile_admin.php?id=<?= $id ?>" class="btn btn-edit"><i id="editprofile"
                         class="bi bi-pencil me-2"></i>Edit
                     Profil</a>
             </div>
