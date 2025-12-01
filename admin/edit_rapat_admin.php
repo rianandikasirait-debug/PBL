@@ -29,15 +29,40 @@ if (!$notulen) {
 }
 
 // Ambil daftar semua user untuk dropdown peserta
-$sql_users = "SELECT nama FROM users ORDER BY nama ASC";
+$sql_users = "SELECT id, nama FROM users ORDER BY nama ASC";
 $res_users = $conn->query($sql_users);
-$all_users = [];
+$all_users = []; // array of arrays: [ ['id'=>..,'nama'=>..], ... ]
 while ($row = $res_users->fetch_assoc()) {
-  $all_users[] = $row['nama'];
+  $all_users[] = $row;
 }
 
 // Parse peserta yang sudah ada di notulen
-$current_participants = array_map('trim', explode(',', $notulen['peserta']));
+$current_participants = array_filter(array_map('trim', explode(',', $notulen['peserta'])), function($v){ return $v !== ''; });
+// Jika peserta disimpan sebagai ID, ambil nama-nama peserta dari DB
+$participants_map = []; // id => nama
+if (!empty($current_participants)) {
+  // sanitize ke int
+  $ids = array_map('intval', $current_participants);
+  $ids_list = implode(',', array_unique($ids));
+  if ($ids_list !== '') {
+    $sql_part = "SELECT id, nama FROM users WHERE id IN ($ids_list)";
+    $res_part = $conn->query($sql_part);
+    while ($r = $res_part->fetch_assoc()) {
+      $participants_map[(int)$r['id']] = $r['nama'];
+    }
+  }
+}
+// for display, build array of ['id'=>..,'nama'=>..]
+$current_participant_items = [];
+foreach ($current_participants as $pid) {
+  $pid_int = (int)$pid;
+  if ($pid_int > 0 && isset($participants_map[$pid_int])) {
+    $current_participant_items[] = ['id'=>$pid_int, 'nama'=>$participants_map[$pid_int]];
+  } elseif ($pid !== '') {
+    // fallback: jika DB tidak punya, tampilkan apa yang ada (biasanya not expected)
+    $current_participant_items[] = ['id'=>$pid, 'nama'=>$pid];
+  }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -262,10 +287,10 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
           <label class="form-label">Ganti Lampiran (Opsional)</label>
           <input type="file" class="form-control" name="lampiran" />
           <?php if (!empty($notulen['Lampiran'])): ?>
-            <small class="text-muted d-block mt-1">File saat ini: <a href="../file/<?= $notulen['Lampiran'] ?>"
-                target="_blank"><?= $notulen['Lampiran'] ?></a></small>
+          <small class="text-muted d-block mt-1">File saat ini: <a href="../file/<?= $notulen['Lampiran'] ?>"
+              target="_blank"><?= $notulen['Lampiran'] ?></a></small>
           <?php else: ?>
-            <small class="text-muted d-block mt-1">Belum ada file terlampir.</small>
+          <small class="text-muted d-block mt-1">Belum ada file terlampir.</small>
           <?php endif; ?>
         </div>
 
@@ -287,13 +312,13 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
                 </div>
               </div>
               <div id="notulenList" class="mt-2">
-                <?php foreach ($all_users as $user_name): ?>
-                  <div class="form-check">
-                    <input class="form-check-input notulen-checkbox" type="checkbox"
-                      value="<?= htmlspecialchars($user_name) ?>" id="user_<?= md5($user_name) ?>">
-                    <label class="form-check-label"
-                      for="user_<?= md5($user_name) ?>"><?= htmlspecialchars($user_name) ?></label>
-                  </div>
+                <?php foreach ($all_users as $user): ?>
+                <div class="form-check">
+                  <input class="form-check-input notulen-checkbox" type="checkbox" value="<?= (int)$user['id'] ?>"
+                    id="user_<?= md5($user['id']) ?>">
+                  <label class="form-check-label"
+                    for="user_<?= md5($user['id']) ?>"><?= htmlspecialchars($user['nama']) ?></label>
+                </div>
                 <?php endforeach; ?>
               </div>
               <button type="button" class="btn btn-save w-100 mt-3" id="addButton">Tambah</button>
@@ -305,17 +330,15 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
             <h6 class="fw-bold mb-2">Peserta yang Telah Ditambahkan:</h6>
             <div id="addedContainer">
               <!-- Pre-fill participants -->
-              <?php foreach ($current_participants as $p): ?>
-                <?php if (!empty($p)): ?>
-                  <div class="added-item">
-                    <?= htmlspecialchars($p) ?>
-                    <input type="hidden" name="peserta[]" value="<?= htmlspecialchars($p) ?>">
-                    <button type="button" class="btn btn-sm btn-danger remove-btn">x</button>
-                  </div>
-                <?php endif; ?>
+              <?php foreach ($current_participant_items as $item): ?>
+              <div class="added-item">
+                <?= htmlspecialchars($item['nama']) ?>
+                <input type="hidden" name="peserta[]" value="<?= htmlspecialchars($item['id']) ?>">
+                <button type="button" class="btn btn-sm btn-danger remove-btn">x</button>
+              </div>
               <?php endforeach; ?>
               <?php if (empty($current_participants) || (count($current_participants) == 1 && empty($current_participants[0]))): ?>
-                <p class="text-muted">Belum ada peserta yang ditambahkan</p>
+              <p class="text-muted">Belum ada peserta yang ditambahkan</p>
               <?php endif; ?>
             </div>
           </div>
@@ -377,7 +400,7 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
       allCheckboxes.forEach(cb => cb.checked = this.checked);
     });
 
-    // Tambah peserta
+    // Tambah peserta (JS)
     addButton.addEventListener('click', function () {
       const selected = document.querySelectorAll('.notulen-checkbox:checked');
 
@@ -385,25 +408,39 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
       const placeholder = addedContainer.querySelector('.text-muted');
       if (placeholder) placeholder.remove();
 
-      selected.forEach(item => {
-        // Cek duplicate
+      selected.forEach(cb => {
+        const val = cb.value; // ini ID (string)
+        const label = cb.nextElementSibling ? cb.nextElementSibling.textContent.trim() : val;
+
+        // Cek duplicate berdasarkan hidden input value (ID)
         const existingInputs = addedContainer.querySelectorAll('input[name="peserta[]"]');
         let exists = false;
         existingInputs.forEach(inp => {
-          if (inp.value === item.value) exists = true;
+          if (inp.value === val) exists = true;
         });
 
         if (!exists) {
           const div = document.createElement('div');
           div.className = 'added-item';
-          div.innerHTML = `
-                ${item.value} 
-                <input type="hidden" name="peserta[]" value="${item.value}">
-                <button type="button" class="btn btn-sm btn-danger remove-btn">x</button>
-            `;
+
+          const textNode = document.createTextNode(label + ' ');
+          div.appendChild(textNode);
+
+          const hidden = document.createElement('input');
+          hidden.type = 'hidden';
+          hidden.name = 'peserta[]';
+          hidden.value = val;
+          div.appendChild(hidden);
+
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'btn btn-sm btn-danger remove-btn';
+          btn.textContent = 'x';
+          div.appendChild(btn);
+
           addedContainer.appendChild(div);
         }
-        item.checked = false; // Uncheck setelah ditambah
+        cb.checked = false; // Uncheck setelah ditambah
       });
 
       selectAll.checked = false;
@@ -413,17 +450,19 @@ $current_participants = array_map('trim', explode(',', $notulen['peserta']));
     function attachRemoveEvent() {
       document.querySelectorAll('.remove-btn').forEach(btn => {
         btn.onclick = function () {
-          this.parentElement.remove();
-          if (addedContainer.children.length === 0) {
+          const parent = this.parentElement;
+          parent.remove();
+          // cek apakah masih ada .added-item tersisa
+          if (addedContainer.querySelectorAll('.added-item').length === 0) {
             addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
           }
         };
       });
     }
 
+
     // Attach event on load for existing items
     attachRemoveEvent();
-
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

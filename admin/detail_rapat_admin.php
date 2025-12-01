@@ -32,7 +32,57 @@ if (!$notulen) {
 $tanggal = date('d/m/Y', strtotime($notulen['tanggal_rapat']));
 
 // Parse peserta (string dipisahkan koma)
-$peserta_list = explode(',', $notulen['peserta']);
+// Asumsi: $notulen['peserta'] berisi daftar user IDs seperti "15,17,18".
+// Jika sistemmu menyimpan nama sebagai peserta, code ini tetap menampilkan nama yang ada di DB (fallback ke string asli jika tidak ditemukan).
+$peserta_raw = $notulen['peserta'] ?? '';
+$peserta_ids = [];
+$peserta_names = [];
+
+if (trim($peserta_raw) !== '') {
+    // split & sanitize ke integer
+    $parts = array_filter(array_map('trim', explode(',', $peserta_raw)), function($v){ return $v !== ''; });
+    foreach ($parts as $p) {
+        // jika numeric, masukkan sebagai int
+        if (is_numeric($p)) {
+            $peserta_ids[] = (int)$p;
+        }
+    }
+
+    if (!empty($peserta_ids)) {
+        // Bangun daftar id yang aman (integers)
+        $unique_ids = array_values(array_unique($peserta_ids));
+        $ids_list = implode(',', $unique_ids); // aman karena sudah cast ke int
+
+        // Ambil nama dari tabel users
+        $sql_users = "SELECT id, nama FROM users WHERE id IN ($ids_list)";
+        $res_users = $conn->query($sql_users);
+        $map = [];
+        while ($r = $res_users->fetch_assoc()) {
+            $map[(int)$r['id']] = $r['nama'];
+        }
+
+        // isi peserta_names dari urutan asli (jika id ditemukan gunakan nama, jika tidak gunakan id asli)
+        foreach ($parts as $orig) {
+            if (is_numeric($orig)) {
+                $idint = (int)$orig;
+                if (isset($map[$idint])) {
+                    $peserta_names[] = $map[$idint];
+                } else {
+                    // fallback: tampilkan id jika nama tidak ditemukan
+                    $peserta_names[] = (string)$idint;
+                }
+            } else {
+                // jika bukan numeric (mis: sudah nama tersimpan), langsung gunakan
+                $peserta_names[] = $orig;
+            }
+        }
+    } else {
+        // Tidak ada id numeric — kemungkinan peserta disimpan sebagai nama string
+        foreach ($parts as $orig) {
+            $peserta_names[] = $orig;
+        }
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -44,6 +94,17 @@ $peserta_list = explode(',', $notulen['peserta']);
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.min.css">
+    <style>
+        .participant-badge {
+            display: inline-block;
+            margin: 4px 6px 4px 0;
+            padding: 6px 10px;
+            background: #f1f7f3;
+            border-radius: 18px;
+            font-size: 14px;
+            color: #2d6a4f;
+        }
+    </style>
 </head>
 
 <body>
@@ -54,7 +115,7 @@ $peserta_list = explode(',', $notulen['peserta']);
             <i class="bi bi-list"></i>
         </button>
     </nav>
-    <!-- sidebar moblie -->
+    <!-- sidebar mobile -->
     <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="sidebarOffcanvas"
         aria-labelledby="sidebarOffcanvasLabel">
         <div class="offcanvas-body p-0">
@@ -129,12 +190,14 @@ $peserta_list = explode(',', $notulen['peserta']);
 
             <h6 class="fw-semibold mb-2">Peserta Rapat:</h6>
             <div class="mb-3">
-                <?php foreach ($peserta_list as $p): ?>
-                    <?php if (trim($p) !== ''): ?>
-                        <span class="participant-badge"><i class="bi bi-person-fill"></i>
-                            <?= htmlspecialchars(trim($p)); ?></span>
-                    <?php endif; ?>
-                <?php endforeach; ?>
+                <?php if (!empty($peserta_names)): ?>
+                    <?php foreach ($peserta_names as $pn): ?>
+                        <span class="participant-badge"><i class="bi bi-person-fill me-1"></i>
+                            <?= htmlspecialchars($pn); ?></span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Belum ada peserta yang tercatat.</p>
+                <?php endif; ?>
             </div>
 
             <h6 class="fw-semibold mb-2">Lampiran:</h6>
