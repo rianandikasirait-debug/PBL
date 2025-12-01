@@ -229,7 +229,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
         // Logout function
         function confirmLogout() {
             if (confirm("Apakah kamu yakin ingin logout?")) {
-                window.location.href = "../proses/proses_logout.php";
+                window.location.href = "../login.php";
             }
         }
 
