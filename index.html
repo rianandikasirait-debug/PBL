@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartNote - Platform Notulen Digital Modern</title>
+    <meta name="description" content="SmartNote adalah platform notulen digital terbaik untuk organisasi dan komunitas. Buat, kelola, dan bagikan notulen rapat dengan mudah dan efisien.">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="landing/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-journal-text me-2"></i>SmartNote
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto me-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#features">Fitur</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#how-it-works">Cara Kerja</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#testimonials">Testimoni</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#contact">Kontak</a>
+                    </li>
+                </ul>
+                <a href="https://wa.me/6281371254173" class="btn btn-primary btn-cta" target="_blank">
+                    <i class="bi bi-whatsapp me-2"></i>Hubungi Kami
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+        <div class="hero-bg-shapes">
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+        </div>
+        <div class="container">
+            <div class="row align-items-center min-vh-100">
+                <div class="col-lg-6 hero-content">
+                    <span class="hero-badge animate-fade-up">
+                        <i class="bi bi-lightning-charge-fill me-2"></i>Platform Notulen #1 di Indonesia
+                    </span>
+                    <h1 class="hero-title animate-fade-up delay-1">
+                        Kelola Notulen Rapat dengan <span class="text-gradient">Lebih Cerdas</span>
+                    </h1>
+                    <p class="hero-subtitle animate-fade-up delay-2">
+                        SmartNote membantu tim Anda mencatat, mengorganisir, dan membagikan hasil rapat dengan mudah. Tingkatkan produktivitas dan kolaborasi tim Anda sekarang.
+                    </p>
+                    <div class="hero-buttons animate-fade-up delay-3">
+                        <a href="https://wa.me/6281371254173" class="btn btn-primary btn-lg me-3" target="_blank">
+                            <i class="bi bi-rocket-takeoff me-2"></i>Mulai Gratis
+                        </a>
+                        <a href="#how-it-works" class="btn btn-outline-light btn-lg">
+                            <i class="bi bi-play-circle me-2"></i>Lihat Demo
+                        </a>
+                    </div>
+                    <div class="hero-stats animate-fade-up delay-4">
+                        <div class="stat-item">
+                            <span class="stat-number">10K+</span>
+                            <span class="stat-label">Pengguna Aktif</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Notulen Dibuat</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">99%</span>
+                            <span class="stat-label">Kepuasan</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 hero-image-col">
+                    <div class="hero-image-wrapper animate-float">
+                        <div class="hero-image-card">
+                            <div class="card-header-mock">
+                                <span class="dot red"></span>
+                                <span class="dot yellow"></span>
+                                <span class="dot green"></span>
+                            </div>
+                            <div class="card-body-mock">
+                                <div class="mock-title"></div>
+                                <div class="mock-line"></div>
+                                <div class="mock-line short"></div>
+                                <div class="mock-checklist">
+                                    <div class="check-item"><i class="bi bi-check-circle-fill text-success"></i> Agenda rapat</div>
+                                    <div class="check-item"><i class="bi bi-check-circle-fill text-success"></i> Keputusan penting</div>
+                                    <div class="check-item"><i class="bi bi-circle"></i> Action items</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="floating-badge badge-1">
+                            <i class="bi bi-check-lg"></i> Auto-save
+                        </div>
+                        <div class="floating-badge badge-2">
+                            <i class="bi bi-people"></i> Kolaborasi
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="features">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Fitur Unggulan</span>
+                <h2 class="section-title">Semua yang Anda Butuhkan untuk <span class="text-gradient">Notulen Sempurna</span></h2>
+                <p class="section-subtitle">Fitur lengkap yang dirancang untuk mempermudah pekerjaan Anda</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="bi bi-pencil-square"></i>
+                        </div>
+                        <h3 class="feature-title">Editor Powerful</h3>
+                        <p class="feature-desc">Editor rich-text yang intuitif dengan formatting lengkap, template siap pakai, dan shortcut keyboard.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-purple">
+                            <i class="bi bi-people-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Kolaborasi Real-time</h3>
+                        <p class="feature-desc">Bekerja bersama tim secara bersamaan. Lihat perubahan langsung tanpa perlu refresh halaman.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-orange">
+                            <i class="bi bi-search"></i>
+                        </div>
+                        <h3 class="feature-title">Pencarian Cerdas</h3>
+                        <p class="feature-desc">Temukan notulen apapun dalam hitungan detik dengan pencarian AI yang memahami konteks.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-pink">
+                            <i class="bi bi-shield-check"></i>
+                        </div>
+                        <h3 class="feature-title">Keamanan Terjamin</h3>
+                        <p class="feature-desc">Data Anda dienkripsi end-to-end. Kontrol akses granular untuk setiap dokumen.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-cyan">
+                            <i class="bi bi-cloud-arrow-down"></i>
+                        </div>
+                        <h3 class="feature-title">Export Fleksibel</h3>
+                        <p class="feature-desc">Export ke PDF, Word, atau bagikan via link. Integrasikan dengan tools favorit Anda.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon icon-yellow">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <h3 class="feature-title">Reminder Otomatis</h3>
+                        <p class="feature-desc">Tidak ada lagi yang terlewat. Dapatkan notifikasi untuk deadline dan follow-up.</p>
+                        <a href="#" class="feature-link">Pelajari lebih lanjut <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <div class="why-image-wrapper">
+                        <div class="why-card main-card">
+                            <div class="why-card-icon"><i class="bi bi-graph-up-arrow"></i></div>
+                            <div class="why-card-content">
+                                <h4>Produktivitas Meningkat</h4>
+                                <p>Rata-rata 40% lebih cepat</p>
+                            </div>
+                        </div>
+                        <div class="why-card secondary-card">
+                            <div class="stat-circle">
+                                <svg viewBox="0 0 36 36">
+                                    <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                    <path class="circle-fill" stroke-dasharray="95, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                </svg>
+                                <span class="stat-text">95%</span>
+                            </div>
+                            <span>Tingkat Adopsi Tim</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <span class="section-badge">Kenapa SmartNote?</span>
+                    <h2 class="section-title">Platform yang <span class="text-gradient">Dipercaya</span> Ribuan Tim</h2>
+                    <div class="why-list">
+                        <div class="why-item">
+                            <div class="why-icon"><i class="bi bi-lightning-charge-fill"></i></div>
+                            <div class="why-content">
+                                <h4>Setup Instan</h4>
+                                <p>Mulai dalam 30 detik. Tidak perlu instalasi atau konfigurasi rumit.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon"><i class="bi bi-heart-fill"></i></div>
+                            <div class="why-content">
+                                <h4>User-Friendly</h4>
+                                <p>Interface intuitif yang bisa digunakan siapa saja tanpa training.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon"><i class="bi bi-headset"></i></div>
+                            <div class="why-content">
+                                <h4>Support 24/7</h4>
+                                <p>Tim support responsif siap membantu kapanpun Anda butuhkan.</p>
+                            </div>
+                        </div>
+                        <div class="why-item">
+                            <div class="why-icon"><i class="bi bi-currency-dollar"></i></div>
+                            <div class="why-content">
+                                <h4>Harga Terjangkau</h4>
+                                <p>Paket fleksibel untuk semua ukuran tim dan organisasi.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="how-section" id="how-it-works">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Cara Kerja</span>
+                <h2 class="section-title">Mulai dalam <span class="text-gradient">3 Langkah Mudah</span></h2>
+                <p class="section-subtitle">Proses sederhana yang bisa langsung Anda praktikkan</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">01</div>
+                        <div class="step-icon">
+                            <i class="bi bi-person-plus-fill"></i>
+                        </div>
+                        <h3 class="step-title">Daftar Akun</h3>
+                        <p class="step-desc">Buat akun gratis dalam hitungan detik. Cukup email dan password, langsung bisa mulai.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">02</div>
+                        <div class="step-icon">
+                            <i class="bi bi-folder-plus"></i>
+                        </div>
+                        <h3 class="step-title">Buat Workspace</h3>
+                        <p class="step-desc">Siapkan workspace untuk tim Anda. Undang anggota dan atur struktur folder.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="step-card">
+                        <div class="step-number">03</div>
+                        <div class="step-icon">
+                            <i class="bi bi-play-fill"></i>
+                        </div>
+                        <h3 class="step-title">Mulai Mencatat</h3>
+                        <p class="step-desc">Gunakan template atau mulai dari nol. Kolaborasi real-time dengan tim Anda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Banner -->
+    <section class="cta-banner">
+        <div class="container">
+            <div class="cta-content text-center">
+                <h2 class="cta-title">Siap Meningkatkan Produktivitas Tim?</h2>
+                <p class="cta-subtitle">Bergabung dengan 10,000+ tim yang sudah menggunakan SmartNote</p>
+                <a href="https://wa.me/6281371254173" class="btn btn-light btn-lg" target="_blank">
+                    <i class="bi bi-whatsapp me-2"></i>Konsultasi Gratis
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-section" id="testimonials">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">Testimoni</span>
+                <h2 class="section-title">Apa Kata <span class="text-gradient">Pengguna Kami</span></h2>
+                <p class="section-subtitle">Cerita sukses dari tim yang sudah menggunakan SmartNote</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"SmartNote mengubah cara tim kami bekerja. Tidak ada lagi notulen yang hilang atau terlupakan. Sangat recommended!"</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Ahmad Rizky</h4>
+                                <span>Project Manager, TechCorp</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card featured">
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"Fitur kolaborasi real-time benar-benar game changer. Tim remote kami sekarang bisa bekerja seefektif tim yang di kantor."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Sarah Putri</h4>
+                                <span>CEO, StartupID</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card">
+                        <div class="testimonial-rating">
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                            <i class="bi bi-star-fill"></i>
+                        </div>
+                        <p class="testimonial-text">"Interface yang sangat clean dan mudah dipahami. Bahkan anggota tim yang gaptek pun langsung bisa menggunakannya."</p>
+                        <div class="testimonial-author">
+                            <div class="author-avatar">
+                                <i class="bi bi-person-fill"></i>
+                            </div>
+                            <div class="author-info">
+                                <h4>Budi Santoso</h4>
+                                <span>HR Manager, FinanceHub</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Testimonial Form -->
+            <div class="testimonial-form-wrapper mt-5">
+                <h3 class="text-center mb-4">Bagikan Pengalaman Anda</h3>
+                <form id="testimonialForm" class="testimonial-form">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="testiName" placeholder="Nama Anda" required>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" id="testiProfession" placeholder="Profesi / Jabatan" required>
+                        </div>
+                        <div class="col-12">
+                            <textarea class="form-control" id="testiMessage" rows="4" placeholder="Ceritakan pengalaman Anda..." required></textarea>
+                        </div>
+                        <div class="col-12 text-center">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="bi bi-send me-2"></i>Kirim Testimoni
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div class="container">
+            <div class="section-header text-center">
+                <span class="section-badge">FAQ</span>
+                <h2 class="section-title">Pertanyaan yang <span class="text-gradient">Sering Diajukan</span></h2>
+                <p class="section-subtitle">Temukan jawaban untuk pertanyaan umum tentang SmartNote</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Apakah SmartNote gratis?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ya! SmartNote menyediakan paket gratis dengan fitur dasar yang cukup untuk tim kecil. Untuk fitur lebih lengkap, tersedia paket Pro dan Enterprise dengan harga terjangkau.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Bagaimana dengan keamanan data saya?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Keamanan adalah prioritas utama kami. Semua data dienkripsi end-to-end, server kami tersertifikasi ISO 27001, dan kami melakukan backup otomatis setiap hari.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Apakah bisa digunakan secara offline?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Ya, SmartNote mendukung mode offline. Anda tetap bisa membuat dan mengedit notulen tanpa koneksi internet, dan akan otomatis sync ketika online kembali.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
+                                    Berapa banyak anggota tim yang bisa ditambahkan?
+                                </button>
+                            </h2>
+                            <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Paket gratis mendukung hingga 5 anggota. Paket Pro unlimited, dan Enterprise bahkan menyediakan fitur SSO untuk integrasi dengan sistem perusahaan Anda.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
+                                    Bagaimana cara migrasi dari platform lain?
+                                </button>
+                            </h2>
+                            <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Kami menyediakan tool import otomatis untuk berbagai format (Word, Google Docs, Notion, dll). Tim support kami juga siap membantu proses migrasi secara gratis.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section" id="contact">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <span class="section-badge">Hubungi Kami</span>
+                    <h2 class="section-title">Ada Pertanyaan? <span class="text-gradient">Kami Siap Membantu</span></h2>
+                    <p class="contact-desc">Tim kami siap menjawab pertanyaan Anda dan membantu menemukan solusi terbaik untuk kebutuhan tim Anda.</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-envelope-fill"></i></div>
+                            <div class="contact-detail">
+                                <h4>Email</h4>
+                                <a href="mailto:hello@smartnote.id">hello@smartnote.id</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-whatsapp"></i></div>
+                            <div class="contact-detail">
+                                <h4>WhatsApp</h4>
+                                <a href="https://wa.me/6281371254173" target="_blank">+62 813-7125-4173</a>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <div class="contact-icon"><i class="bi bi-geo-alt-fill"></i></div>
+                            <div class="contact-detail">
+                                <h4>Lokasi</h4>
+                                <span>Jakarta, Indonesia</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="contact-form-wrapper">
+                        <form id="contactForm" action="assets/php/process.php" method="POST">
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Nama Lengkap</label>
+                                <input type="text" class="form-control" id="name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subjek</label>
+                                <select class="form-select" id="subject" name="subject" required>
+                                    <option value="">Pilih subjek...</option>
+                                    <option value="general">Pertanyaan Umum</option>
+                                    <option value="pricing">Informasi Harga</option>
+                                    <option value="demo">Request Demo</option>
+                                    <option value="support">Bantuan Teknis</option>
+                                    <option value="partnership">Kerjasama</option>
+                                </select>
+                            </div>
+                            <div class="mb-4">
+                                <label for="message" class="form-label">Pesan</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg w-100">
+                                <i class="bi bi-send me-2"></i>Kirim Pesan
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container text-center">
+            <h2 class="cta-title">Mulai Perjalanan Produktivitas Anda</h2>
+            <p class="cta-subtitle">Daftar gratis hari ini dan rasakan perbedaannya</p>
+            <div class="cta-buttons">
+                <a href="https://wa.me/6281371254173" class="btn btn-primary btn-lg me-3" target="_blank">
+                    <i class="bi bi-rocket-takeoff me-2"></i>Daftar Gratis
+                </a>
+                <a href="#features" class="btn btn-outline-primary btn-lg">
+                    <i class="bi bi-info-circle me-2"></i>Pelajari Fitur
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">
+                        <a href="#" class="footer-logo">
+                            <i class="bi bi-journal-text me-2"></i>SmartNote
+                        </a>
+                        <p class="footer-desc">Platform notulen digital modern untuk tim yang produktif. Buat, kelola, dan bagikan notulen dengan mudah.</p>
+                        <div class="footer-social">
+                            <a href="#" class="social-link"><i class="bi bi-facebook"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-instagram"></i></a>
+                            <a href="#" class="social-link"><i class="bi bi-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h4 class="footer-title">Produk</h4>
+                    <ul class="footer-links">
+                        <li><a href="#features">Fitur</a></li>
+                        <li><a href="#">Harga</a></li>
+                        <li><a href="#">Integrasi</a></li>
+                        <li><a href="#">Changelog</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h4 class="footer-title">Perusahaan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Tentang Kami</a></li>
+                        <li><a href="#">Karir</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h4 class="footer-title">Bantuan</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Dokumentasi</a></li>
+                        <li><a href="#faq">FAQ</a></li>
+                        <li><a href="#">Support</a></li>
+                        <li><a href="#">Status</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <h4 class="footer-title">Legal</h4>
+                    <ul class="footer-links">
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 SmartNote. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- WhatsApp Floating Button -->
+    <a href="https://wa.me/6281371254173" class="whatsapp-float" target="_blank">
+        <i class="bi bi-whatsapp"></i>
+    </a>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="bi bi-chevron-up"></i>
+    </button>
+
+    <!-- Toast Notification -->
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div id="successToast" class="toast" role="alert">
+            <div class="toast-header">
+                <i class="bi bi-check-circle-fill text-success me-2"></i>
+                <strong class="me-auto">Sukses</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+            </div>
+            <div class="toast-body">
+                Pesan Anda berhasil dikirim!
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Custom JS -->
+    <script src="landing/js/script.js"></script>
+</body>
+</html>
