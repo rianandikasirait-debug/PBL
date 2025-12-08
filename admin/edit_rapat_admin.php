@@ -137,7 +137,6 @@ foreach ($current_participants as $pid) {
           <label class="form-label">Tambah Lampiran (Opsional)</label>
           <input type="file" class="form-control" name="lampiran" />
           <?php if (!empty($notulen['Lampiran'])): ?>
-<<<<<<< HEAD
             <small class="text-muted d-block mt-2"><strong>File yang sudah terlampir:</strong></small>
             <div class="mt-1">
               <?php 
@@ -157,10 +156,8 @@ foreach ($current_participants as $pid) {
                 <small class="text-muted">Belum ada file terlampir.</small>
               <?php endif; ?>
             </div>
-=======
             <small class="text-muted d-block mt-1">File saat ini: <a href="../file/<?= $notulen['Lampiran'] ?>"
                 target="_blank"><?= $notulen['Lampiran'] ?></a></small>
->>>>>>> 58511082e59edfd8e666deedb9cc6095e8ab71f6
           <?php else: ?>
             <small class="text-muted d-block mt-1">Belum ada file terlampir.</small>
           <?php endif; ?>
@@ -169,7 +166,6 @@ foreach ($current_participants as $pid) {
         <!-- Dropdown Peserta -->
         <div class="mb-3">
           <label class="form-label">Peserta Notulen</label>
-<<<<<<< HEAD
           <div class="dropdown w-50" data-bs-auto-close="false">
             <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
               aria-expanded="false">
@@ -209,7 +205,6 @@ foreach ($current_participants as $pid) {
                 <button id="clearSearchBtn" type="button" class="btn btn-sm btn-light">Reset</button>
                 <button id="addButton" type="button" class="btn btn-sm btn-success">Tambah</button>
               </div>
-=======
           <div class="dropdown w-50">
             <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown">
               Pilih Peserta
@@ -237,7 +232,6 @@ foreach ($current_participants as $pid) {
               </div>
               <hr>
               <button type="button" class="btn btn-save w-100 mt-3" id="addButton">Tambah</button>
->>>>>>> 58511082e59edfd8e666deedb9cc6095e8ab71f6
             </div>
           </div>
 
@@ -338,13 +332,10 @@ foreach ($current_participants as $pid) {
       allCheckboxes.forEach(cb => cb.checked = this.checked);
     });
 
-<<<<<<< HEAD
     // Tambah peserta
     addButton.addEventListener('click', function () {
-=======
     // Tambah peserta (JS)
     addButton.addEventListener('click', function() {
->>>>>>> 58511082e59edfd8e666deedb9cc6095e8ab71f6
       const selected = document.querySelectorAll('.notulen-checkbox:checked');
       
       if (selected.length === 0) {
@@ -373,7 +364,6 @@ foreach ($current_participants as $pid) {
         // Cek jika id sudah ada untuk mencegah duplikat
         if (existingIds.has(id)) return;
 
-<<<<<<< HEAD
         const div = document.createElement('div');
         div.className = 'added-item d-flex align-items-center gap-2 mb-2';
         div.innerHTML = `
@@ -389,7 +379,6 @@ foreach ($current_participants as $pid) {
           e.preventDefault();
           this.parentElement.remove();
           if (addedContainer.children.length === 0) {
-=======
         // Cek duplicate berdasarkan hidden input value (ID)
         const existingInputs = addedContainer.querySelectorAll('input[name="peserta[]"]');
         let exists = false;
@@ -433,7 +422,6 @@ foreach ($current_participants as $pid) {
           parent.remove();
           // cek apakah masih ada .added-item tersisa
           if (addedContainer.querySelectorAll('.added-item').length === 0) {
->>>>>>> 58511082e59edfd8e666deedb9cc6095e8ab71f6
             addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
           }
         });
