@@ -123,7 +123,7 @@ if ($result) {
     <main class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4><b>Dashboard Admin</b></h4>
+                <h4><b>Dashboard Notulis</b></h4>
             </div>
             <div class="d-flex align-items-center gap-2"><span class="fw-medium">Halo, <?= htmlspecialchars($userName) ?> 👋</span></div>
         </div>
