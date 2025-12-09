@@ -228,13 +228,19 @@ if ($result) {
                         const mobileList = document.getElementById('mobileList');
                         if (!mobileList) return;
                         const card = document.createElement('div');
+                        card.style.cursor = 'pointer';
+                        card.onclick = (e) => {
+                            if (!e.target.closest('.btn') && !e.target.closest('a')) {
+                                window.location.href = `detail_rapat_admin.php?id=${encodeURIComponent(item.id)}`;
+                            }
+                        };
                         card.className = 'mobile-card';
                         card.innerHTML = `
                             <div class="mobile-card-inner">
                                 <div class="mobile-card-header">
                                     <div class="mobile-status-badge">Final</div>
                                     <div class="mobile-card-actions">
-                                        <a href="detail_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-primary" title="Lihat"><i class="bi bi-eye"></i></a>
+
                                         <a href="edit_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-success" title="Edit"><i class="bi bi-pencil"></i></a>
                                         <a href="#" class="btn btn-sm text-muted" title="Download"><i class="bi bi-download"></i></a>
                                         <button class="btn btn-sm text-danger btn-delete" data-id="${encodeURIComponent(item.id)}" title="Hapus"><i class="bi bi-trash"></i></button>
@@ -266,13 +272,19 @@ if ($result) {
                         mobileList.appendChild(card);
                     } else {
                         const tr = document.createElement("tr");
+                        tr.style.cursor = "pointer";
+                        tr.onclick = (e) => {
+                            if (!e.target.closest('.btn') && !e.target.closest('a')) {
+                                window.location.href = `detail_rapat_admin.php?id=${encodeURIComponent(item.id)}`;
+                            }
+                        };
                         tr.innerHTML = `
                             <td>${nomorUrut}</td>
                             <td class="text-start">${judul}</td>
                             <td>${tanggal}</td>
                             <td>${pembuat}</td>
                             <td class="text-center">
-                                <a href="detail_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-primary" title="Lihat"><i class="bi bi-eye"></i></a>
+
                                 <a href="edit_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-success" title="Edit"><i class="bi bi-pencil"></i></a>
                                 <button class="btn btn-sm text-danger btn-delete" data-id="${encodeURIComponent(item.id)}" title="Hapus"><i class="bi bi-trash"></i></button>
                             </td>

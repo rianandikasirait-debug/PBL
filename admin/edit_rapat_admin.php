@@ -205,33 +205,6 @@ foreach ($current_participants as $pid) {
                 <button id="clearSearchBtn" type="button" class="btn btn-sm btn-light">Reset</button>
                 <button id="addButton" type="button" class="btn btn-sm btn-success">Tambah</button>
               </div>
-          <div class="dropdown w-50">
-            <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown">
-              Pilih Peserta
-            </button>
-
-            <div class="dropdown-menu w-100 p-3" style="max-height:360px; overflow:auto;">
-              <input id="searchInput" type="search" class="form-control mb-2" placeholder="Cari peserta...">
-
-              <div class="form-check mb-2">
-                <input type="checkbox" class="form-check-input" id="selectAll">
-                <label class="form-check-label" for="selectAll">Pilih Semua</label>
-              </div>
-
-              <hr>
-
-              <div id="notulenList" class="mt-2">
-                <?php foreach ($all_users as $user): ?>
-                  <div class="form-check">
-                    <input class="form-check-input notulen-checkbox" type="checkbox" value="<?= (int)$user['id'] ?>"
-                      id="user_<?= md5($user['id']) ?>">
-                    <label class="form-check-label"
-                      for="user_<?= md5($user['id']) ?>"><?= htmlspecialchars($user['nama']) ?></label>
-                  </div>
-                <?php endforeach; ?>
-              </div>
-              <hr>
-              <button type="button" class="btn btn-save w-100 mt-3" id="addButton">Tambah</button>
             </div>
           </div>
 
@@ -241,10 +214,10 @@ foreach ($current_participants as $pid) {
             <div id="addedContainer">
               <!-- Pre-fill participants -->
               <?php foreach ($current_participant_items as $item): ?>
-                <div class="added-item">
-                  <?= htmlspecialchars($item['nama']) ?>
+                <div class="added-item d-flex align-items-center gap-2 mb-2">
+                  <span class="flex-grow-1"><?= htmlspecialchars($item['nama']) ?></span>
                   <input type="hidden" name="peserta[]" value="<?= htmlspecialchars($item['id']) ?>">
-                  <button type="button" class="btn btn-sm btn-outline-danger remove-btn">hapus</button>
+                  <button type="button" class="btn btn-sm btn-outline-danger remove-btn">Hapus</button>
                 </div>
               <?php endforeach; ?>
               <?php if (empty($current_participants) || (count($current_participants) == 1 && empty($current_participants[0]))): ?>
@@ -276,7 +249,8 @@ foreach ($current_participants as $pid) {
       toolbar: "undo redo | styles | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image",
     });
 
-    // Logout handlers
+    document.addEventListener("DOMContentLoaded", function() {
+        // Logout handlers
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
             logoutBtn.addEventListener("click", function () {
@@ -293,150 +267,130 @@ foreach ($current_participants as $pid) {
                 }
             });
         }
-    document.getElementById("logoutBtn").addEventListener("click", confirmLogout);
 
-    // ===================
-    // Fungsi Dropdown Peserta
-    // ===================
-    
-    // Helper function untuk escape HTML
-    function escapeHtml(text) {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        };
-        return text.replace(/[&<>"']/g, m => map[m]);
-    }
-    
-    const searchInput = document.getElementById('searchInput');
-    const notulenItems = document.querySelectorAll('#notulenList .form-check');
-    const selectAll = document.getElementById('selectAll');
-    const addButton = document.getElementById('addButton');
-    const addedContainer = document.getElementById('addedContainer');
-
-    // Search
-    searchInput.addEventListener('keyup', () => {
-      const filter = searchInput.value.toLowerCase();
-      notulenItems.forEach(item => {
-        const text = item.innerText.toLowerCase();
-        item.style.display = text.includes(filter) ? '' : 'none';
-      });
-    });
-
-    // Select all
-    selectAll.addEventListener('change', function() {
-      const allCheckboxes = document.querySelectorAll('.notulen-checkbox');
-      allCheckboxes.forEach(cb => cb.checked = this.checked);
-    });
-
-    // Tambah peserta
-    addButton.addEventListener('click', function () {
-    // Tambah peserta (JS)
-    addButton.addEventListener('click', function() {
-      const selected = document.querySelectorAll('.notulen-checkbox:checked');
-      
-      if (selected.length === 0) {
-        return;
-      }
-
-      // Ambil peserta yang sudah ada untuk mencegah duplikat
-      const existingIds = new Set();
-      addedContainer.querySelectorAll('.added-item').forEach(item => {
-        const inputs = item.querySelectorAll('input[type="hidden"]');
-        inputs.forEach(inp => {
-          existingIds.add(inp.value);
-        });
-      });
-      
-      // Hapus pesan "Belum ada peserta" jika ada
-      const emptyMsg = addedContainer.querySelector('.text-muted');
-      if (emptyMsg) {
-        emptyMsg.remove();
-      }
-
-      selected.forEach(cb => {
-        const id = cb.value;
-        const name = cb.dataset.name || cb.nextElementSibling?.textContent?.trim() || 'Unknown';
+        // ===================
+        // Fungsi Dropdown Peserta
+        // ===================
         
-        // Cek jika id sudah ada untuk mencegah duplikat
-        if (existingIds.has(id)) return;
-
-        const div = document.createElement('div');
-        div.className = 'added-item d-flex align-items-center gap-2 mb-2';
-        div.innerHTML = `
-          <span class="flex-grow-1">${escapeHtml(name)}</span>
-          <input type="hidden" name="peserta[]" value="${escapeHtml(id)}">
-          <button type="button" class="btn btn-sm btn-outline-danger remove-btn">Hapus</button>
-        `;
-        addedContainer.appendChild(div);
+        // Helper function untuk escape HTML
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
         
-        // Attach event listener ke tombol hapus
-        const removeBtn = div.querySelector('.remove-btn');
-        removeBtn.addEventListener('click', function(e) {
-          e.preventDefault();
-          this.parentElement.remove();
-          if (addedContainer.children.length === 0) {
-        // Cek duplicate berdasarkan hidden input value (ID)
-        const existingInputs = addedContainer.querySelectorAll('input[name="peserta[]"]');
-        let exists = false;
-        existingInputs.forEach(inp => {
-          if (inp.value === val) exists = true;
-        });
+        const searchInput = document.getElementById('searchInput');
+        const notulenItems = document.querySelectorAll('#notulenList .form-check');
+        const selectAll = document.getElementById('selectAll');
+        const addButton = document.getElementById('addButton');
+        const addedContainer = document.getElementById('addedContainer');
+        const clearSearchBtn = document.getElementById('clearSearchBtn');
 
-        if (!exists) {
-          const div = document.createElement('div');
-          div.className = 'added-item';
-
-          const textNode = document.createTextNode(label + ' ');
-          div.appendChild(textNode);
-
-          const hidden = document.createElement('input');
-          hidden.type = 'hidden';
-          hidden.name = 'peserta[]';
-          hidden.value = val;
-          div.appendChild(hidden);
-
-          const btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'btn btn-sm btn-outline-danger remove-btn';
-          btn.textContent = 'hapus';
-          div.appendChild(btn);
-
-
-          addedContainer.appendChild(div);
+        // Search
+        if (searchInput) {
+            searchInput.addEventListener('keyup', () => {
+                const filter = searchInput.value.toLowerCase();
+                notulenItems.forEach(item => {
+                    const text = item.innerText.toLowerCase();
+                    item.style.display = text.includes(filter) ? '' : 'none';
+                });
+            });
         }
-        cb.checked = false; // Uncheck setelah ditambah
-      });
 
-      selectAll.checked = false;
-      attachRemoveEvent();
-    });
-
-    function attachRemoveEvent() {
-      document.querySelectorAll('.remove-btn').forEach(btn => {
-        btn.onclick = function() {
-          const parent = this.parentElement;
-          parent.remove();
-          // cek apakah masih ada .added-item tersisa
-          if (addedContainer.querySelectorAll('.added-item').length === 0) {
-            addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
-          }
-        });
-      });
-    });
-
-    // Attach event on load for existing items
-    document.querySelectorAll('.remove-btn').forEach(btn => {
-      btn.addEventListener('click', function(e) {
-        e.preventDefault();
-        this.parentElement.remove();
-        if (addedContainer.children.length === 0) {
-          addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
+        if (clearSearchBtn) {
+            clearSearchBtn.addEventListener('click', () => {
+                if (searchInput) {
+                    searchInput.value = '';
+                    searchInput.dispatchEvent(new Event('keyup'));
+                }
+            });
         }
-      });
+
+        // Select all
+        if (selectAll) {
+            selectAll.addEventListener('change', function() {
+                const allCheckboxes = document.querySelectorAll('.notulen-checkbox');
+                allCheckboxes.forEach(cb => cb.checked = this.checked);
+            });
+        }
+
+        // Tambah peserta
+        if (addButton) {
+            addButton.addEventListener('click', function() {
+                const selected = document.querySelectorAll('.notulen-checkbox:checked');
+                
+                if (selected.length === 0) {
+                    return;
+                }
+
+                // Ambil peserta yang sudah ada untuk mencegah duplikat
+                const existingIds = new Set();
+                addedContainer.querySelectorAll('.added-item').forEach(item => {
+                    const inputs = item.querySelectorAll('input[type="hidden"]');
+                    inputs.forEach(inp => {
+                        existingIds.add(inp.value);
+                    });
+                });
+                
+                // Hapus pesan "Belum ada peserta" jika ada
+                const emptyMsg = addedContainer.querySelector('.text-muted');
+                if (emptyMsg && emptyMsg.innerText.includes('Belum ada peserta')) {
+                    emptyMsg.remove();
+                }
+
+                selected.forEach(cb => {
+                    const id = cb.value;
+                    // Get name from data-name attribute or label text
+                    let name = cb.dataset.name;
+                    if (!name) {
+                        const label = document.querySelector(`label[for="${cb.id}"]`);
+                        name = label ? label.textContent.trim() : 'Unknown';
+                    }
+                    
+                    // Cek jika id sudah ada untuk mencegah duplikat
+                    if (existingIds.has(id)) return;
+
+                    const div = document.createElement('div');
+                    div.className = 'added-item d-flex align-items-center gap-2 mb-2';
+                    div.innerHTML = `
+                        <span class="flex-grow-1">${escapeHtml(name)}</span>
+                        <input type="hidden" name="peserta[]" value="${escapeHtml(id)}">
+                        <button type="button" class="btn btn-sm btn-outline-danger remove-btn">Hapus</button>
+                    `;
+                    addedContainer.appendChild(div);
+                    
+                    // Uncheck setelah ditambah
+                    cb.checked = false;
+                });
+
+                if (selectAll) selectAll.checked = false;
+                attachRemoveEvent();
+            });
+        }
+
+        function attachRemoveEvent() {
+            document.querySelectorAll('.remove-btn').forEach(btn => {
+                // Remove existing listeners to avoid duplicates (though simple onclick replacement works too)
+                btn.onclick = function(e) {
+                    e.preventDefault();
+                    const parent = this.closest('.added-item'); // Use closest to be safe
+                    if (parent) parent.remove();
+                    
+                    // cek apakah masih ada .added-item tersisa
+                    if (addedContainer.querySelectorAll('.added-item').length === 0) {
+                        addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
+                    }
+                };
+            });
+        }
+
+        // Attach event on load for existing items
+        attachRemoveEvent();
     });
   </script>
 
