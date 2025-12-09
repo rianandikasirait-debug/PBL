@@ -156,7 +156,7 @@ if ($result) {
             <!-- Table -->
                 <!-- Mobile list container (rendered by JS) -->
                 <div id="mobileList" class="mobile-list d-block d-md-none"></div>
-                <div class="table-responsive">
+                <div class="table-responsive d-none d-md-block">
                 <table class="table align-middle table-hover mb-0">
                     <thead class="table-light border-0" style="background-color: #e8f6ee;">
                         <tr class="text-success">
@@ -210,8 +210,12 @@ if ($result) {
 
             function renderTable(data, startIndex = 0) {
                 tableBody.innerHTML = "";
+                const mobileList = document.getElementById('mobileList');
+                if (mobileList) mobileList.innerHTML = "";
+
                 if (data.length === 0) {
                     tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Belum ada data notulen.</td></tr>`;
+                    if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Belum ada data notulen.</div>`;
                     return;
                 }
 
@@ -223,9 +227,11 @@ if ($result) {
                     const judul = escapeHtml(item.judul_rapat || '');
                     const tanggal = escapeHtml(item.tanggal_rapat || '');
                     const pembuat = escapeHtml(item.created_by || 'Admin');
+                    
+                    // Basic logic for participant count (comma separated)
+                    const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
 
                     if (isMobile) {
-                        const mobileList = document.getElementById('mobileList');
                         if (!mobileList) return;
                         const card = document.createElement('div');
                         card.style.cursor = 'pointer';
@@ -254,16 +260,12 @@ if ($result) {
                                             <span>${tanggal} • 09:00</span>
                                         </div>
                                         <div class="mobile-card-info-row">
-                                            <i class="bi bi-geo-alt"></i>
-                                            <span>medan</span>
-                                        </div>
-                                        <div class="mobile-card-info-row">
                                             <i class="bi bi-person"></i>
                                             <span>PIC: ${pembuat}</span>
                                         </div>
                                         <div class="mobile-card-info-row">
                                             <i class="bi bi-people"></i>
-                                            <span>1 Peserta</span>
+                                            <span>${pesertaCount} Peserta</span>
                                         </div>
                                     </div>
                                 </div>

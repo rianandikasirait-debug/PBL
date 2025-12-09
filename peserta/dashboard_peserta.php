@@ -307,7 +307,7 @@ if ($result) {
 
                 <!-- Mobile list container (rendered by JS) -->
                 <div id="mobileList" class="mobile-list d-block d-md-none"></div>
-                <div class="table-responsive">
+                <div class="table-responsive d-none d-md-block">
                 <table class="table align-middle table-hover mb-0">
                     <thead class="table-light border-0" style="background-color: #e8f6ee;">
                         <tr class="text-success">
@@ -352,8 +352,12 @@ if ($result) {
 
             function renderTable(data, startIndex = 0) {
                 tableBody.innerHTML = "";
+                const mobileList = document.getElementById('mobileList');
+                if (mobileList) mobileList.innerHTML = "";
+
                 if (data.length === 0) {
                     tableBody.innerHTML = `<tr><td colspan="5" class="text-center text-muted py-4">Tidak ada data notulen.</td></tr>`;
+                    if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Tidak ada data notulen.</div>`;
                     return;
                 }
 
@@ -364,16 +368,11 @@ if ($result) {
                     const judul = escapeHtml(item.judul_rapat || '');
                     const tanggal = escapeHtml(item.tanggal_rapat || '');
                     const pembuat = escapeHtml(item.created_by || 'Admin');
-
-                    let downloadBtn = '';
-                    if (item.Lampiran) {
-                        downloadBtn = `<a href="../file/${encodeURIComponent(item.Lampiran)}" class="text-success" title="Download" download> <i class="bi bi-download"></i></a>`;
-                    } else {
-                        downloadBtn = `<span class="text-muted" title="Tidak ada lampiran"><i class="bi bi-download"></i></span>`;
-                    }
+                    
+                    // Basic logic for participant count (comma separated)
+                    const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
 
                     if (isMobile) {
-                        const mobileList = document.getElementById('mobileList');
                         if (!mobileList) return;
                         const card = document.createElement('div');
                         card.className = 'mobile-card';
@@ -383,9 +382,12 @@ if ($result) {
                                 window.location.href = `detail_rapat_peserta.php?id=${encodeURIComponent(item.id)}`;
                             }
                         };
+                        
+                        // Match Admin Style
                         card.innerHTML = `
                             <div class="mobile-card-inner">
                                 <div class="mobile-card-header">
+                                    <div class="mobile-status-badge">Final</div>
                                     <div class="mobile-card-actions">
                                         ${item.Lampiran ? `<a href="../file/${encodeURIComponent(item.Lampiran)}" class="btn btn-sm text-success" title="Download" download><i class="bi bi-download"></i></a>` : ''}
                                     </div>
@@ -399,7 +401,11 @@ if ($result) {
                                         </div>
                                         <div class="mobile-card-info-row">
                                             <i class="bi bi-person"></i>
-                                            <span>Pembuat: ${pembuat}</span>
+                                            <span>PIC: ${pembuat}</span>
+                                        </div>
+                                        <div class="mobile-card-info-row">
+                                            <i class="bi bi-people"></i>
+                                            <span>${pesertaCount} Peserta</span>
                                         </div>
                                     </div>
                                 </div>
@@ -527,6 +533,14 @@ if ($result) {
             }
 
             updateTable();
+
+            // Re-render table when viewport changes (debounced)
+            window.addEventListener('resize', function () {
+                if (window._dashResizeTimer) clearTimeout(window._dashResizeTimer);
+                window._dashResizeTimer = setTimeout(() => {
+                    updateTable();
+                }, 120);
+            });
         });
     </script>
 </body>

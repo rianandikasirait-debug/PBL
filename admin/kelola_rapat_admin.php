@@ -47,19 +47,28 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
     <link rel="stylesheet" href="../css/admin.min.css">
 
     <style>
-        /* Page-scoped override: keep the table visible on small screens and behave like desktop
-           Enable horizontal scrolling when table is wider than viewport. */
-        @media (max-width: 767.98px) {
-            /* Show the table container (global CSS hides it) and allow horizontal scroll */
-            .table-wrapper .table-responsive { display: block !important; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-
-            /* Ensure the table keeps its header and cell layout like desktop */
-            .table-wrapper .table-responsive table thead { display: table-header-group !important; }
-            .table-wrapper .table { min-width: 900px; white-space: nowrap; }
-            .table-wrapper .table tbody td { display: table-cell !important; }
-
-            /* Keep pagination and controls wrapped below the table when needed */
-            .table-wrapper .d-flex.justify-content-between.align-items-center.mt-3 { flex-direction: column; gap: .5rem; }
+        .mobile-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .mobile-card {
+            background: #fff;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 1rem;
+            position: relative;
+        }
+        .user-photo {
+            object-fit: cover;
+            border-radius: 50%;
+            border: 1px solid #eee;
+        }
+        .mobile-card-title {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: 0.2rem;
         }
     </style>
 
@@ -136,7 +145,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             </div>
 
             <div id="alertBox"></div>
-            <div class="table-responsive">
+            <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
@@ -188,9 +197,24 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
         // Fungsi render tabel
         function renderTable(data) {
             tbody.innerHTML = "";
+            
+            // Handle Mobile List
+            let mobileList = document.getElementById('mobileList');
+            if (!mobileList) {
+                const tableResp = document.querySelector('.table-responsive');
+                if (tableResp) {
+                     mobileList = document.createElement('div');
+                     mobileList.id = 'mobileList';
+                     mobileList.className = 'mobile-list d-block d-md-none';
+                     tableResp.parentNode.insertBefore(mobileList, tableResp);
+                }
+            } else {
+                mobileList.innerHTML = "";
+            }
+            
             if (!Array.isArray(data) || data.length === 0) {
-                tbody.innerHTML =
-                    `<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</td></tr>`;
+                tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</td></tr>`;
+                 if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</div>`;
                 dataInfo.textContent = "";
                 pagination.innerHTML = "";
                 return;
@@ -200,25 +224,63 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             const end = start + itemsPerPage;
             const paginatedData = data.slice(start, end);
 
+            const isMobile = window.innerWidth < 768;
+
             paginatedData.forEach((u, index) => {
                 const photoPath = u.foto ? `../file/${encodeURIComponent(u.foto)}` : '../file/user.jpg';
+                const nama = escapeHtml(u.nama || '');
+                const nik = escapeHtml(u.nik || '-');
+                const email = escapeHtml(u.email || '-');
+                const role = escapeHtml(u.role || '');
 
-                const row = `
-                <tr>
-                    <td>${start + index + 1}</td>
-                    <td><img src="${photoPath}" alt="${escapeHtml(u.nama || '')}" class="user-photo" style="width:48px;height:48px;object-fit:cover;border-radius:4px;"></td>
-                    <td>${escapeHtml(u.nama || '')}</td>
-                    <td>${escapeHtml(u.nik || '')}</td>
-                    <td>${escapeHtml(u.email || '')}</td>
-                    <td><span class="badge-role">${escapeHtml(u.role || '')}</span></td>
-                    <td>
-                        <button class="btn btn-sm text-danger" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
-                            <i class="bi bi-trash"></i>
-                        </button>
-                    </td>
-                </tr>
-                `;
-                tbody.insertAdjacentHTML("beforeend", row);
+                if (isMobile) {
+                    if (!mobileList) return;
+                    const card = document.createElement('div');
+                    card.className = 'mobile-card';
+                    card.innerHTML = `
+                        <div class="mobile-card-inner">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <span class="badge-role">${role}</span>
+                                <button class="btn btn-sm text-danger p-0" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+                            
+                            <div class="d-flex align-items-center mb-3">
+                                <img src="${photoPath}" alt="${nama}" class="user-photo me-3" style="width:50px;height:50px;min-width:50px;" onerror="this.onerror=null;this.src='../file/user.jpg';">
+                                <div class="d-flex flex-column">
+                                    <div class="mobile-card-title">${nama}</div>
+                                    <small class="text-muted text-break">${email}</small>
+                                </div>
+                            </div>
+                            
+                            <div class="mobile-card-info border-top pt-2 mt-2">
+                                <div class="mobile-card-info-row d-flex align-items-center text-muted small">
+                                    <i class="bi bi-card-heading me-2"></i>
+                                    <span>NIK: ${nik}</span>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                    mobileList.appendChild(card);
+                } else {
+                     const row = `
+                    <tr>
+                        <td>${start + index + 1}</td>
+                        <td><img src="${photoPath}" alt="${nama}" class="user-photo" style="width:48px;height:48px;object-fit:cover;border-radius:4px;"></td>
+                        <td>${nama}</td>
+                        <td>${nik}</td>
+                        <td>${email}</td>
+                        <td><span class="badge-role">${role}</span></td>
+                        <td>
+                            <button class="btn btn-sm text-danger" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `;
+                    tbody.insertAdjacentHTML("beforeend", row);
+                }
             });
 
             updatePagination(data);
@@ -247,7 +309,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
                     `<li class="page-item ${active}" >
                     <a class="page-link" href="#" onclick="changePage(${i});return false;">${i}</a>
                 </li> `
-                );
+            );
             }
 
             pagination.insertAdjacentHTML(
@@ -360,6 +422,11 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
 
         // Render awal
         renderTable(filteredUsers);
+        
+        // Resize listener
+        window.addEventListener('resize', function () {
+             renderTable(filteredUsers);
+        });
 
         // Logout handlers
         const logoutBtn = document.getElementById("logoutBtn");
