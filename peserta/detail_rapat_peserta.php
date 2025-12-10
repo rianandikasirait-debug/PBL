@@ -15,6 +15,14 @@ if ($id_notulen <= 0) {
     exit;
 }
 
+// Mark as viewed in session
+if (!isset($_SESSION['viewed_notulen'])) {
+    $_SESSION['viewed_notulen'] = [];
+}
+if (!in_array($id_notulen, $_SESSION['viewed_notulen'])) {
+    $_SESSION['viewed_notulen'][] = $id_notulen;
+}
+
 // Ambil data notulen
 $sql = "SELECT * FROM tambah_notulen WHERE id = ?";
 $stmt = $conn->prepare($sql);

@@ -14,7 +14,41 @@ if (!isset($_SESSION['viewed_notulen'])) {
 }
 
 // Ambil semua notulen dari database
-$user_id = $_SESSION['user_id'];
+// Ambil data untuk highlight cards
+// 1. Total Peserta
+$sqlPeserta = "SELECT COUNT(*) as total FROM users WHERE role = 'peserta'";
+$resPeserta = $conn->query($sqlPeserta);
+$totalPeserta = $resPeserta ? $resPeserta->fetch_assoc()['total'] : 0;
+
+// 2. Total Notulen
+$sqlNotulen = "SELECT COUNT(*) as total FROM tambah_notulen";
+$resNotulen = $conn->query($sqlNotulen);
+$totalNotulen = $resNotulen ? $resNotulen->fetch_assoc()['total'] : 0;
+
+// 3. Total Notulen Belum Dilihat (Unread)
+$viewedIds = $_SESSION['viewed_notulen'] ?? [];
+$viewedIds = array_map('intval', $viewedIds); // Sanitize to ints
+$viewedIds = array_filter($viewedIds); // Remove 0s if any
+
+if (empty($viewedIds)) {
+    // If no viewed notulens, unread = total
+    $totalUnread = $totalNotulen;
+} else {
+    $idsStr = implode(',', $viewedIds);
+    $sqlUnread = "SELECT COUNT(*) as total FROM tambah_notulen WHERE id NOT IN ($idsStr)";
+    $resUnread = $conn->query($sqlUnread);
+    $totalUnread = $resUnread ? $resUnread->fetch_assoc()['total'] : $totalNotulen;
+}
+
+// Ambil data user (nama & foto)
+$stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
+$stmt->bind_param("i", $_SESSION['user_id']);
+$stmt->execute();
+$resUser = $stmt->get_result();
+$userData = $resUser->fetch_assoc();
+$userName = $userData['nama'] ?? 'Peserta';
+$userPhoto = $userData['foto'] ?? null;
+$stmt->close();
 
 // Query untuk mengambil semua notulen (untuk sementara tidak filter, agar kita bisa debug)
 $sql = "SELECT id, judul_rapat, tanggal_rapat, created_by, Lampiran, peserta, created_at 
@@ -23,10 +57,13 @@ $sql = "SELECT id, judul_rapat, tanggal_rapat, created_by, Lampiran, peserta, cr
 
 $result = $conn->query($sql);
 
-$notulens = [];
+// Konversi ke format array dan tambahkan status is_viewed
+$dataNotulen = [];
 if ($result) {
+    $viewedIdsSession = $_SESSION['viewed_notulen'] ?? [];
     while ($row = $result->fetch_assoc()) {
-        $notulens[] = $row;
+        $row['is_viewed'] = in_array((int)$row['id'], $viewedIdsSession);
+        $dataNotulen[] = $row;
     }
 }
 ?>
@@ -328,34 +365,46 @@ if ($result) {
             <div>
                 <h4><b>Dashboard Peserta</b></h4>
             </div>
-            <div class="d-flex align-items-center gap-2">
-                <span class="fw-medium">Halo, <?= htmlspecialchars($_SESSION['user_name'] ?? 'Peserta') ?> 👋</span>
+            <div class="d-flex align-items-center gap-3">
+                <div class="text-end">
+                    <span class="d-block fw-medium text-dark">Halo, <?= htmlspecialchars($userName) ?> 👋</span>
+                </div>
+                <img src="<?= $userPhoto ? '../file/' . htmlspecialchars($userPhoto) : '../file/user.jpg' ?>" 
+                     alt="Profile" 
+                     class="rounded-circle shadow-sm"
+                     style="width: 45px; height: 45px; object-fit: cover; border: 2px solid #fff;"
+                     onerror="this.onerror=null;this.src='../file/user.jpg';">
             </div>
         </div>
 
         <!-- Highlight Cards -->
-        <div class="row g-3 mb-4">
-            <?php
-            // Ambil 3 notulen terbaru untuk highlight
-            $top3 = array_slice($notulens, 0, 3);
-            foreach ($top3 as $highlight):
-                $id = (int) ($highlight['id'] ?? 0);
-                $isViewed = in_array($id, $_SESSION['viewed_notulen']);
-                ?>
-                <div class="col-md-4">
-                    <a href="detail_rapat_peserta.php?id=<?php echo $id ?>" class="text-decoration-none text-reset">
-                        <div class="highlight-card h-100 position-relative">
-                            <?php if (!$isViewed): ?>
-                                <span class="badge bg-success position-absolute top-0 end-0 m-2">Baru</span>
-                            <?php endif; ?>
-                            <span class="text-muted"><?= date('d/m/Y', strtotime($highlight['tanggal_rapat'])) ?><?php if (!empty($highlight['created_at'])) echo ' • ' . date('H:i', strtotime($highlight['created_at'])); ?></span>
-                            <h6 class="mt-1 mb-1"><?= htmlspecialchars($highlight['judul_rapat']) ?></h6>
-                            <p class="text-truncate">Dibuat oleh: <?= htmlspecialchars($highlight['created_by'] ?? 'Admin') ?>
-                            </p>
-                        </div>
-                    </a>
+        <div class="row g-3 mb-4 row-cols-1 row-cols-md-3">
+            <!-- Card 1: Total Peserta -->
+            <div class="col">
+                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
+                    <h6 class="text-secondary mb-2">Total Peserta</h6>
+                    <h2 class="fw-bold text-success mb-0"><?php echo $totalPeserta; ?></h2>
+                    <small class="text-muted">Orang</small>
                 </div>
-            <?php endforeach; ?>
+            </div>
+
+            <!-- Card 2: Total Notulen -->
+            <div class="col">
+                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
+                    <h6 class="text-secondary mb-2">Total Notulen</h6>
+                    <h2 class="fw-bold text-success mb-0"><?php echo $totalNotulen; ?></h2>
+                    <small class="text-muted">Dokumen</small>
+                </div>
+            </div>
+
+            <!-- Card 3: Belum Dilihat -->
+            <div class="col">
+                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
+                    <h6 class="text-secondary mb-2">Belum Dilihat</h6>
+                    <h2 class="fw-bold text-danger mb-0"><?php echo $totalUnread; ?></h2>
+                    <small class="text-muted">Notulen</small>
+                </div>
+            </div>
         </div>
 
             <div class="table-wrapper">
@@ -382,7 +431,7 @@ if ($result) {
             </div>
 
                 <!-- List Container -->
-                <div id="notulenList" class="row g-3"></div>
+                <div id="notulenList" class="row g-3 row-cols-1 row-cols-md-3 row-cols-xl-5"></div>
 
             <div class="d-flex justify-content-between align-items-center mt-3 flex-wrap">
                 <small class="text-muted" id="dataInfo"></small>
@@ -403,7 +452,7 @@ if ($result) {
             const rowsPerPageSelect = document.getElementById("rowsPerPage");
 
             // Data dari PHP
-            const notulenData = <?= json_encode($notulens, JSON_UNESCAPED_UNICODE) ?>;
+            const notulenData = <?= json_encode($dataNotulen, JSON_UNESCAPED_UNICODE) ?>;
 
             let currentPage = 1;
             let rowsPerPage = 10;
@@ -428,12 +477,19 @@ if ($result) {
                     const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
 
                     const card = document.createElement('div');
-                    card.className = 'col-md-6'; // Grid column
+                    card.className = 'col'; // Grid column
                     
+                    // Badge Baru (New) if not viewed
+                     const badge = !item.is_viewed ? 
+                        `<span class="position-absolute top-0 start-0 m-2 badge rounded-pill bg-danger border border-light shadow-sm" style="z-index: 10;">
+                            Baru
+                            <span class="visually-hidden">unread messages</span>
+                        </span>` : '';
+
                     // Match Admin Style (Grid Layout)
                     card.innerHTML = `
                         <div class="mobile-card h-100 p-3 rounded-3 position-relative shadow-sm" style="cursor: pointer;" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_peserta.php?id=${encodeURIComponent(item.id)}'">
-                            
+                            ${badge}
                             <!-- Header: Actions (Badge removed) -->
                             <div class="d-flex justify-content-end align-items-center mb-2">
                                 <div class="d-flex gap-2">
