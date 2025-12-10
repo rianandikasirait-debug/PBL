@@ -82,7 +82,6 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
                 margin-left: 0;
             }
         }
-
         .profile-box {
             background-color: #fff;
             border-radius: 1rem;
@@ -118,7 +117,6 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
             background-color: #02913f !important; 
             border-color: #02913f !important;
         }
-
         .form-label {
             font-weight: 500;
         }
