@@ -85,6 +85,17 @@ if ($error_msg)
                 background-color: #02913f !important; 
                 border-color: #02913f !important;
             }
+            .btn.btn-back{
+            background-color: #00C853 !important; 
+            border-color: #00C853 !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            text-decoration: none !important;
+            }
+            .btn.btn-back:hover, .btn.btn-back:focus{
+            background-color: #02913f !important; 
+            border-color: #02913f !important;
+            }
         </style>
     </head>
 
@@ -231,9 +242,12 @@ if ($error_msg)
                             </div>
 
                             <hr>
-                            <div class="d-flex justify-content-end gap-3">
-                                <button type="reset" class="btn btn-secondary">Batal</button>
-                                <button type="submit" class="btn btn-success"><i class="bi bi-person-plus me-2"></i>Tambahkan Pengguna</button>
+                            <div class="d-flex justify-content-between align-items-center mt-4">
+                                <a href="kelola_rapat_admin.php" class="btn btn-back">Kembali</a>
+                                <div class="d-flex gap-3">
+                                    <button type="reset" class="btn btn-secondary">Batal</button>
+                                    <button type="submit" class="btn btn-success"><i class="bi bi-person-plus me-2"></i>Tambahkan Pengguna</button>
+                                </div>
                             </div>
                         </form>
 
