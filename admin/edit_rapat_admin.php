@@ -93,6 +93,11 @@ foreach ($current_participants as $pid) {
             background-color: #00C853 !important;
             color: #ffffff !important;
         }
+        .btn.btn-sm.btn-light{
+          background-color: #00C853 !important; 
+          border-color: #00C853 !important;
+          color: #ffffff !important;
+        }
     </style>
 </head>
 
