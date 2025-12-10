@@ -178,7 +178,7 @@ foreach ($current_participants as $pid) {
             <div>
                 <h4><b>Dashboard Notulis</b></h4>
             </div>
-            <div class="d-flex align-item s-center gap-3">
+            <div class="d-flex align-items-center gap-3">
                 <div class="text-end">
                     <span class="d-block fw-medium text-dark">Halo, <?= htmlspecialchars($userName) ?> 👋</span>
                 </div>
