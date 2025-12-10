@@ -43,42 +43,6 @@ if ($q) {
     <link rel="stylesheet" href="../css/admin.min.css">
 
     <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-    <style>
-        .btn-save {
-            background-color: #00C853 !important; 
-            border-color: #00C853 !important;
-            color: #ffffff !important;
-            font-weight: bold;
-        }
-        .btn-save:hover, .btn-save:focus {
-            background-color: #02913f !important; 
-            border-color: #02913f !important;
-        }
-        .sidebar-content .nav-link.active {
-            background-color: #00C853 !important;
-            color: #ffffff !important;
-        }
-        .btn.btn-sm.btn-light{
-          background-color: #00C853 !important; 
-          border-color: #00C853 !important;
-          color: #ffffff !important;
-        }
-        .btn.btn-sm.btn-light:hover, .btn.btn-sm.btn-light:focus{
-            background-color: #02913f !important; 
-            border-color: #02913f !important;
-        }
-        .btn.btn-back{
-          background-color: #00C853 !important; 
-          border-color: #00C853 !important;
-          color: #ffffff !important;
-          font-weight: bold;
-          text-decoration: none !important;
-        }
-        .btn.btn-back:hover, .btn.btn-back:focus{
-          background-color: #02913f !important; 
-            border-color: #02913f !important;
-        }
-    </style>
 </head>
 
 <body>

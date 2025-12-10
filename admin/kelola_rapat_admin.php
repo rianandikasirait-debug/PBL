@@ -48,32 +48,6 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400" />
     <link rel="stylesheet" href="../css/admin.min.css">
 
-    <style>
-        .mobile-list {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-        }
-        .mobile-card {
-            background: #fff;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 1rem;
-            position: relative;
-        }
-        .user-photo {
-            object-fit: cover;
-            border-radius: 50%;
-            border: 1px solid #eee;
-        }
-        .mobile-card-title {
-            font-weight: 600;
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 0.2rem;
-        }
-    </style>
-
 </head>
 
 <body>

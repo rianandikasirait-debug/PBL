@@ -49,26 +49,7 @@ $created_by = $notulen['created_by'] ?? 'Admin';
     <title>Lihat Rapat</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body { background-color: #fdf9f4; font-family: "Poppins", sans-serif; }
-        /* ... tetapkan style kamu ... */
-        .sidebar-content { min-width: 250px; background: #fff; height: 100%; border-right: 1px solid #eee; padding: 1.5rem 1rem; }
-        .sidebar-content .nav-link { color: #555; font-weight: 500; margin-bottom: 0.5rem; border-radius: 0.5rem; }
-        .sidebar-content .nav-link.active, .sidebar-content .nav-link:hover { background-color: #00b050; color: #fff; }
-        .logout-btn { border: 1px solid #f8d7da; color: #dc3545; border-radius: .5rem; margin-top: 2rem; transition: 0.3s; }
-        .logout-btn:hover { background-color: #f8d7da; }
-        .main-content { margin-left: 260px; padding: 1.5rem; }
-        @media (max-width: 991.98px) { .main-content { margin-left: 0; } }
-        .topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
-        .content-card { background-color: #ffffff; border-radius: 1rem; padding: 1.5rem 2rem; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05); }
-        .content-card h4 { font-weight: 600; margin-bottom: 0.25rem; }
-        .content-card p { margin-bottom: 0.25rem; }
-        .content-card hr { margin: 1rem 0; color: #ddd; }
-        .participant-badge { background-color: #d1f3e0; color: #15623d; border-radius: 20px; padding: 6px 15px; font-size: 0.9rem; display: inline-flex; align-items: center; margin-right: 8px; }
-        .participant-badge i { margin-right: 5px; }
-        .btn-back { color: #00b050; text-decoration: none; font-weight: 500; }
-        .btn-back:hover { text-decoration: underline; }
-    </style>
+    <link rel="stylesheet" href="../css/admin.min.css">
 </head>
 <body>
     <nav class="navbar navbar-light bg-white sticky-top px-3">

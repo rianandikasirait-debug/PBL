@@ -112,17 +112,6 @@ if (trim($peserta_raw) !== '') {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.min.css">
-    <style>
-        .participant-badge {
-            display: inline-block;
-            margin: 4px 6px 4px 0;
-            padding: 6px 10px;
-            background: #f1f7f3;
-            border-radius: 18px;
-            font-size: 14px;
-            color: #2d6a4f;
-        }
-    </style>
 </head>
 
 <body>
