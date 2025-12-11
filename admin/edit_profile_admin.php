@@ -110,9 +110,9 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
     <!-- Main -->
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <h4><b>Profile Notulis</b></h4>
+            <h4><b>Profile Admin</b></h4>
             <div class="w-50">
-                <!-- Alert Error -->
+                <!-- Peringatan Error -->
                 <?php if (isset($_SESSION['error_message'])): ?>
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
                         <?= $_SESSION['error_message']; ?>
@@ -189,7 +189,7 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
     </div>
 
     <script>
-        // Logout function
+        // Fungsi Logout
         async function confirmLogout(e) {
             e.preventDefault();
             const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");

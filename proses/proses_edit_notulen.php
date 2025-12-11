@@ -20,6 +20,7 @@ $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
 $judul = trim($_POST['judul'] ?? '');
 $tanggal = $_POST['tanggal'] ?? '';
 $isi = $_POST['isi'] ?? '';
+$status = $_POST['status'] ?? 'draft'; // Ambil status
 $peserta_arr = isset($_POST['peserta']) ? $_POST['peserta'] : [];
 // Sanitasi peserta (ensure int)
 $clean_peserta = [];
@@ -74,14 +75,16 @@ if (!empty($_FILES['lampiran']['name'])) {
 }
 
 // Update Database
+// Update Database
 if ($lampiran_baru) {
-    $sql = "UPDATE tambah_notulen SET judul_rapat=?, tanggal_rapat=?, isi_rapat=?, peserta=?, Lampiran=CONCAT(IFNULL(Lampiran, ''), IF(Lampiran IS NOT NULL AND Lampiran != '', '|', ''), ?) WHERE id=?";
+    // Gunakan kolom yang benar: judul, tanggal, hasil, peserta, tindak_lanjut (file), status
+    $sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, tindak_lanjut=CONCAT(IFNULL(tindak_lanjut, ''), IF(tindak_lanjut IS NOT NULL AND tindak_lanjut != '', '|', ''), ?), status=? WHERE id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("sssssi", $judul, $tanggal, $isi, $peserta_str, $lampiran_baru, $id);
+    $stmt->bind_param("ssssssi", $judul, $tanggal, $isi, $peserta_str, $lampiran_baru, $status, $id);
 } else {
-    $sql = "UPDATE tambah_notulen SET judul_rapat=?, tanggal_rapat=?, isi_rapat=?, peserta=? WHERE id=?";
+    $sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, status=? WHERE id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("ssssi", $judul, $tanggal, $isi, $peserta_str, $id);
+    $stmt->bind_param("sssssi", $judul, $tanggal, $isi, $peserta_str, $status, $id);
 }
 
 if ($stmt->execute()) {

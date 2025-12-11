@@ -19,13 +19,13 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user) {
-    // Jika user tidak ditemukan (misal dihapus admin saat sedang login)
+    // Jika pengguna tidak ditemukan (misal dihapus admin saat sedang login)
     session_destroy();
     header("Location: ../login.php");
     exit;
 }
 
-// Set default foto jika kosong
+// Atur foto default jika kosong
 $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/user.jpg') . '?v=' . time();
 ?>
 <!DOCTYPE html>
@@ -109,7 +109,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
             </div>
         </div>
 
-        <!-- Alert Messages (retained structure) -->
+        <!-- Pesan Peringatan (struktur dipertahankan) -->
          <?php if (isset($_SESSION['success_message'])): ?>
             <div class="mb-3">
                 <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -122,14 +122,14 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
 
         <div class="profile-container">
             <div class="profile-card-modern">
-                <!-- Header: Photo, Name, Role -->
+                <!-- Header: Foto, Nama, Peran -->
                 <div class="profile-header-modern">
                     <img src="<?= htmlspecialchars($foto_profile); ?>" alt="Profile" class="profile-avatar-modern">
                     <h3 class="profile-name-modern"><?= htmlspecialchars($user['nama']); ?></h3>
                     <span class="profile-role-badge"><?= ucfirst($user['role']); ?></span>
                 </div>
 
-                <!-- 2-Column Grid Info -->
+                <!-- Info Grid 2 Kolom -->
                 <div class="profile-info-grid">
                     <div class="info-item">
                         <span class="info-label">Nama Lengkap</span>
@@ -149,7 +149,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
                     </div>
                 </div>
 
-                <!-- Action Button -->
+                <!-- Tombol Aksi -->
                 <div class="profile-actions-modern">
                     <a href="edit_profile_peserta.php" class="btn-edit-modern">
                         <i class="bi bi-pencil-square"></i> Edit Profil
@@ -160,7 +160,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
     </div>
 
     <script>
-        // Logout function
+        // Fungsi Logout
         function confirmLogout() {
             if (confirm("Apakah kamu yakin ingin logout?")) {
                 window.location.href = "../login.php";

@@ -19,13 +19,13 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if (!$user) {
-    // Jika user tidak ditemukan (misal dihapus admin saat sedang login)
+    // Jika pengguna tidak ditemukan (misal dihapus admin saat sedang login)
     session_destroy();
     header("Location: ../login.php");
     exit;
 }
 
-// Set default foto jika kosong
+// Atur foto default jika kosong
 $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/user.jpg') . '?v=' . time();
 ?>
 <!DOCTYPE html>
@@ -112,23 +112,23 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
     <div class="main-content">
         <div class="row align-items-center mb-4">
             <div class="col">
-                <h4 class="fw-bold fs-4 mb-0 text-dark">Profile Notulis</h4>
+                <h4 class="fw-bold fs-4 mb-0 text-dark">Profile Admin</h4>
             </div>
             <div class="col-auto">
-                 <!-- Top right small indicators if needed -->
+                 <!-- Indikator kecil kanan atas jika diperlukan -->
             </div>
         </div>
 
         <div class="profile-container">
             <div class="profile-card-modern">
-                <!-- Header: Photo, Name, Role -->
+                <!-- Header: Foto, Nama, Peran -->
                 <div class="profile-header-modern">
                     <img src="<?= htmlspecialchars($foto_profile); ?>" alt="Profile" class="profile-avatar-modern">
                     <h3 class="profile-name-modern"><?= htmlspecialchars($user['nama']); ?></h3>
                     <span class="profile-role-badge"><?= ucfirst($user['role']); ?></span>
                 </div>
 
-                <!-- 2-Column Grid Info -->
+                <!-- Info Grid 2 Kolom -->
                 <div class="profile-info-grid">
                     <div class="info-item">
                         <span class="info-label">Nama Lengkap</span>
@@ -138,7 +138,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
                         <span class="info-label">Email Address</span>
                         <span class="info-value"><?= htmlspecialchars($user['email']); ?></span>
                     </div>
-                    <!-- Role Admin might not have NIK usually, but user table has it. Display if exists -->
+                    <!-- Peran Admin mungkin biasanya tidak memiliki NIK, tetapi tabel pengguna memilikinya. Tampilkan jika ada -->
                      <div class="info-item">
                         <span class="info-label">Nomor Induk (NIK/NIP)</span>
                         <span class="info-value"><?= !empty($user['nik']) ? htmlspecialchars($user['nik']) : '-'; ?></span>
@@ -149,7 +149,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
                     </div>
                 </div>
 
-                <!-- Action Button -->
+                <!-- Tombol Aksi -->
                 <div class="profile-actions-modern">
                     <a href="edit_profile_admin.php" class="btn-edit-modern">
                         <i class="bi bi-pencil-square"></i> Edit Profil
@@ -160,7 +160,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
     </div>
 
     <script>
-        // Logout function
+        // Fungsi Logout
         async function confirmLogout(e) {
             e.preventDefault();
             const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");

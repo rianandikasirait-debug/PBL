@@ -2,13 +2,13 @@
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
-// Cek Login & Role
+// Cek Login & Peran
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
     header("Location: ../login.php");
     exit;
 }
 
-// Ambil data user login
+// Ambil data pengguna yang sedang login
 $userId = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
@@ -26,7 +26,7 @@ if ($id_notulen <= 0) {
     exit;
 }
 
-// Mark as viewed in session
+// Tandai sebagai dilihat dalam sesi
 if (!isset($_SESSION['viewed_notulen'])) {
     $_SESSION['viewed_notulen'] = [];
 }
@@ -48,31 +48,31 @@ if (!$notulen) {
 }
 
 // Format tanggal
-$tanggal = date('d/m/Y', strtotime($notulen['tanggal_rapat']));
+$tanggal = date('d/m/Y', strtotime($notulen['tanggal']));
 
-// Parse peserta (string dipisahkan koma)
-// Asumsi: $notulen['peserta'] berisi daftar user IDs seperti "15,17,18".
-// Jika sistemmu menyimpan nama sebagai peserta, code ini tetap menampilkan nama yang ada di DB (fallback ke string asli jika tidak ditemukan).
+// Uraikan peserta (string dipisahkan koma)
+// Asumsi: $notulen['peserta'] berisi daftar ID pengguna seperti "15,17,18".
+// Jika sistem menyimpan nama sebagai peserta, kode ini tetap menampilkan nama yang ada di DB (fallback ke string asli jika tidak ditemukan).
 $peserta_raw = $notulen['peserta'] ?? '';
 $peserta_ids = [];
 $peserta_names = [];
 
 if (trim($peserta_raw) !== '') {
-    // split & sanitize ke integer
+    // pisahkan & sanitasi ke integer
     $parts = array_filter(array_map('trim', explode(',', $peserta_raw)), function($v){ return $v !== ''; });
     foreach ($parts as $p) {
-        // jika numeric, masukkan sebagai int
+        // jika numerik, masukkan sebagai int
         if (is_numeric($p)) {
             $peserta_ids[] = (int)$p;
         }
     }
 
     if (!empty($peserta_ids)) {
-        // Bangun daftar id yang aman (integers)
+        // Bangun daftar ID yang aman (integer)
         $unique_ids = array_values(array_unique($peserta_ids));
-        $ids_list = implode(',', $unique_ids); // aman karena sudah cast ke int
+        $ids_list = implode(',', $unique_ids); // aman karena sudah di-cast ke int
 
-        // Ambil nama dari tabel users
+        // Ambil nama dari tabel pengguna
         $sql_users = "SELECT id, nama FROM users WHERE id IN ($ids_list)";
         $res_users = $conn->query($sql_users);
         $map = [];
@@ -80,23 +80,23 @@ if (trim($peserta_raw) !== '') {
             $map[(int)$r['id']] = $r['nama'];
         }
 
-        // isi peserta_names dari urutan asli (jika id ditemukan gunakan nama, jika tidak gunakan id asli)
+        // isi nama_peserta dari urutan asli (jika ID ditemukan gunakan nama, jika tidak gunakan ID asli)
         foreach ($parts as $orig) {
             if (is_numeric($orig)) {
                 $idint = (int)$orig;
                 if (isset($map[$idint])) {
                     $peserta_names[] = $map[$idint];
                 } else {
-                    // fallback: tampilkan id jika nama tidak ditemukan
+                    // fallback: tampilkan ID jika nama tidak ditemukan
                     $peserta_names[] = (string)$idint;
                 }
             } else {
-                // jika bukan numeric (mis: sudah nama tersimpan), langsung gunakan
+                // jika bukan numerik (misal: sudah nama tersimpan), langsung gunakan
                 $peserta_names[] = $orig;
             }
         }
     } else {
-        // Tidak ada id numeric — kemungkinan peserta disimpan sebagai nama string
+        // Tidak ada ID numerik — kemungkinan peserta disimpan sebagai nama string
         foreach ($parts as $orig) {
             $peserta_names[] = $orig;
         }
@@ -207,7 +207,7 @@ if (trim($peserta_raw) !== '') {
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4><b>Dashboard Notulis</b></h4>
+                <h4><b>Dashboard Admin</b></h4>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="text-end">
@@ -225,7 +225,7 @@ if (trim($peserta_raw) !== '') {
         <div class="content-card">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <h4 class="fw-bold mb-1"><?= htmlspecialchars($notulen['judul_rapat']); ?></h4>
+                    <h4 class="fw-bold mb-1"><?= htmlspecialchars($notulen['judul']); ?></h4>
                     <p class="text-muted mb-2">Dibuat oleh: <?= htmlspecialchars($notulen['created_by'] ?? 'Admin'); ?>
                     </p>
                 </div>
@@ -238,7 +238,7 @@ if (trim($peserta_raw) !== '') {
             <hr>
 
             <div class="mb-4">
-                <?= $notulen['isi_rapat']; // Isi rapat biasanya HTML dari TinyMCE, jadi tidak di-escape ?>
+                <?= $notulen['hasil']; // Isi rapat biasanya HTML dari TinyMCE, jadi tidak di-escape ?>
             </div>
 
             <h6 class="fw-semibold mb-2">Peserta Rapat:</h6>
@@ -254,8 +254,8 @@ if (trim($peserta_raw) !== '') {
             </div>
 
             <h6 class="fw-semibold mb-2">Lampiran:</h6>
-            <?php if (!empty($notulen['Lampiran'])): ?>
-                <a href="../file/<?= htmlspecialchars($notulen['Lampiran']); ?>" class="btn btn-outline-success btn-sm"
+            <?php if (!empty($notulen['tindak_lanjut'])): ?>
+                <a href="../file/<?= htmlspecialchars($notulen['tindak_lanjut']); ?>" class="btn btn-outline-success btn-sm"
                     download>
                     <i class="bi bi-download me-2"></i>Download Lampiran
                 </a>
@@ -270,7 +270,7 @@ if (trim($peserta_raw) !== '') {
     </div>
 
     <script>
-        // Logout handlers
+        // Handler Logout
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
             logoutBtn.addEventListener("click", async function (e) {

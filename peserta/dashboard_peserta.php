@@ -2,45 +2,48 @@
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
-// Cek Login & Role
+// Cek Login & Peran
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'peserta') {
     header("Location: ../login.php");
     exit;
 }
 
-// Initialize viewed notulen session if not exists
+// Inisialisasi sesi notulen yang dilihat jika belum ada
 if (!isset($_SESSION['viewed_notulen'])) {
     $_SESSION['viewed_notulen'] = [];
 }
 
 // Ambil semua notulen dari database
-// Ambil data untuk highlight cards
-// 1. Total Peserta
-$sqlPeserta = "SELECT COUNT(*) as total FROM users WHERE role = 'peserta'";
-$resPeserta = $conn->query($sqlPeserta);
-$totalPeserta = $resPeserta ? $resPeserta->fetch_assoc()['total'] : 0;
+// Ambil data untuk kartu sorotan - HANYA untuk peserta ini
+$currentUserId = $_SESSION['user_id'];
 
-// 2. Total Notulen
-$sqlNotulen = "SELECT COUNT(*) as total FROM tambah_notulen";
-$resNotulen = $conn->query($sqlNotulen);
+// 1. Total Notulen untuk peserta ini
+$sqlNotulen = "SELECT COUNT(*) as total FROM tambah_notulen WHERE FIND_IN_SET(?, peserta) > 0";
+$stmtNotulen = $conn->prepare($sqlNotulen);
+$stmtNotulen->bind_param("i", $currentUserId);
+$stmtNotulen->execute();
+$resNotulen = $stmtNotulen->get_result();
 $totalNotulen = $resNotulen ? $resNotulen->fetch_assoc()['total'] : 0;
+$stmtNotulen->close();
 
-// 3. Total Notulen Belum Dilihat (Unread)
-$viewedIds = $_SESSION['viewed_notulen'] ?? [];
-$viewedIds = array_map('intval', $viewedIds); // Sanitize to ints
-$viewedIds = array_filter($viewedIds); // Remove 0s if any
+// 2. Total Notulen berdasarkan Status (Draft dan Final) untuk peserta ini
+$sqlDraft = "SELECT COUNT(*) as total FROM tambah_notulen WHERE FIND_IN_SET(?, peserta) > 0 AND (status = 'draft' OR status IS NULL)";
+$stmtDraft = $conn->prepare($sqlDraft);
+$stmtDraft->bind_param("i", $currentUserId);
+$stmtDraft->execute();
+$resDraft = $stmtDraft->get_result();
+$totalDraft = $resDraft ? $resDraft->fetch_assoc()['total'] : 0;
+$stmtDraft->close();
 
-if (empty($viewedIds)) {
-    // If no viewed notulens, unread = total
-    $totalUnread = $totalNotulen;
-} else {
-    $idsStr = implode(',', $viewedIds);
-    $sqlUnread = "SELECT COUNT(*) as total FROM tambah_notulen WHERE id NOT IN ($idsStr)";
-    $resUnread = $conn->query($sqlUnread);
-    $totalUnread = $resUnread ? $resUnread->fetch_assoc()['total'] : $totalNotulen;
-}
+$sqlFinal = "SELECT COUNT(*) as total FROM tambah_notulen WHERE FIND_IN_SET(?, peserta) > 0 AND status = 'final'";
+$stmtFinal = $conn->prepare($sqlFinal);
+$stmtFinal->bind_param("i", $currentUserId);
+$stmtFinal->execute();
+$resFinal = $stmtFinal->get_result();
+$totalFinal = $resFinal ? $resFinal->fetch_assoc()['total'] : 0;
+$stmtFinal->close();
 
-// Ambil data user (nama & foto)
+// Ambil data pengguna (nama & foto)
 $stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
 $stmt->bind_param("i", $_SESSION['user_id']);
 $stmt->execute();
@@ -50,12 +53,18 @@ $userName = $userData['nama'] ?? 'Peserta';
 $userPhoto = $userData['foto'] ?? null;
 $stmt->close();
 
-// Query untuk mengambil semua notulen (untuk sementara tidak filter, agar kita bisa debug)
-$sql = "SELECT id, judul_rapat, tanggal_rapat, created_by, Lampiran, peserta, created_at 
+// Query untuk mengambil notulen yang peserta ini terdaftar di dalamnya
+$currentUserId = $_SESSION['user_id'];
+$sql = "SELECT id, judul, tanggal, tempat, peserta, tindak_lanjut as Lampiran, created_at,
+                COALESCE(status, 'draft') as status
         FROM tambah_notulen 
-        ORDER BY tanggal_rapat DESC";
+        WHERE FIND_IN_SET(?, peserta) > 0
+        ORDER BY tanggal DESC";
 
-$result = $conn->query($sql);
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $currentUserId);
+$stmt->execute();
+$result = $stmt->get_result();
 
 // Konversi ke format array dan tambahkan status is_viewed
 $dataNotulen = [];
@@ -63,9 +72,14 @@ if ($result) {
     $viewedIdsSession = $_SESSION['viewed_notulen'] ?? [];
     while ($row = $result->fetch_assoc()) {
         $row['is_viewed'] = in_array((int)$row['id'], $viewedIdsSession);
+        // Tambahkan alias untuk kompatibilitas dengan JavaScript
+        $row['judul_rapat'] = $row['judul'];
+        $row['tanggal_rapat'] = $row['tanggal'];
+        $row['created_by'] = $row['tempat'];
         $dataNotulen[] = $row;
     }
 }
+$stmt->close();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -158,17 +172,8 @@ if ($result) {
         </div>
 
         <!-- Highlight Cards -->
-        <div class="row g-3 mb-4 row-cols-1 row-cols-md-3">
-            <!-- Card 1: Total Peserta -->
-            <div class="col">
-                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
-                    <h6 class="text-secondary mb-2">Total Peserta</h6>
-                    <h2 id="totalPesertaCard" class="fw-bold text-success mb-0"><?php echo $totalPeserta; ?></h2>
-                    <small class="text-muted">Orang</small>
-                </div>
-            </div>
-
-            <!-- Card 2: Total Notulen -->
+        <div class="row g-3 mb-4 row-cols-1 row-cols-md-2">
+            <!-- Card 1: Total Notulen -->
             <div class="col">
                 <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
                     <h6 class="text-secondary mb-2">Total Notulen</h6>
@@ -177,12 +182,28 @@ if ($result) {
                 </div>
             </div>
 
-            <!-- Card 3: Belum Dilihat -->
+            <!-- Card 2: Status Notulen -->
             <div class="col">
-                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
-                    <h6 class="text-secondary mb-2">Belum Dilihat</h6>
-                    <h2 id="totalUnreadCard" class="fw-bold text-danger mb-0"><?php echo $totalUnread; ?></h2>
-                    <small class="text-muted">Notulen</small>
+                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm bg-white" style="border: 1px solid #198754;">
+                    <h6 class="text-secondary mb-3 text-center">Status Notulen</h6>
+                    
+                    <!-- Draft Count -->
+                    <div class="d-flex align-items-center justify-content-between mb-2 p-2 rounded" style="background-color: #f8f9fa;">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-pencil-square text-secondary" style="font-size: 1.2rem;"></i>
+                            <span class="text-secondary">Draft</span>
+                        </div>
+                        <h4 id="totalDraftCard" class="fw-bold text-secondary mb-0"><?php echo $totalDraft; ?></h4>
+                    </div>
+                    
+                    <!-- Final Count -->
+                    <div class="d-flex align-items-center justify-content-between p-2 rounded" style="background-color: #f8f9fa;">
+                        <div class="d-flex align-items-center gap-2">
+                            <i class="bi bi-check-circle text-success" style="font-size: 1.2rem;"></i>
+                            <span class="text-success">Final</span>
+                        </div>
+                        <h4 id="totalFinalCard" class="fw-bold text-success mb-0"><?php echo $totalFinal; ?></h4>
+                    </div>
                 </div>
             </div>
         </div>
@@ -255,36 +276,43 @@ if ($result) {
                     const tanggal = escapeHtml(item.tanggal_rapat || '');
                     const pembuat = escapeHtml(item.created_by || 'Admin');
                     const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
+                    const status = escapeHtml(item.status || 'draft');
+                    
+                    // Format tanggal dengan jam
+                    let tanggalDenganJam = tanggal;
+                    if (item.created_at) {
+                        const dateObj = new Date(item.created_at);
+                        const jam = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+                        tanggalDenganJam = `${tanggal} • ${jam}`;
+                    }
+                    
+                    // Lencana status - FINAL WARNA HIJAU!
+                    const statusBadge = status === 'final' 
+                        ? '<span class="badge d-flex align-items-center gap-1" style="background-color: #198754 !important; color: white;"><i class="bi bi-check-circle"></i> Final</span>'
+                        : '<span class="badge bg-secondary d-flex align-items-center gap-1"><i class="bi bi-pencil-square"></i> Draft</span>';
 
                     const card = document.createElement('div');
-                    card.className = 'col'; // Grid column
-                    
-                    // Badge Baru (New) if not viewed
-                     const badge = !item.is_viewed ? 
-                        `<span class="position-absolute top-0 start-0 m-2 badge rounded-pill bg-danger border border-light shadow-sm" style="z-index: 10;">
-                            Baru
-                            <span class="visually-hidden">unread messages</span>
-                        </span>` : '';
+                    card.className = 'col'; // Kolom Grid
 
-                    // Match Admin Style (Grid Layout)
+                    // Sesuaikan Gaya Admin (Tata Letak Grid)
                     card.innerHTML = `
                         <div class="mobile-card h-100 p-3 rounded-3 position-relative shadow-sm" style="cursor: pointer;" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_peserta.php?id=${encodeURIComponent(item.id)}'">
-                            ${badge}
-                            <!-- Header: Actions (Badge removed) -->
-                            <div class="d-flex justify-content-end align-items-center mb-2">
+                            <!-- Header: Lencana Status & Aksi -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                ${statusBadge}
                                 <div class="d-flex gap-2">
                                     ${item.Lampiran ? `<a href="../file/${encodeURIComponent(item.Lampiran)}" class="btn btn-sm text-secondary p-0" title="Download" download><i class="bi bi-download fs-5"></i></a>` : ''}
                                 </div>
                             </div>
 
-                            <!-- Body: Title & Metadata -->
+                            <!-- Body: Judul & Metadata -->
                             <div>
                                 <h5 class="fw-bold text-dark mb-3 text-truncate" title="${judul}">${judul}</h5>
                                 
                                 <div class="d-flex flex-column gap-2 text-secondary small">
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="bi bi-calendar-event"></i>
-                                        <span>${tanggal}</span>
+                                        <span>${tanggalDenganJam}</span>
                                     </div>
                                     <div class="d-flex align-items-center gap-2">
                                         <i class="bi bi-person"></i>
@@ -391,7 +419,7 @@ if ($result) {
                 updateTable();
             });
 
-            // Logout function
+            // Fungsi Logout
             function confirmLogout() {
                 if (confirm("Apakah kamu yakin ingin logout?")) {
                     window.location.href = "../proses/proses_logout.php";
@@ -405,7 +433,7 @@ if ($result) {
                 logoutBtnMobile.addEventListener("click", confirmLogout);
             }
 
-            // Handle highlight card clicks to mark as viewed
+            // Tangani klik kartu sorotan untuk menandai sebagai dilihat
             document.querySelectorAll('.highlight-card').forEach(card => {
                 const link = card.closest('a');
                 if (link) {
@@ -427,7 +455,7 @@ if ($result) {
 
             updateTable();
 
-            // Re-render table when viewport changes (debounced)
+            // Render ulang tabel saat viewport berubah (debounced)
             window.addEventListener('resize', function () {
                 if (window._dashResizeTimer) clearTimeout(window._dashResizeTimer);
                 window._dashResizeTimer = setTimeout(() => {

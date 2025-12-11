@@ -14,18 +14,21 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Ambil input dari form login (trim untuk email)
-$email = trim($_POST['email'] ?? '');
+// Ambil input dari form login (trim untuk email/nik)
+$emailOrNik = trim($_POST['email'] ?? '');
 $password = $_POST['password'] ?? '';
 
-// Validasi sederhana: email dan password harus diisi
-if ($email === '' || $password === '') {
-    $_SESSION['login_error'] = 'Email dan password harus diisi.';
+// Validasi sederhana: email/nik dan password harus diisi
+if ($emailOrNik === '' || $password === '') {
+    $_SESSION['login_error'] = 'Email/NIK dan password harus diisi.';
     header('Location: ../login.php');
     exit;
 }
 
-// Ambil user berdasarkan email (LIMIT 1 untuk keamanan/performa)
+// =====================================================
+// CEK LOGIN DENGAN EMAIL ATAU NIK
+// =====================================================
+// Coba cari user berdasarkan EMAIL terlebih dahulu
 $sql = "SELECT * FROM users WHERE email = ? LIMIT 1";
 $stmt = $conn->prepare($sql);
 
@@ -38,22 +41,43 @@ if (!$stmt) {
 }
 
 // Bind parameter dan eksekusi
-$stmt->bind_param("s", $email);
+$stmt->bind_param("s", $emailOrNik);
 $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 $stmt->close();
 
-// Jika user tidak ditemukan berdasarkan email
+// Jika tidak ketemu email, coba cari berdasarkan NIK
 if (!$user) {
-    $_SESSION['login_error'] = 'Email tidak ditemukan.';
+    $sql = "SELECT * FROM users WHERE nik = ? LIMIT 1";
+    $stmt = $conn->prepare($sql);
+    
+    if (!$stmt) {
+        error_log('Prepare failed: ' . $conn->error);
+        $_SESSION['login_error'] = 'Kesalahan server.';
+        header('Location: ../login.php');
+        exit;
+    }
+    
+    // Bind NIK (convert ke int karena field nik adalah int)
+    $nikInt = intval($emailOrNik);
+    $stmt->bind_param("i", $nikInt);
+    $stmt->execute();
+    $result = $stmt->get_result();
+    $user = $result->fetch_assoc();
+    $stmt->close();
+}
+
+// Jika user tetap tidak ditemukan baik dari email maupun nik
+if (!$user) {
+    $_SESSION['login_error'] = 'Email/NIK tidak ditemukan.';
     header('Location: ../login.php');
     exit;
 }
 
-// --------------------------------------
-//          LOGIN VALIDATION FIXED
-// --------------------------------------
+// =====================================================
+// VALIDASI PASSWORD
+// =====================================================
 // Flag autentikasi awal false sampai terverifikasi
 $authenticated = false;
 
@@ -101,9 +125,45 @@ if (!$authenticated) {
     exit;
 }
 
-// --------------------------------------
-//        LOGIN BERHASIL
-// --------------------------------------
+// =====================================================
+// CHECK PASSWORD PERTAMA KALI LOGIN - DISABLED
+// =====================================================
+// FITUR INI DINONAKTIFKAN - Peserta langsung ke dashboard
+// Jika ingin mengaktifkan kembali, uncomment kode di bawah ini
+
+/*
+// Jika password masih default (=== NIK) dan belum pernah diubah
+$isFirstLogin = (isset($user['is_first_login']) && $user['is_first_login'] == 1) || 
+                (isset($user['password_updated']) && $user['password_updated'] == 0);
+
+// Password default = NIK user
+$passwordDefault = (string)$user['nik'];
+
+// Cek apakah password yang digunakan adalah password default
+$isUsingDefaultPassword = ($password === $passwordDefault);
+
+// Jika peserta, cek apakah ini login pertama atau menggunakan password default
+if (($user['role'] === 'peserta' || $user['role'] === NULL) && $isFirstLogin && $isUsingDefaultPassword) {
+    // Regenerate session id terlebih dahulu
+    session_regenerate_id(true);
+    
+    // Simpan data user sementara untuk redirect ke ubah password
+    $_SESSION['user_id']   = $user['id'];
+    $_SESSION['user_name'] = $user['nama'] ?? $user['nik'] ?? '';
+    $_SESSION['user_role'] = $user['role'] ?? 'peserta';
+    $_SESSION['user_email'] = $user['email'];
+    $_SESSION['user_foto']  = $user['foto'] ?? '';
+    $_SESSION['force_password_change'] = true; // Flag untuk force change password
+    
+    // Redirect ke halaman ubah password
+    header('Location: ../peserta/ubah_password.php');
+    exit;
+}
+*/
+
+// =====================================================
+// LOGIN BERHASIL - BISA LANGSUNG KE DASHBOARD
+// =====================================================
 // Regenerate session id untuk mencegah session fixation
 session_regenerate_id(true);
 

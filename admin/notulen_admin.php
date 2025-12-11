@@ -2,13 +2,13 @@
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
-// Pastikan login
+// Pastikan pengguna sudah login
 if (!isset($_SESSION['user_id'])) {
     header("Location: ../login.php");
     exit;
 }
 
-// Ambil data user login
+// Ambil data pengguna yang sedang login
 $userId = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
@@ -19,7 +19,7 @@ $stmt->close();
 $userName = $userData['nama'] ?? 'Admin';
 $userPhoto = $userData['foto'] ?? null;
 
-// Ambil peserta
+// Ambil daftar peserta
 $users = [];
 $q = $conn->prepare("SELECT id, nama, email FROM users WHERE role = 'peserta' ORDER BY nama ASC");
 if ($q) {
@@ -149,7 +149,7 @@ if ($q) {
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <div>
-                <h4><b>Dashboard Notulis</b></h4>
+                <h4><b>Dashboard Admin</b></h4>
             </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="text-end">
@@ -278,7 +278,7 @@ if ($q) {
 
 <script>
 /* =======================
-   TINYMCE - WITH API KEY
+   TINYMCE - DENGAN API KEY
 ======================= */
 tinymce.init({
     selector: '#isi',
@@ -290,20 +290,20 @@ tinymce.init({
 });
 
 /* =======================
-   FORM SUBMIT AJAX
+   PENGIRIMAN FORMULIR AJAX
 ======================= */
 document.getElementById("notulenForm").addEventListener("submit", async function (e) {
     e.preventDefault();
     
     try {
-        // Sync TinyMCE content to textarea before creating FormData
+        // Sinkronisasi konten TinyMCE ke textarea sebelum membuat FormData
         if (typeof tinymce !== 'undefined' && tinymce.get("isi")) {
             tinymce.triggerSave();
         }
 
         const fd = new FormData(this);
 
-        // Ambil peserta
+        // Ambil data peserta yang dipilih
         document.querySelectorAll('.added-item').forEach(item => {
             fd.append("peserta[]", item.dataset.id);
         });
@@ -313,7 +313,7 @@ document.getElementById("notulenForm").addEventListener("submit", async function
             body: fd
         });
 
-        const text = await res.text(); // Get raw text first to debug
+        const text = await res.text(); // Ambil teks mentah terlebih dahulu untuk debugging
         let json;
         try {
             json = JSON.parse(text);
@@ -324,10 +324,10 @@ document.getElementById("notulenForm").addEventListener("submit", async function
         }
 
         if (json.success) {
-            // Show custom toast
+            // Tampilkan notifikasi toast kustom
             showToast('Notulen berhasil disimpan!', 'success');
 
-            // Disable button to prevent double submit
+            // Nonaktifkan tombol untuk mencegah pengiriman ganda
             const submitBtn = document.querySelector('button[type="submit"]');
             if(submitBtn) submitBtn.disabled = true;
 
@@ -344,10 +344,10 @@ document.getElementById("notulenForm").addEventListener("submit", async function
 });
 
 /* =======================
-   PESERTA HANDLING
+   PENGELOLAAN PESERTA
 ======================= */
 
-// Helper function untuk escape HTML
+// Fungsi bantuan untuk escape karakter HTML
 function escapeHtml(text) {
     const map = {
         '&': '&amp;',
@@ -365,7 +365,7 @@ const clearSearchBtn = document.getElementById('clearSearchBtn');
 const addedContainer = document.getElementById('addedContainer');
 const notulenCheckboxes = document.querySelectorAll('.notulen-checkbox');
 
-// Select All checkbox
+// Checkbox Pilih Semua
 if (selectAll) {
     selectAll.addEventListener('change', function () {
         notulenCheckboxes.forEach(cb => {
@@ -374,7 +374,7 @@ if (selectAll) {
     });
 }
 
-// Clear/Reset button
+// Tombol Bersihkan/Reset
 if (clearSearchBtn) {
     clearSearchBtn.addEventListener('click', function () {
         notulenCheckboxes.forEach(cb => cb.checked = false);
@@ -382,7 +382,7 @@ if (clearSearchBtn) {
     });
 }
 
-// Add participants button
+// Tombol Tambah Peserta
 if (addButton) {
     addButton.addEventListener('click', function () {
         const selected = document.querySelectorAll('.notulen-checkbox:checked');
@@ -392,24 +392,24 @@ if (addButton) {
             return;
         }
 
-        // Get existing participant IDs
+        // Ambil ID peserta yang sudah ada
         const existingIds = new Set();
         addedContainer.querySelectorAll('.added-item').forEach(item => {
             existingIds.add(item.dataset.id);
         });
         
-        // Clear empty message
+        // Hapus pesan kosong
         const emptyMsg = addedContainer.querySelector('.text-muted');
         if (emptyMsg) {
             emptyMsg.remove();
         }
 
-        // Add selected participants
+        // Tambahkan peserta yang dipilih
         selected.forEach(cb => {
             const id = cb.value;
             const name = cb.dataset.name || cb.nextElementSibling?.textContent?.trim() || 'Unknown';
             
-            // Prevent duplicates
+            // Cegah duplikasi data
             if (existingIds.has(id)) return;
 
             const div = document.createElement('div');
@@ -424,7 +424,7 @@ if (addButton) {
             addedContainer.appendChild(div);
             existingIds.add(id);
             
-            // Remove button click handler
+            // Handler klik tombol hapus
             const removeBtn = div.querySelector('.remove-btn');
             removeBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -433,31 +433,31 @@ if (addButton) {
                 if (cb) cb.checked = false;
                 div.remove();
                 
-                // Show empty message if no participants
+                // Tampilkan pesan kosong jika tidak ada peserta
                 if (addedContainer.children.length === 0) {
                     addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
                 }
             });
-            // Uncheck after adding
+            // Hapus centang setelah ditambahkan
             cb.checked = false;
         });
         
-        // Uncheck "Select All" if it was checked
+        // Hapus centang "Pilih Semua" jika sebelumnya dicentang
         if (selectAll) selectAll.checked = false;
 
-        // Close Dropdown to reveal added list
+        // Tutup Dropdown untuk menampilkan daftar yang ditambahkan
         const dropdownEl = document.getElementById('dropdownToggle');
         if (dropdownEl && window.bootstrap) {
             const dropdown = bootstrap.Dropdown.getOrCreateInstance(dropdownEl);
             dropdown.hide();
         }
 
-        // Show feedback
+        // Tampilkan umpan balik
         showToast('Peserta berhasil ditambahkan', 'success');
     });
 }
 
-// Logout handlers
+// Handler Logout
 const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", async function (e) {

@@ -1,11 +1,11 @@
 <?php
 session_start(); 
-// Mulai session agar bisa menghapusnya
+// Mulai sesi agar bisa menghapusnya
 
-// Hapus semua data session
+// Hapus semua data sesi
 $_SESSION = [];
 
-// Hapus cookie session jika ada
+// Hapus cookie sesi jika ada
 if (ini_get("session.use_cookies")) {
     $params = session_get_cookie_params();
     setcookie(
@@ -19,7 +19,7 @@ if (ini_get("session.use_cookies")) {
     );
 }
 
-// Hancurkan session di server
+// Hancurkan sesi di server
 session_destroy();
 
 // (Opsional) Kirim pesan agar login.php bisa menampilkan notifikasi

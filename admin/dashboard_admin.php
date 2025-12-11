@@ -50,8 +50,10 @@ if (empty($viewedIds)) {
     $totalUnread = $resUnread ? $resUnread->fetch_assoc()['total'] : $totalNotulen;
 }
 
-// Ambil 10 notulen terbaru untuk tabel (tetap sama)
-$sql = "SELECT id, judul_rapat, tanggal_rapat, Lampiran, peserta, created_by, created_at FROM tambah_notulen ORDER BY created_at DESC LIMIT 10";
+// Ambil 10 notulen terbaru untuk tabel (dengan status)
+$sql = "SELECT id, judul, tanggal, tempat, peserta, status, created_at
+         FROM tambah_notulen 
+         ORDER BY created_at DESC LIMIT 10";
 $result = $conn->query($sql);
 // Konversi ke format array dan tambahkan status is_viewed
 $dataNotulen = [];
@@ -274,29 +276,41 @@ while ($row = $result->fetch_assoc()) {
 
                 data.forEach((item, index) => {
                     const nomorUrut = startIndex + index + 1;
-                    const judul = escapeHtml(item.judul_rapat || '');
-                    const tanggal = escapeHtml(item.tanggal_rapat || '');
-                    const pembuat = escapeHtml(item.created_by || 'Admin');
+                    const judul = escapeHtml(item.judul || '');
+                    const tanggal = escapeHtml(item.tanggal || '');
+                    const pembuat = escapeHtml(item.tempat || 'Admin');
                     const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
+                    const status = escapeHtml(item.status || 'draft');
+                    
+                    // Map status ke badge color
+                    const statusBadgeMap = {
+                        'draft': { color: 'secondary', label: 'Draft', icon: 'pencil' },
+                        'final': { color: 'primary', label: 'Final', icon: 'check' },
+                        'revisi': { color: 'warning', label: 'Revisi', icon: 'arrow-repeat' },
+                        'selesai': { color: 'success', label: 'Selesai', icon: 'check-all' }
+                    };
+                    const statusInfo = statusBadgeMap[status] || statusBadgeMap['draft'];
 
                     const card = document.createElement('div');
                     card.className = 'col'; // Grid column
                     
-                    // Badge Baru (New) if not viewed
-                     const badge = !item.is_viewed ? 
-                        `<span class="position-absolute top-0 start-0 m-2 badge rounded-pill bg-danger border border-light shadow-sm" style="z-index: 10;">
-                            Baru
-                            <span class="visually-hidden">unread messages</span>
+                    // Badge Baru (New) if not viewed - POSISI DI ATAS PALING DEPAN
+                    const badgeHtml = !item.is_viewed ? 
+                        `<span class="position-absolute top-0 start-50 translate-middle-x badge rounded-pill bg-danger border-2 border-light shadow-lg fw-bold" style="z-index: 20; padding: 6px 12px; font-size: 12px;">
+                            ⭐ Baru
                         </span>` : '';
 
                     card.innerHTML = `
-                        <div class="highlight-card h-100 p-3 rounded-3 position-relative shadow-sm d-flex flex-column justify-content-between bg-white text-dark" style="background: #fff; cursor: pointer;" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_admin.php?id=${encodeURIComponent(item.id)}'">
-                            ${badge}
+                        <div class="highlight-card h-100 p-3 rounded-3 position-relative shadow-sm d-flex flex-column justify-content-between bg-white text-dark" style="background: #fff; cursor: pointer; margin-top: ${!item.is_viewed ? '20px' : '0'};" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_admin.php?id=${encodeURIComponent(item.id)}'">
+                            ${badgeHtml}
                             
-                            <!-- Header: Actions (Badge removed) -->
-                            <div class="d-flex justify-content-end align-items-center mb-2">
-                                    <div class="d-flex gap-2">
-                                     <a href="edit_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-dark p-0" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
+                            <!-- Header: Actions & Status Badge -->
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <span class="badge bg-${statusInfo.color}">
+                                    <i class="bi bi-${statusInfo.icon} me-1"></i>${statusInfo.label}
+                                </span>
+                                <div class="d-flex gap-2">
+                                    <a href="edit_rapat_admin.php?id=${encodeURIComponent(item.id)}" class="btn btn-sm text-dark p-0" title="Edit"><i class="bi bi-pencil-square fs-5"></i></a>
                                     <button class="btn btn-sm text-secondary p-0 btn-delete" data-id="${encodeURIComponent(item.id)}" title="Hapus"><i class="bi bi-trash fs-5"></i></button>
                                 </div>
                             </div>
@@ -327,7 +341,7 @@ while ($row = $result->fetch_assoc()) {
             }
 
             function populateFilterPembuat() {
-                const pembuatUnik = [...new Set(notulenData.map(d => d.created_by || 'Admin'))];
+                const pembuatUnik = [...new Set(notulenData.map(d => d.tempat || 'Admin'))];
                 pembuatUnik.forEach(nama => {
                     const opt = document.createElement("option");
                     opt.value = nama;
@@ -341,12 +355,12 @@ while ($row = $result->fetch_assoc()) {
                 const selectedPembuat = filterPembuat.value;
 
                 return notulenData.filter(item => {
-                    const judul = (item.judul_rapat || '').toLowerCase();
-                    const tanggal = (item.tanggal_rapat || '').toLowerCase();
-                    const pembuat = (item.created_by || 'Admin').toLowerCase();
+                    const judul = (item.judul || '').toLowerCase();
+                    const tanggal = (item.tanggal || '').toLowerCase();
+                    const pembuat = (item.tempat || 'Admin').toLowerCase();
 
                     const cocokKeyword = judul.includes(keyword) || tanggal.includes(keyword) || pembuat.includes(keyword);
-                    const cocokPembuat = selectedPembuat === "" || (item.created_by || 'Admin') === selectedPembuat;
+                    const cocokPembuat = selectedPembuat === "" || (item.tempat || 'Admin') === selectedPembuat;
                     return cocokKeyword && cocokPembuat;
                 });
             }

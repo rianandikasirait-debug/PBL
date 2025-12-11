@@ -8,7 +8,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Ambil data user login
+// Ambil data pengguna yang sedang login
 $userId = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
 $stmt->bind_param("i", $userId);
@@ -34,6 +34,20 @@ $conn->close();
 // (Meskipun sekarang tidak terlalu relevan karena kita hanya menampilkan peserta,
 // ini tetap praktik yang baik untuk dijaga)
 $current_admin_id = $_SESSION['user_id'] ?? 0;
+
+// Periksa tautan WhatsApp di sesi
+$wa_link = $_SESSION['wa_link'] ?? null;
+$wa_nomor = $_SESSION['wa_nomor'] ?? null;
+$wa_message = $_SESSION['wa_message'] ?? null;
+
+// Hapus variabel sesi setelah diambil
+if ($wa_link) {
+    unset($_SESSION['wa_link']);
+    unset($_SESSION['wa_nomor']);
+}
+if ($wa_message) {
+    unset($_SESSION['wa_message']);
+}
 
 ?>
 <!DOCTYPE html>
@@ -182,7 +196,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
         // DATA SEKARANG HANYA BERISI PESERTA KARENA SUDAH DIFILTER OLEH PHP
         let users = <?php echo json_encode($all_users, JSON_UNESCAPED_UNICODE); ?>;
 
-        // ID Admin (untuk perbandingan di fungsi hapus)
+        // ID Admin (untuk perbandingan dalam fungsi hapus)
         const CURRENT_ADMIN_ID = <?php echo (int) $current_admin_id; ?>;
 
         const tbody = document.getElementById("userTableBody");
@@ -199,7 +213,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
         function renderTable(data) {
             tbody.innerHTML = "";
             
-            // Handle Mobile List
+            // Tangani Daftar Mobile
             let mobileList = document.getElementById('mobileList');
             if (!mobileList) {
                 const tableResp = document.querySelector('.table-responsive');
@@ -287,7 +301,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             updatePagination(data);
         }
 
-        // Fungsi update pagination
+        // Fungsi pembaruan paginasi
         function updatePagination(data) {
             pagination.innerHTML = "";
             const totalPages = Math.max(1, Math.ceil(data.length / itemsPerPage));
@@ -328,7 +342,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             renderTable(filteredUsers);
         }
 
-        // AJAX delete user (versi non-reload)
+        // Hapus pengguna via AJAX (tanpa muat ulang)
         async function deleteUser(id, btn) {
             if (id === CURRENT_ADMIN_ID) {
                 showToast('Anda tidak dapat menghapus akun Anda sendiri.', 'warning');
@@ -379,7 +393,7 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             }
         }
 
-        // Fungsi showAlert
+        // Fungsi tampilkan notifikasi
         function showAlert(message, type = 'success') {
             alertBox.innerHTML = `
                 <div class="alert alert-${type} alert-dismissible fade show" role="alert">
@@ -395,8 +409,8 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
             }, 5000);
         }
 
-        // Fitur search
-        // small helper to escape HTML when injecting from JSON
+        // Fitur pencarian
+        // bantuan kecil untuk escape HTML saat menyuntikkan dari JSON
         function escapeHtml(str) {
             if (!str && str !== 0) return '';
             return String(str)
@@ -425,12 +439,32 @@ $current_admin_id = $_SESSION['user_id'] ?? 0;
         // Render awal
         renderTable(filteredUsers);
         
-        // Resize listener
+        // Pendengar perubahan ukuran layar
         window.addEventListener('resize', function () {
              renderTable(filteredUsers);
         });
+        
+        // Buka WhatsApp otomatis jika tautan ada
+        <?php if ($wa_link): ?>
+        window.addEventListener('DOMContentLoaded', function() {
+            const waLink = <?= json_encode($wa_link) ?>;
+            const waNomor = <?= json_encode($wa_nomor) ?>;
+            
+            // Tampilkan dialog konfirmasi
+            showConfirm('Peserta berhasil ditambahkan! Buka WhatsApp untuk mengirim informasi login ke ' + waNomor + '?')
+                .then(function(confirmed) {
+                    if (confirmed) {
+                        // Buka WhatsApp di tab baru
+                        window.open(waLink, '_blank');
+                        <?php if ($wa_message): ?>
+                        showToast(<?= json_encode($wa_message) ?>, 'success');
+                        <?php endif; ?>
+                    }
+                });
+        });
+        <?php endif; ?>
 
-        // Logout handlers
+        // Handler Logout
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
             logoutBtn.addEventListener("click", async function (e) {

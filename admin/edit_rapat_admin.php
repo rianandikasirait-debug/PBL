@@ -217,20 +217,34 @@ foreach ($current_participants as $pid) {
 
         <div class="mb-3">
           <label class="form-label">Judul</label>
-          <input type="text" class="form-control" name="judul" value="<?= htmlspecialchars($notulen['judul_rapat']) ?>"
+          <input type="text" class="form-control" name="judul" value="<?= htmlspecialchars($notulen['judul'] ?? '') ?>"
             required />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Tanggal Rapat</label>
           <div class="input-group">
-            <input type="date" class="form-control" name="tanggal" value="<?= $notulen['tanggal_rapat'] ?>" required />
+            <input type="date" class="form-control" name="tanggal" value="<?= $notulen['tanggal'] ?? '' ?>" required />
           </div>
         </div>
 
         <div class="mb-3">
+          <label class="form-label">Status Notulen</label>
+          <select class="form-control" name="status" id="statusSelect">
+            <option value="draft" <?= ($notulen['status'] ?? 'draft') === 'draft' ? 'selected' : '' ?>>Draft (Dapat Diedit)</option>
+            <option value="final" <?= ($notulen['status'] ?? 'draft') === 'final' ? 'selected' : '' ?>>Final (Tidak Dapat Diedit)</option>
+            <option value="revisi" <?= ($notulen['status'] ?? 'draft') === 'revisi' ? 'selected' : '' ?>>Revisi</option>
+            <option value="selesai" <?= ($notulen['status'] ?? 'draft') === 'selesai' ? 'selected' : '' ?>>Selesai</option>
+          </select>
+          <small class="text-muted d-block mt-1">Ubah ke "Final" untuk mengunci notulen agar tidak dapat diedit</small>
+        </div>
+
+        <div class="mb-3">
           <label class="form-label">Isi Notulen</label>
-          <textarea id="isi" name="isi" rows="10"><?= htmlspecialchars($notulen['isi_rapat']) ?></textarea>
+          <textarea id="isi" name="isi" rows="10" <?= ($notulen['status'] ?? 'draft') === 'final' ? 'disabled' : '' ?>><?= htmlspecialchars($notulen['hasil'] ?? '') ?></textarea>
+          <?php if (($notulen['status'] ?? 'draft') === 'final'): ?>
+            <small class="text-danger d-block mt-2"><strong>⚠️ Notulen sudah Final - Tidak dapat diedit!</strong></small>
+          <?php endif; ?>
         </div>
 
         <div class="mb-3">
@@ -342,14 +356,43 @@ foreach ($current_participants as $pid) {
       api_key: 'cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5',
       plugins: "lists link table code",
       toolbar: "undo redo | bold italic underline | bullist numlist | link",
+      readonly: <?= ($notulen['status'] ?? 'draft') === 'final' ? 'true' : 'false' ?>
     });
 
     document.addEventListener("DOMContentLoaded", function() {
+        // ===== LOCK FORM JIKA STATUS FINAL =====
+        const currentStatus = "<?= $notulen['status'] ?? 'draft' ?>";
+        
+        if (currentStatus === 'final') {
+            // Disable semua input field kecuali status dan tombol kembali
+            document.querySelectorAll('input[name="judul"], input[name="tanggal"], #isi, input[name="peserta[]"]').forEach(field => {
+                field.disabled = true;
+            });
+            
+            // Disable dropdown peserta
+            document.querySelectorAll('.dropdown-toggle, .form-check-input, input[type="file"]').forEach(field => {
+                if (field.name !== 'status') field.disabled = true;
+            });
+            
+            // Ubah warna tombol simpan ke abu-abu dan disable
+            const submitBtn = document.getElementById('simpan_perubahan');
+            submitBtn.disabled = true;
+            submitBtn.classList.remove('btn-save');
+            submitBtn.classList.add('btn-secondary');
+            submitBtn.innerHTML = '⚠️ Notulen Sudah Final (Tidak dapat diedit)';
+        }
+
         /* =======================
           FORM SUBMIT AJAX
         ======================= */
         document.getElementById("editForm").addEventListener("submit", async function (e) {
             e.preventDefault();
+            
+            // Cegah submit jika Final
+            if (currentStatus === 'final') {
+                alert('Notulen sudah Final! Tidak dapat diedit.');
+                return;
+            }
             
             try {
                 // Sync TinyMCE content

@@ -1,56 +1,137 @@
-CREATE DATABASE IF NOT EXISTS `notulen`;
-USE `notulen`;
+-- ====================================================================
+-- SMARTNOTE NOTULEN - COMPLETE DATABASE SCHEMA v2.0
+-- ====================================================================
+-- Database lengkap dengan WhatsApp Integration
+-- Bisa langsung pakai untuk fresh install atau update existing
+-- ====================================================================
 
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
+CREATE DATABASE IF NOT EXISTS notulen;
+USE notulen;
 
-CREATE TABLE `tambah_notulen` (
-  `id` int NOT NULL,
-  `judul_rapat` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
-  `tanggal_rapat` date NOT NULL,
-  `isi_rapat` text COLLATE utf8mb4_general_ci NOT NULL,
-  `Lampiran` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `peserta` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `created_by` varchar(100) COLLATE utf8mb4_general_ci DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- ====================================================================
+-- TABLE: users (Admin & Peserta)
+-- ====================================================================
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nik` int(11) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `nomor_whatsapp` varchar(20) NULL DEFAULT NULL,
+  `foto` varchar(255) NULL DEFAULT NULL,
+  `role` enum('admin','peserta') NOT NULL DEFAULT 'peserta',
+  `password_updated` tinyint(1) NOT NULL DEFAULT 0,
+  `is_first_login` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uk_email` (`email`),
+  UNIQUE KEY `uk_nik` (`nik`),
+  KEY `idx_role` (`role`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `tambah_pengguna` (
-  `nama_lengkap` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('admin','peserta') COLLATE utf8mb4_general_ci NOT NULL DEFAULT 'peserta'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- ====================================================================
+-- TABLE: tambah_notulen (Meeting Notes)
+-- ====================================================================
+CREATE TABLE IF NOT EXISTS `tambah_notulen` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_user` int(11) NOT NULL,
+  `judul` varchar(255) NOT NULL,
+  `tanggal` date NOT NULL,
+  `tempat` varchar(255) NOT NULL,
+  `peserta` longtext NOT NULL,
+  `hasil` longtext NOT NULL,
+  `tindak_lanjut` longtext NOT NULL,
+  `status` enum('draft','final','revisi','selesai') NOT NULL DEFAULT 'draft',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_user` (`id_user`),
+  KEY `status` (`status`),
+  CONSTRAINT `fk_notulen_user` FOREIGN KEY (`id_user`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-CREATE TABLE `users` (
-  `id` int NOT NULL,
-  `foto` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci DEFAULT 'user.jpg',
-  `nama` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
-  `nik` int NOT NULL,
-  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
-  `role` enum('admin','peserta') COLLATE utf8mb4_general_ci DEFAULT 'peserta',
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+-- ====================================================================
+-- TABLE: peserta_notulen (Peserta yang hadir)
+-- ====================================================================
+CREATE TABLE IF NOT EXISTS `peserta_notulen` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_notulen` int(11) NOT NULL,
+  `id_peserta` int(11) NOT NULL,
+  `status_hadir` enum('hadir','tidak_hadir','izin') NOT NULL DEFAULT 'hadir',
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `id_notulen` (`id_notulen`),
+  KEY `id_peserta` (`id_peserta`),
+  CONSTRAINT `fk_peserta_notulen_notulen` FOREIGN KEY (`id_notulen`) REFERENCES `tambah_notulen` (`id`) ON DELETE CASCADE,
+  CONSTRAINT `fk_peserta_notulen_user` FOREIGN KEY (`id_peserta`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `users` (`id`, `foto`, `nama`, `email`, `nik`, `password`, `role`, `created_at`) VALUES
-(1, '1763529296_foto profile.jpg', 'Febry', 'admin@gmail.com', 123456, '$2y$10$hOd/rJAASQBcZdrzURsCZODO4XvM7jXq61E2RT3VX9EIj73kjvJl2', 'admin', '2025-11-17 08:23:59'),
-(15, 'user.jpg', 'yohana', 'yohana@gmail.com', 213456, '$2y$10$SoNQ7cQX1MdohIjWs3f6nOZPGja9Ew7bixQ6HhvNC/bgRqHDUSbC6', 'peserta', '2025-11-17 08:27:36'),
-(17, 'user.jpg', 'rian', 'rian@gmail.com', 908765, '$2y$10$XV5rqbg2wbZtx4empI3PQ..DzPCjdN264396USI320l4lAPuNh8h.', 'peserta', '2025-11-19 04:17:50'),
-(18, 'user.jpg', 'febry', 'febry@gmail.com', 909087, '$2y$10$4R1.xDv9X/W8miVIMcWijepSDoOnux0ki5h.sct3L8fAgDnoOkLoq', 'peserta', '2025-11-19 04:54:01');
+-- ====================================================================
+-- TABLE: log_whatsapp (WhatsApp Message Logging)
+-- ====================================================================
+CREATE TABLE IF NOT EXISTS `log_whatsapp` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `nomor_whatsapp` varchar(20) NOT NULL,
+  `pesan` longtext NOT NULL,
+  `status` enum('sent','pending','failed') NOT NULL DEFAULT 'pending',
+  `error_message` longtext NULL DEFAULT NULL,
+  `wa_link` varchar(255) NULL DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `user_id` (`user_id`),
+  KEY `status` (`status`),
+  KEY `created_at` (`created_at`),
+  CONSTRAINT `fk_log_whatsapp_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `tambah_notulen`
-  ADD PRIMARY KEY (`id`);
+-- ====================================================================
+-- TABLE: tambah_pengguna (Legacy - Backup table)
+-- ====================================================================
+CREATE TABLE IF NOT EXISTS `tambah_pengguna` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `nik` int(11) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `username` (`nik`);
+-- ====================================================================
+-- INSERT DATA DEFAULT: ADMIN & PESERTA
+-- ====================================================================
+-- Password: lopolo9090
+-- Catatan: Password tersimpan PLAIN TEXT, akan otomatis di-hash saat login pertama
 
-ALTER TABLE `tambah_notulen`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+INSERT IGNORE INTO `users` 
+(`id`, `nama`, `email`, `nik`, `password`, `role`, `password_updated`, `is_first_login`) 
+VALUES 
+(1, 'Admin', 'admin@gmail.com', 123456, 'lopolo9090', 'admin', 1, 0),
+(2, 'Peserta Satu', 'peserta@gmail.com', 654321, 'lopolo9090', 'peserta', 1, 0);
 
-ALTER TABLE `users`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
-
-COMMIT;
+-- ====================================================================
+-- NOTES:
+-- ====================================================================
+-- 1. PASSWORD DEFAULT untuk peserta baru = NIK mereka
+--    Admin input NIK, password otomatis = NIK
+--    Peserta HARUS ubah password saat login pertama
+--
+-- 2. nomor_whatsapp: Format 62xxxxxxxxxx atau 08xxxxxxxxxx
+--    Akan di-normalize menjadi 62xxxxxxxxxx di backend
+--
+-- 3. log_whatsapp: Tracking setiap pengiriman WhatsApp
+--    Status: sent (berhasil), pending (antri), failed (gagal)
+--
+-- 4. password_updated: Flag untuk tahu apakah sudah ganti password
+--    0 = belum ganti, 1 = sudah ganti
+--
+-- 5. is_first_login: Flag untuk force ubah password
+--    0 = bukan login pertama, 1 = login pertama (FORCE ubah password)
+--
+-- 6. READY TO USE: Database ini bisa langsung dipakai untuk:
+--    - Fresh install (buat database baru)
+--    - Update existing (jika kolom belum ada)
+--
+-- ====================================================================

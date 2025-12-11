@@ -86,9 +86,13 @@ if (strlen($peserta_csv) > 255) {
 $created_by = $_SESSION['user_name'] ?? 'Admin';
 
 // Siapkan statement INSERT
-// Note: Lampiran is passed as $uploadedFileName (which is '' if none) because DB is NOT NULL
-$stmt = $conn->prepare("INSERT INTO tambah_notulen (judul_rapat, tanggal_rapat, isi_rapat, Lampiran, peserta, created_by) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param('ssssss', $judul, $tanggal, $isi, $uploadedFileName, $peserta_csv, $created_by);
+// Sesuaikan dengan kolom database yang benar: judul, tanggal, hasil, tindak_lanjut, peserta, status, id_user
+$userId = (int) $_SESSION['user_id'];
+$status = 'draft'; // Status default untuk notulen baru
+$tempat = ''; // Tempat kosong jika tidak ada input
+
+$stmt = $conn->prepare("INSERT INTO tambah_notulen (id_user, judul, tanggal, tempat, peserta, hasil, tindak_lanjut, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param('isssssss', $userId, $judul, $tanggal, $tempat, $peserta_csv, $isi, $uploadedFileName, $status);
 
 // Eksekusi dan berikan respons JSON sesuai hasil
 if ($stmt->execute()) {

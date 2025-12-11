@@ -6,10 +6,12 @@ require_once __DIR__ . '/../koneksi.php'; // Sertakan file koneksi (variabel $co
 header('Content-Type: application/json');
 
 // 1. CEK LOGIN & ROLE
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+$role = isset($_SESSION['user_role']) ? trim(strtolower($_SESSION['user_role'])) : '';
+
+if (!isset($_SESSION['user_id']) || $role !== 'admin') {
     // Jika tidak login atau bukan admin -> 403 Forbidden
     http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Akses ditolak.']);
+    echo json_encode(['success' => false, 'message' => 'Akses ditolak. Role: ' . $role]);
     exit;
 }
 
@@ -25,15 +27,15 @@ if ($id <= 0) {
 
 try {
     // 3. HAPUS FILE LAMPIRAN DULU
-    $stmt = $conn->prepare("SELECT Lampiran FROM tambah_notulen WHERE id = ?");
+    $stmt = $conn->prepare("SELECT tindak_lanjut FROM tambah_notulen WHERE id = ?");
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $res = $stmt->get_result(); // memerlukan mysqlnd
     $row = $res->fetch_assoc();
     $stmt->close();
 
-    if ($row && !empty($row['Lampiran'])) {
-        $file = __DIR__ . '/../file/' . $row['Lampiran'];
+    if ($row && !empty($row['tindak_lanjut'])) {
+        $file = __DIR__ . '/../file/' . $row['tindak_lanjut'];
         if (file_exists($file)) {
             unlink($file); // hapus file lampiran dari filesystem
         }

@@ -7,7 +7,7 @@ if (!isset($_SESSION['user_id'])) {
     exit;
 }
 
-// Ambil data user login
+// Ambil data pengguna yang sedang login
 require_once __DIR__ . '/../koneksi.php';
 $userId = (int) $_SESSION['user_id'];
 $stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
@@ -19,7 +19,7 @@ $stmt->close();
 $userName = $userData['nama'] ?? 'Admin';
 $userPhoto = $userData['foto'] ?? null;
 
-// Ambil pesan dan kosongkan session supaya tidak tampil lagi setelah reload
+// Ambil pesan dan kosongkan sesi supaya tidak tampil lagi setelah muat ulang
 $success_msg = $_SESSION['success_message'] ?? '';
 $error_msg = $_SESSION['error_message'] ?? '';
 
@@ -38,7 +38,7 @@ if ($error_msg)
 
     <?php if ($success_msg): ?>
         <script>
-            // json_encode buat aman untuk kutip & karakter khusus
+            // json_encode agar aman untuk kutip & karakter khusus
             window.addEventListener('DOMContentLoaded', function () {
                 alert(<?= json_encode($success_msg) ?>);
             });
@@ -191,7 +191,7 @@ if ($error_msg)
                     <div class="card-body">
 
                         <?php
-                        // Menampilkan pesan sukses (jika ada) dari session
+                        // Menampilkan pesan sukses (jika ada) dari sesi
                         if (isset($_SESSION['success_message'])) {
                             echo '<div class="alert alert-success" role="alert">';
                             echo htmlspecialchars($_SESSION['success_message']);
@@ -199,7 +199,7 @@ if ($error_msg)
                             unset($_SESSION['success_message']); // Hapus pesan setelah ditampilkan
                         }
 
-                        // Menampilkan pesan error (jika ada) dari session
+                        // Menampilkan pesan error (jika ada) dari sesi
                         if (isset($_SESSION['error_message'])) {
                             echo '<div class="alert alert-danger" role="alert">';
                             echo htmlspecialchars($_SESSION['error_message']);
@@ -222,15 +222,17 @@ if ($error_msg)
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Nik</label>
+                                <label class="form-label">NIK</label>
                                 <input type="text" id="nik" name="nik" class="form-control"
-                                    placeholder="Masukkan nik" required>
+                                    placeholder="Masukkan NIK peserta" required>
+                                <small class="text-muted d-block mt-1">⚠️ NIK akan digunakan sebagai password default. Peserta wajib mengganti password saat login pertama.</small>
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control"
-                                    placeholder="Minimal 8 karakter" minlength="8" required>
+                                <label class="form-label">Nomor WhatsApp <span class="badge bg-info">Opsional</span></label>
+                                <input type="text" id="nomor_whatsapp" name="nomor_whatsapp" class="form-control"
+                                    placeholder="Contoh: 62812345678 atau 0812345678">
+                                <small class="text-muted d-block mt-1">Jika diisi, akun peserta akan dikirim otomatis via WhatsApp</small>
                             </div>
 
                             <div class="mb-3">
@@ -261,7 +263,7 @@ if ($error_msg)
 
             if (params.get("added") === "1") {
                 showToast("Pengguna berhasil ditambahkan!", 'success');
-                // hapus param biar gak muncul lagi saat refresh
+                // hapus parameter agar tidak muncul lagi saat muat ulang
                 params.delete("added");
                 window.history.replaceState({}, "", window.location.pathname);
             }
@@ -273,7 +275,7 @@ if ($error_msg)
             }
         </script>
         <script>
-            // Logout function
+            // Fungsi Logout
             document.getElementById("logoutBtn").addEventListener("click", async function (e) {
                 e.preventDefault();
                 const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
@@ -304,7 +306,7 @@ if ($error_msg)
 
         if (!empty($_SESSION['success_message'])) {
             $msg = $_SESSION['success_message'];
-            unset($_SESSION['success_message']); // supaya tidak muncul lagi kalau reload
+            unset($_SESSION['success_message']); // supaya tidak muncul lagi jika dimuat ulang
             echo "<script>showToast('$msg', 'success');</script>";
         }
         ?>

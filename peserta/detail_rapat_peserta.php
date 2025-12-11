@@ -2,7 +2,7 @@
 session_start();
 require_once __DIR__ . '/../koneksi.php';
 
-// Cek Login & Role
+// Cek Login & Peran
 if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'peserta') {
     header("Location: ../login.php");
     exit;
@@ -15,7 +15,7 @@ if ($id_notulen <= 0) {
     exit;
 }
 
-// Mark as viewed in session
+// Tandai sebagai dilihat dalam sesi
 if (!isset($_SESSION['viewed_notulen'])) {
     $_SESSION['viewed_notulen'] = [];
 }
@@ -23,7 +23,7 @@ if (!in_array($id_notulen, $_SESSION['viewed_notulen'])) {
     $_SESSION['viewed_notulen'][] = $id_notulen;
 }
 
-// Ambil data user login (nama + foto)
+// Ambil data pengguna yang sedang login (nama + foto)
 $userId = (int) ($_SESSION['user_id'] ?? 0);
 if ($userId > 0) {
     $s = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
@@ -53,9 +53,38 @@ if (!$notulen) {
 }
 
 // Siapkan variabel yang dipakai di HTML
-$tanggal = !empty($notulen['tanggal_rapat']) ? date('d M Y', strtotime($notulen['tanggal_rapat'])) : '-';
-$lampiran = $notulen['Lampiran'] ?? '';
-$created_by = $notulen['created_by'] ?? 'Admin';
+$tanggal = !empty($notulen['tanggal']) ? date('d/m/Y', strtotime($notulen['tanggal'])) : '-';
+$lampiran = $notulen['tindak_lanjut'] ?? '';
+$created_by = $notulen['tempat'] ?? 'Admin'; // Menggunakan tempat sebagai created_by
+
+// Uraikan peserta SEBELUM menutup koneksi
+$peserta_raw = $notulen['peserta'] ?? '';
+$peserta_names = [];
+if (trim($peserta_raw) !== '') {
+    $parts = array_filter(array_map('trim', explode(',', $peserta_raw)), function($v){ return $v !== ''; });
+    $peserta_ids = array_filter(array_map('intval', $parts), function($v){ return $v > 0; });
+    
+    if (!empty($peserta_ids)) {
+        $ids_list = implode(',', $peserta_ids);
+        $sql_users = "SELECT id, nama FROM users WHERE id IN ($ids_list)";
+        $res_users = $conn->query($sql_users);
+        $map = [];
+        while ($r = $res_users->fetch_assoc()) {
+            $map[(int)$r['id']] = $r['nama'];
+        }
+        
+        foreach ($parts as $orig) {
+            if (is_numeric($orig)) {
+                $idint = (int)$orig;
+                if (isset($map[$idint])) {
+                    $peserta_names[] = $map[$idint];
+                }
+            } else {
+                $peserta_names[] = $orig;
+            }
+        }
+    }
+}
 ?>
 <!doctype html>
 <html lang="id">
@@ -69,7 +98,7 @@ $created_by = $notulen['created_by'] ?? 'Admin';
         body { 
             background-color: #fdf9f4; 
             font-family: "Poppins", sans-serif; }
-        /* ... tetapkan style kamu ... */
+        /* ... tetapkan gaya Anda ... */
         .sidebar-content { 
             min-width: 250px; 
             background: #fff; 
@@ -213,7 +242,9 @@ $created_by = $notulen['created_by'] ?? 'Admin';
 
     <div class="main-content">
         <div class="d-flex justify-content-between align-items-center mb-3">
-            <div></div>
+            <div>
+                <h4><b>Dashboard Peserta</b></h4>
+            </div>
             <div class="d-flex align-items-center gap-3">
                 <div class="text-end">
                     <span class="d-block fw-medium text-dark">Halo, <?= htmlspecialchars($sessionUserName ?? ($_SESSION['user_name'] ?? 'Peserta')) ?> 👋</span>
@@ -230,7 +261,7 @@ $created_by = $notulen['created_by'] ?? 'Admin';
         <div class="content-card">
             <div class="d-flex justify-content-between align-items-start">
                 <div>
-                    <h4><?= htmlspecialchars($notulen['judul_rapat']); ?></h4>
+                    <h4><?= htmlspecialchars($notulen['judul']); ?></h4>
                     <p class="text-muted">Dibuat oleh: <?= htmlspecialchars($created_by); ?></p>
                 </div>
                 <div class="text-end">
@@ -242,14 +273,29 @@ $created_by = $notulen['created_by'] ?? 'Admin';
             <hr>
 
             <div class="mb-4">
-            <?php if (!empty($lampiran) && file_exists(__DIR__ . '/../uploads/' . $lampiran)): ?>
-                <a href="<?= '../uploads/' . rawurlencode($lampiran) ?>" class="btn btn-outline-secondary" download>
+                <?= $notulen['hasil'] ?? ''; // Isi rapat ?>
+            </div>
+
+            <h6 class="fw-semibold mb-2">Peserta Rapat:</h6>
+            <div class="mb-3">
+                <?php if (!empty($peserta_names)): ?>
+                    <?php foreach ($peserta_names as $pn): ?>
+                        <span class="participant-badge"><i class="bi bi-person-fill me-1"></i>
+                            <?= htmlspecialchars($pn); ?></span>
+                    <?php endforeach; ?>
+                <?php else: ?>
+                    <p class="text-muted">Belum ada peserta yang tercatat.</p>
+                <?php endif; ?>
+            </div>
+
+            <h6 class="fw-semibold mb-2">Lampiran:</h6>
+            <?php if (!empty($lampiran)): ?>
+                <a href="../file/<?= htmlspecialchars($lampiran); ?>" class="btn btn-outline-success btn-sm" download>
                     <i class="bi bi-download me-2"></i>Download Lampiran
                 </a>
             <?php else: ?>
                 <p class="text-muted">Tidak ada lampiran.</p>
             <?php endif; ?>
-            </div>
 
             <div class="text-end mt-4">
                 <a href="dashboard_peserta.php" class="btn btn-back"></i> Kembali</a>
@@ -259,7 +305,7 @@ $created_by = $notulen['created_by'] ?? 'Admin';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Logout function
+        // Fungsi Logout
         function confirmLogout() {
             if (confirm("Apakah kamu yakin ingin logout?")) {
                 window.location.href = "../proses/proses_logout.php";
