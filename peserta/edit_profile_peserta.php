@@ -54,7 +54,7 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
         <div class="offcanvas-body p-0">
             <div class="sidebar-content d-flex flex-column justify-content-between h-100">
                 <div>
-                    <h4 class="fw-bold mb-4 ms-3">MENU</h4>
+                    <h4 class="fw-bold mb-4 ms-3">SmartNote</h4>
                         <ul class="nav flex-column">
                         <li>
                             <a class="nav-link" href="dashboard_peserta.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
@@ -79,7 +79,7 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
     <!-- Sidebar Desktop -->
     <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
         <div>
-            <h4 class="fw-bold mb-4 ms-3">MENU</h4>
+            <h4 class="fw-bold mb-4 ms-3">SmartNote</h4>
                 <ul class="nav flex-column">
                     <li>
                         <a class="nav-link" href="dashboard_peserta.php"><i class="bi bi-grid me-2"></i>Dashboard</a>

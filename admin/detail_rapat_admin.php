@@ -152,7 +152,7 @@ if (trim($peserta_raw) !== '') {
         <div class="offcanvas-body p-0">
             <div class="sidebar-content d-flex flex-column justify-content-between h-100">
                 <div>
-                    <h4 class="fw-bold mb-4 ms-3">MENU</h4>
+                    <h4 class="fw-bold mb-4 ms-3">SmartNote</h4>
                     <ul class="nav flex-column">
                         <li>
                             <a class="nav-link active" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
@@ -180,7 +180,7 @@ if (trim($peserta_raw) !== '') {
     <!-- Sidebar Desktop -->
     <div class="sidebar-content d-none d-lg-flex flex-column justify-content-between position-fixed">
         <div>
-            <h4 class="fw-bold mb-4 ms-3">MENU</h4>
+            <h4 class="fw-bold mb-4 ms-3">SmartNote</h4>
             <ul class="nav flex-column">
                 <li>
                     <a class="nav-link active" href="dashboard_admin.php"><i class="bi bi-grid me-2"></i>Dashboard</a>
@@ -213,11 +213,21 @@ if (trim($peserta_raw) !== '') {
                 <div class="text-end">
                     <span class="d-block fw-medium text-dark">Halo, <?= htmlspecialchars($userName) ?> 👋</span>
                 </div>
-                <img src="<?= $userPhoto ? '../file/' . htmlspecialchars($userPhoto) : '../file/user.jpg' ?>" 
-                     alt="Profile" 
-                     class="rounded-circle shadow-sm"
-                     style="width: 45px; height: 45px; object-fit: cover; border: 2px solid #fff;"
-                     onerror="this.onerror=null;this.src='../file/user.jpg';">
+                    <?php 
+                    $filePath = "../file/" . $userPhoto; 
+                    $hasPhoto = $userPhoto && file_exists($filePath);
+                    ?>
+
+                    <?php if ($hasPhoto): ?>
+                        <img src="<?= htmlspecialchars($filePath) ?>" 
+                            alt="Profile"
+                            class="rounded-circle shadow-sm"
+                            style="width: 45px; height: 45px; object-fit: cover; border: 2px solid #fff;">
+                    <?php else: ?>
+                        <!-- ICON formal (abu gelap, clean, profesional) -->
+                        <i class="bi bi-person-circle"
+                        style="font-size: 45px; color: #495057;"></i>
+                    <?php endif; ?>
             </div>
         </div>
 
