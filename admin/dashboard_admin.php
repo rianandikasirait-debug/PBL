@@ -559,7 +559,7 @@ while ($row = $result->fetch_assoc()) {
                 if (logoutBtn) {
                     logoutBtn.addEventListener("click", async function (e) {
                         e.preventDefault();
-                        const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                        const confirmed = await showConfirm("Yakin mau keluar?");
                         if (confirmed) {
                             localStorage.removeItem("adminData");
                             window.location.href = "../proses/proses_logout.php";
@@ -569,7 +569,7 @@ while ($row = $result->fetch_assoc()) {
                 if (logoutBtnMobile) {
                     logoutBtnMobile.addEventListener("click", async function (e) {
                         e.preventDefault();
-                        const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                        const confirmed = await showConfirm("Yakin mau keluar?");
                         if (confirmed) {
                             localStorage.removeItem("adminData");
                             window.location.href = "../proses/proses_logout.php";

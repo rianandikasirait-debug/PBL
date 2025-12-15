@@ -613,7 +613,7 @@ const logoutBtn = document.getElementById("logoutBtn");
 if (logoutBtn) {
     logoutBtn.addEventListener("click", async function (e) {
         e.preventDefault();
-        const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+        const confirmed = await showConfirm("Yakin mau keluar?");
         if (confirmed) {
             localStorage.removeItem("adminData");
             window.location.href = "../proses/proses_logout.php";
@@ -625,7 +625,7 @@ const logoutBtnMobile = document.getElementById("logoutBtnMobile");
 if (logoutBtnMobile) {
     logoutBtnMobile.addEventListener("click", async function (e) {
         e.preventDefault();
-        const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+        const confirmed = await showConfirm("Yakin mau keluar?");
         if (confirmed) {
             localStorage.removeItem("adminData");
             window.location.href = "../proses/proses_logout.php";

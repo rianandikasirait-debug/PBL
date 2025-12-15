@@ -378,7 +378,7 @@ if ($error_msg)
             // Fungsi Logout
             document.getElementById("logoutBtn").addEventListener("click", async function (e) {
                 e.preventDefault();
-                const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                const confirmed = await showConfirm("Yakin mau keluar?");
                 if (confirmed) {
                     localStorage.removeItem("adminData");
                     window.location.href = "../proses/proses_logout.php";
@@ -389,7 +389,7 @@ if ($error_msg)
             if (logoutBtnMobile) {
                 logoutBtnMobile.addEventListener("click", async function (e) {
                     e.preventDefault();
-                    const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                    const confirmed = await showConfirm("Yakin mau keluar?");
                     if (confirmed) {
                         localStorage.removeItem("adminData");
                         window.location.href = "../proses/proses_logout.php";

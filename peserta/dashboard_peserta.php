@@ -514,8 +514,10 @@ $stmt->close();
             });
 
             // Fungsi Logout
-            function confirmLogout() {
-                if (confirm("Apakah kamu yakin ingin logout?")) {
+            async function confirmLogout(e) {
+                e.preventDefault();
+                const confirmed = await showConfirm("Yakin mau keluar?");
+                if (confirmed) {
                     window.location.href = "../proses/proses_logout.php";
                 }
             }
@@ -558,5 +560,6 @@ $stmt->close();
             });
         });
     </script>
+    <script src="../js/admin.js"></script>
 </body>
 </html>

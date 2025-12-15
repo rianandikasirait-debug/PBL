@@ -2323,3 +2323,103 @@ body {
 }
 
 /* Refined Custom Modal Styles */ .custom-modal-overlay { background: rgba(0,0,0,0.4); backdrop-filter: blur(2px); } .custom-modal { border-radius: 16px; padding: 2.5rem 2rem; box-shadow: 0 20px 60px rgba(0,0,0,0.1); width: 90%; max-width: 420px; } .custom-modal-message { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 1.3rem; margin-bottom: 2rem; color: #1a1a1a; letter-spacing: -0.5px; } .custom-modal-buttons { gap: 12px; } .custom-modal-btn { border-radius: 8px; padding: 12px 30px; font-weight: 600; font-size: 0.95rem; text-transform: capitalize; letter-spacing: 0.3px; transition: all 0.2s ease; } .custom-modal-btn-cancel { background-color: #FFF0F0; color: #FF4D4D; } .custom-modal-btn-cancel:hover { background-color: #FFE5E5; transform: translateY(-1px); } .custom-modal-btn-confirm { background-color: #00C853; color: white; box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2); } .custom-modal-btn-confirm:hover { background-color: #00B54B; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0, 200, 83, 0.3); }
+
+/* FINAL REFINED MODAL STYLES - HIGH SPECIFICITY */
+body .custom-modal-overlay {
+    background: rgba(0, 0, 0, 0.5) !important;
+    backdrop-filter: blur(4px) !important;
+    z-index: 10000 !important;
+}
+
+body .custom-modal {
+    background: #ffffff !important;
+    border-radius: 24px !important;
+    padding: 2.5rem 3rem !important;
+    width: auto !important;
+    min-width: 380px !important;
+    max-width: 450px !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    border: none !important;
+    text-align: center !important;
+    font-family: 'Poppins', sans-serif !important;
+}
+
+body .custom-modal-message {
+    font-size: 1.35rem !important;
+    font-weight: 700 !important;
+    color: #1F2937 !important;
+    margin-bottom: 2rem !important;
+    line-height: 1.5 !important;
+    letter-spacing: -0.01em !important;
+}
+
+body .custom-modal-buttons {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 1.5rem !important;
+}
+
+body .custom-modal-btn {
+    border: none !important;
+    border-radius: 12px !important;
+    padding: 12px 36px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    cursor: pointer !important;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    min-width: 120px !important;
+}
+
+/* Tombol Tidak - Soft Red/Pink */
+body .custom-modal-btn-cancel {
+    background-color: #FFF1F2 !important;
+    color: #E11D48 !important;
+}
+
+body .custom-modal-btn-cancel:hover {
+    background-color: #FFE4E6 !important;
+    transform: translateY(-2px) !important;
+}
+
+/* Tombol Ya - Bright Green */
+body .custom-modal-btn-confirm {
+    background-color: #00C853 !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 6px -1px rgba(0, 200, 83, 0.3) !important;
+}
+
+body .custom-modal-btn-confirm:hover {
+    background-color: #00B54B !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 10px 15px -3px rgba(0, 200, 83, 0.4) !important;
+}
+
+/* FORCE OVERRIDE for Exact Match */
+.custom-modal {
+    border-radius: 20px !important;
+    padding: 2rem !important;
+    width: 400px !important;
+}
+
+.custom-modal-message {
+    font-size: 1.2rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.custom-modal-btn {
+    border-radius: 8px !important; /* Rounded Rectangle, NOT Pill */
+    padding: 10px 24px !important;
+    min-width: 100px !important;
+}
+
+/* Button Colors from Reference Image */
+.custom-modal-btn-cancel {
+    background-color: #ffdce0 !important; /* Lighter Pink */
+    color: #ff4d4d !important; /* Red text */
+}
+
+.custom-modal-btn-confirm {
+    background-color: #00c853 !important; /* Green */
+    color: #ffffff !important;
+}
+

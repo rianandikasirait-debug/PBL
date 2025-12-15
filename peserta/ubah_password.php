@@ -410,7 +410,7 @@ if ($error_msg) unset($_SESSION['error_message']);
         // Keluar
         document.getElementById('logoutBtn')?.addEventListener('click', async function(e) {
             e.preventDefault();
-            const confirmed = await showConfirm('Apakah kamu yakin ingin logout?');
+            const confirmed = await showConfirm('Yakin mau keluar?');
             if (confirmed) {
                 localStorage.removeItem("userData");
                 window.location.href = '../proses/proses_logout.php';
@@ -419,7 +419,7 @@ if ($error_msg) unset($_SESSION['error_message']);
 
         document.getElementById('logoutBtnMobile')?.addEventListener('click', async function(e) {
             e.preventDefault();
-            const confirmed = await showConfirm('Apakah kamu yakin ingin logout?');
+            const confirmed = await showConfirm('Yakin mau keluar?');
             if (confirmed) {
                 localStorage.removeItem("userData");
                 window.location.href = '../proses/proses_logout.php';

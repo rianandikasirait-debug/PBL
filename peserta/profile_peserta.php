@@ -269,8 +269,10 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
 
     <script>
         // Fungsi Logout
-        function confirmLogout() {
-            if (confirm("Apakah kamu yakin ingin logout?")) {
+        async function confirmLogout(e) {
+            e.preventDefault();
+            const confirmed = await showConfirm("Yakin mau keluar?");
+            if (confirmed) {
                 window.location.href = "../login.php";
             }
         }
@@ -284,6 +286,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="../js/admin.js"></script>
 </body>
 
 </html>

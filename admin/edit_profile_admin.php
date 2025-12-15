@@ -294,7 +294,7 @@ $foto_profile = !empty($user['foto']) ? '../file/' . $user['foto'] : '../file/us
         // Fungsi Logout
         async function confirmLogout(e) {
             e.preventDefault();
-            const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+            const confirmed = await showConfirm("Yakin mau keluar?");
             if (confirmed) {
                 window.location.href = "../proses/proses_logout.php";
             }
