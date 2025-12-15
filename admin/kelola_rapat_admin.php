@@ -136,7 +136,24 @@ if ($wa_message) {
             gap: 15px;
         }
 
-        /* ===== MAIN CONTENT ADJUSTMENT ===== */
+        /* Soft Delete Button Style */
+        .btn-soft-danger {
+            background-color: #fee2e2;
+            color: #dc3545;
+            border-radius: 8px;
+            width: 35px;
+            height: 35px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            border: none;
+        }
+        
+        .btn-soft-danger:hover {
+            background-color: #fca5a5;
+            color: #b91c1c;
+        }
         .main-content {
             margin-left: 250px;
             padding: 90px 20px 20px 20px;
@@ -254,13 +271,6 @@ if ($wa_message) {
     </div>
 
     <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h4><b>Kelola Pengguna Sistem</b></h4>
-            </div>
-            <!-- User info removed as it is in header now -->
-        </div>
-
         <div class="table-wrapper">
             <div class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap">
                 <div class="d-flex align-items-center gap-2 flex-grow-1">
@@ -269,6 +279,29 @@ if ($wa_message) {
                     </span>
                     <input type="text" id="searchInput" class="form-control search-box flex-grow-1" placeholder="Cari pengguna...">
                 </div>
+                
+                <!-- DROPDOWN ROWS PER PAGE -->
+                 <style>
+                    .form-select-green-outline {
+                        border: 1px solid #198754 !important; /* Bootstrap Success Green */
+                        color: #198754;
+                        border-radius: 8px;
+                        font-weight: 500;
+                        padding-right: 2.5rem; /* Space for arrow */
+                        width: auto;
+                    }
+                    .form-select-green-outline:focus {
+                        box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+                        border-color: #198754;
+                    }
+                </style>
+                <select id="rowsPerPage" class="form-select form-select-green-outline">
+                    <option value="5">5 data</option>
+                    <option value="10" selected>10 data</option>
+                    <option value="25">25 data</option>
+                    <option value="50">50 data</option>
+                </select>
+
                 <a href="tambah_peserta_admin.php" class="btn btn-success d-flex align-items-center gap-2">
                     <i class="bi bi-plus-circle"></i> Tambah Pengguna
                 </a>
@@ -279,13 +312,13 @@ if ($wa_message) {
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th>NO</th>
-                            <th>FOTO</th>
-                            <th>NAMA</th>
-                            <th>NIK</th>
-                            <th>EMAIL</th>
-                            <th>ROLE</th>
-                            <th>AKSI</th>
+                            <th class="text-center" style="width: 5%;">NO</th>
+                            <th style="width: 10%;">FOTO</th>
+                            <th style="width: 14%;">NAMA</th>
+                            <th style="width: 15%;">NIK</th>
+                            <th style="width: 25%;">EMAIL</th>
+                            <th class="text-center" style="width: 18%;">ROLE</th>
+                            <th class="text-center" style="width: 10%;">AKSI</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
@@ -319,10 +352,18 @@ if ($wa_message) {
         const dataInfo = document.getElementById("dataInfo");
         const searchInput = document.getElementById("searchInput");
         const alertBox = document.getElementById("alertBox");
+        const rowsPerPageSelect = document.getElementById("rowsPerPage"); // New Element
 
         let currentPage = 1;
-        const itemsPerPage = 5;
+        let itemsPerPage = parseInt(rowsPerPageSelect.value); // Dynamic Init
         let filteredUsers = Array.isArray(users) ? [...users] : [];
+
+        // Update itemsPerPage dynamically
+        rowsPerPageSelect.addEventListener('change', function() {
+            itemsPerPage = parseInt(this.value);
+            currentPage = 1; // Reset to page 1
+            renderTable(filteredUsers);
+        });
 
         // Fungsi render tabel
         function renderTable(data) {
@@ -384,7 +425,7 @@ if ($wa_message) {
                         <div class="mobile-card-inner">
                             <div class="d-flex justify-content-between align-items-start mb-2">
                                 <span class="badge-role-custom">${role}</span>
-                                <button class="btn btn-sm text-danger p-0" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
+                                <button class="btn btn-sm btn-soft-danger btn-delete" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
                                     <i class="bi bi-trash"></i>
                                 </button>
                             </div>
@@ -411,16 +452,16 @@ if ($wa_message) {
                 } else {
                      const row = `
                     <tr>
-                        <td class="align-middle">${start + index + 1}</td>
+                        <td class="align-middle text-center">${start + index + 1}</td>
                         <td class="align-middle">
                             ${photoHtml}
                         </td>
                         <td class="align-middle fw-medium">${nama}</td>
                         <td class="align-middle">${nik}</td>
                         <td class="align-middle">${email}</td>
-                        <td class="align-middle"><span class="badge-role-custom">${role}</span></td>
-                        <td class="align-middle">
-                            <button class="btn btn-sm text-danger" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
+                        <td class="align-middle text-center"><span class="badge-role-custom">${role}</span></td>
+                        <td class="align-middle text-center">
+                            <button class="btn btn-sm btn-soft-danger btn-delete" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
                                 <i class="bi bi-trash"></i>
                             </button>
                         </td>
