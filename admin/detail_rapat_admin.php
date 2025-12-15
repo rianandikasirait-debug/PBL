@@ -316,20 +316,7 @@ if (trim($peserta_raw) !== '') {
 
     <!-- Main -->
     <div class="main-content">
-        <div class="d-flex justify-content-between align-items-center mb-3">
-            <div>
-                <h4><b>Dashboard Admin</b></h4>
-            </div>
-            <div class="d-flex align-items-center gap-3">
-                <div class="text-end">
-                    <span class="d-block fw-medium text-dark">Halo, <?= htmlspecialchars($userName) ?> 👋</span>
-                </div>
-                    <?php 
-                    $filePath = "../file/" . $userPhoto; 
-                    $hasPhoto = $userPhoto && file_exists($filePath);
-                    ?>
-            </div>
-        </div>
+        <div class="d-flex justify-content-between align-items-center mb-3"></div>
 
         <!-- Detail Rapat -->
         <div class="content-card">

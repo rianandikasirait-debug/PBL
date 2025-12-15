@@ -406,7 +406,7 @@ while ($row = $result->fetch_assoc()) {
                     card.className = 'col'; // Grid column
                     
                     card.innerHTML = `
-                        <div class="highlight-card h-100 p-3 rounded-3 position-relative shadow-sm d-flex flex-column justify-content-between bg-white text-dark" style="background: #fff; cursor: pointer;" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_admin.php?id=${encodeURIComponent(item.id)}'">
+                        <div class="highlight-card interact-card h-100 p-3 rounded-3 position-relative shadow-sm d-flex flex-column justify-content-between bg-white text-dark" style="background: #fff; cursor: pointer;" onclick="if(!event.target.closest('a') && !event.target.closest('button')) window.location.href='detail_rapat_admin.php?id=${encodeURIComponent(item.id)}'">
                             
                             <!-- Header: Actions & Status Badge -->
                             <div class="d-flex justify-content-between align-items-center mb-2">

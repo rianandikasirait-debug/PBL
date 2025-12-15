@@ -2520,3 +2520,134 @@ body a#logoutBtnMobile i {
     margin-right: 8px !important; /* Ensure spacing between icon and text */
 }
 
+
+/* RESTORED ACTION BUTTON STYLING (Soft Square) - High Specificity */
+
+/* Common Button Style */
+.highlight-card .btn-sm {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 32px !important;    /* Re-applied reduced size */
+    height: 32px !important;   /* Re-applied reduced size */
+    border-radius: 8px !important;
+    transition: all 0.2s ease !important;
+}
+
+/* Edit Button (Light Green) */
+.highlight-card a[href*='edit_rapat'], 
+.highlight-card a.btn-edit {
+    background-color: #E8F5E9 !important;
+    color: #00C853 !important;
+    border: none !important;
+}
+
+.highlight-card a[href*='edit_rapat'] i, 
+.highlight-card a.btn-edit i {
+    color: #00C853 !important;
+    font-size: 0.95rem !important; /* Slightly smaller icon */
+}
+
+/* Delete Button (Light Pink) */
+.highlight-card .btn-delete,
+.highlight-card button.btn-delete {
+    background-color: #FFF0F2 !important;
+    color: #FF4D4D !important;
+    border: none !important;
+}
+
+.highlight-card .btn-delete i,
+.highlight-card button.btn-delete i {
+    color: #FF4D4D !important;
+    font-size: 0.95rem !important;
+}
+
+/* View Button (Light Blue) */
+/* Assuming detail links contain 'detail_rapat' or use btn-view class */
+.highlight-card a[href*='detail_rapat'],
+.highlight-card a.btn-view {
+    background-color: #E3F2FD !important;
+    color: #2196F3 !important;
+    border: none !important;
+}
+
+.highlight-card a[href*='detail_rapat'] i,
+.highlight-card a.btn-view i {
+    color: #2196F3 !important;
+    font-size: 0.95rem !important;
+}
+
+
+/* CARD HOVER ANIMATION - Lift Effect */
+.highlight-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    top: 0 !important;
+}
+
+.highlight-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 30px rgba(0, 200, 84, 0.2) !important; 
+    border-color: #00c854 !important;
+}
+
+
+/* CARD HOVER ANIMATION - Specific Class Only */
+.highlight-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    /* Default: No pointer, no lift */
+}
+
+/* Only cards with 'interact-card' class get the lift */
+.highlight-card.interact-card {
+    cursor: pointer !important;
+    position: relative !important;
+    top: 0 !important;
+}
+
+.highlight-card.interact-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 30px rgba(0, 200, 84, 0.2) !important; 
+    border-color: #00c854 !important;
+}
+
+
+/* RESET: Disable animation on generic highlight-card */
+.highlight-card {
+    transition: none !important;
+    transform: none !important;
+    cursor: default !important; /* Default to arrow, not hand */
+}
+
+.highlight-card:hover {
+    transform: none !important;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important; /* Keep simple shadow */
+}
+
+/* ANIMATION: Only for .interact-card (Notulen List) */
+.highlight-card.interact-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+    position: relative !important;
+    top: 0 !important;
+    border: 1px solid #e0e0e0 !important;
+}
+
+.highlight-card.interact-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 30px rgba(0, 200, 84, 0.2) !important; 
+    border-color: #00c854 !important;
+}
+
+/* Ensure mobile-card (used in Peserta script if shared) also gets it if needed, 
+   but Admin uses highlight-card. I'll add a rule for consistency just in case. */
+.mobile-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    cursor: pointer !important;
+}
+.mobile-card:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 15px 30px rgba(0, 200, 84, 0.2) !important;
+}
+
