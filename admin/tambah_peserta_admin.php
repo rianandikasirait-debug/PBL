@@ -214,7 +214,7 @@ if ($error_msg)
                 <i class="bi bi-person-circle me-2"></i> Profile
             </a>
             <a href="#" id="logoutBtn" class="text-danger">
-                <i class="bi bi-box-arrow-right me-2"></i> Keluar
+                <i class="bi bi-box-arrow-left me-2"></i> Keluar
             </a>
         </div>
     </div>
@@ -269,7 +269,7 @@ if ($error_msg)
                 </li>
                 <li class="nav-item">
                     <a id="logoutBtnMobile" class="nav-link text-danger fw-medium" href="#">
-                        <i class="bi bi-box-arrow-right me-2"></i> Keluar
+                        <i class="bi bi-box-arrow-left me-2"></i> Keluar
                     </a>
                 </li>
             </ul>

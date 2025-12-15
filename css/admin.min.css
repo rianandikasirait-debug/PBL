@@ -2423,3 +2423,100 @@ body .custom-modal-btn-confirm:hover {
     color: #ffffff !important;
 }
 
+
+/* SIDEBAR NAVIGATION REFINEMENT - High Specificity Override */
+
+/* Desktop Active State */
+body .sidebar-admin a.active {
+    background-color: #00C853 !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2) !important;
+}
+
+/* Desktop Hover State (Inactive) */
+body .sidebar-admin a:not(.active):hover {
+    background-color: #E8F5E9 !important; /* Light Green */
+    color: #00C853 !important;
+    border-radius: 10px !important;
+}
+
+/* Mobile Active State (targeting classes used in PHP) */
+body .offcanvas-body .nav-link.bg-success {
+    background-color: #00C853 !important;
+    color: #ffffff !important;
+    border-radius: 10px !important;
+    box-shadow: 0 4px 12px rgba(0, 200, 83, 0.2) !important;
+}
+
+/* Mobile Hover State (Inactive) */
+body .offcanvas-body .nav-link:not(.bg-success):hover {
+    background-color: #E8F5E9 !important;
+    color: #00C853 !important;
+    border-radius: 10px !important;
+}
+
+
+/* LOGOUT BUTTON STYLING - High Specificity */
+
+/* Default State (Image 1: Outline/Light) */
+body .sidebar-content .nav-link.text-danger, 
+body .offcanvas-body .nav-link.text-danger,
+body a#logoutBtn,
+body a#logoutBtnMobile {
+    background-color: #FFF0F2 !important;
+    color: #FF4D4D !important;
+    border: 1px solid #FF8A96 !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    transition: all 0.2s ease !important;
+    margin-top: 10px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 10px 15px !important;
+}
+
+/* Hover & Active State (Image 2: Solid Red) */
+body .sidebar-content .nav-link.text-danger:hover,
+body .sidebar-content .nav-link.text-danger:active,
+body .offcanvas-body .nav-link.text-danger:hover,
+body .offcanvas-body .nav-link.text-danger:active,
+body a#logoutBtn:hover,
+body a#logoutBtn:active,
+body a#logoutBtnMobile:hover,
+body a#logoutBtnMobile:active {
+    background-color: #FF4D4D !important;
+    color: #ffffff !important;
+    border-color: #FF4D4D !important;
+    box-shadow: 0 4px 12px rgba(255, 77, 77, 0.3) !important;
+}
+
+/* Icon Adjustment */
+body .nav-link.text-danger i,
+body a#logoutBtn i,
+body a#logoutBtnMobile i {
+    font-size: 1.1rem !important;
+    margin-right: 10px !important;
+}
+
+
+/* FORCE CENTER LOGOUT CONTENT - Ultimate Override */
+body .sidebar-content .nav-link.text-danger, 
+body .offcanvas-body .nav-link.text-danger,
+body a#logoutBtn,
+body a#logoutBtnMobile,
+.logout-btn-centered {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-align: center !important;
+    width: 100% !important;
+}
+
+body .nav-link.text-danger i,
+body a#logoutBtn i,
+body a#logoutBtnMobile i {
+    margin-right: 8px !important; /* Ensure spacing between icon and text */
+}
+
