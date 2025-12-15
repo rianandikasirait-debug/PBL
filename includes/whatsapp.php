@@ -30,8 +30,7 @@ class WhatsAppManager {
         if (empty($nomor) || empty($pesan)) {
             return [
                 'success' => false,
-                'message' => 'Nomor atau pesan kosong',
-                'log_id' => null
+                'message' => 'Nomor atau pesan kosong'
             ];
         }
         
@@ -42,15 +41,11 @@ class WhatsAppManager {
         if (!$this->isValidPhoneNumber($nomor)) {
             return [
                 'success' => false,
-                'message' => 'Format nomor WhatsApp tidak valid',
-                'log_id' => null
+                'message' => 'Format nomor WhatsApp tidak valid'
             ];
         }
         
         try {
-            // Catat ke log_whatsapp dengan status pending
-            $logId = $this->createLog($userId, $nomor, $pesan, 'pending');
-            
             // Coba kirim dengan method yang tersedia
             $sent = false;
             $errorMsg = '';
@@ -62,32 +57,22 @@ class WhatsAppManager {
             
             // 2. Fallback ke wa.me (selalu berhasil - hanya generate link)
             if (!$sent) {
-                $sent = true; // wa.me fallback selalu dianggap "sent"
-                // Kita catat bahwa ini pakai fallback
-                $this->updateLog($logId, 'sent', 'Dikirim via wa.me fallback');
-            } else {
-                // Jika sukses via API
-                $this->updateLog($logId, 'sent', null);
+                // wa.me fallback selalu dianggap "sent" karena hanya generate link
+                // Tidak ada logging database lagi per request user
+                $sent = true; 
             }
             
             return [
                 'success' => true,
-                'message' => 'Pesan WhatsApp berhasil dicatat untuk dikirim',
-                'log_id' => $logId
+                'message' => 'Pesan WhatsApp berhasil disiapkan'
             ];
             
         } catch (Exception $e) {
             error_log('WhatsApp Error: ' . $e->getMessage());
             
-            // Update log dengan status failed
-            if (isset($logId)) {
-                $this->updateLog($logId, 'failed', $e->getMessage());
-            }
-            
             return [
                 'success' => false,
-                'message' => 'Gagal mengirim pesan: ' . $e->getMessage(),
-                'log_id' => isset($logId) ? $logId : null
+                'message' => 'Gagal mengirim pesan: ' . $e->getMessage()
             ];
         }
     }
@@ -151,58 +136,6 @@ class WhatsAppManager {
     }
     
     /**
-     * Buat entry baru di log_whatsapp
-     */
-    private function createLog($userId, $nomor, $pesan, $status = 'pending') {
-        try {
-            $sql = "INSERT INTO log_whatsapp (user_id, nomor, pesan, status) VALUES (?, ?, ?, ?)";
-            $stmt = $this->conn->prepare($sql);
-            
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->conn->error);
-            }
-            
-            $stmt->bind_param("isss", $userId, $nomor, $pesan, $status);
-            
-            if (!$stmt->execute()) {
-                throw new Exception("Execute failed: " . $stmt->error);
-            }
-            
-            $logId = $this->conn->insert_id;
-            $stmt->close();
-            
-            return $logId;
-        } catch (Exception $e) {
-            error_log("Failed to create WhatsApp log: " . $e->getMessage());
-            throw $e;
-        }
-    }
-    
-    /**
-     * Update status log_whatsapp
-     */
-    private function updateLog($logId, $status, $errorMessage = null) {
-        try {
-            $sql = "UPDATE log_whatsapp SET status = ?, error_message = ? WHERE id = ?";
-            $stmt = $this->conn->prepare($sql);
-            
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->conn->error);
-            }
-            
-            $stmt->bind_param("ssi", $status, $errorMessage, $logId);
-            
-            if (!$stmt->execute()) {
-                throw new Exception("Execute failed: " . $stmt->error);
-            }
-            
-            $stmt->close();
-        } catch (Exception $e) {
-            error_log("Failed to update WhatsApp log: " . $e->getMessage());
-        }
-    }
-    
-    /**
      * Generate WhatsApp link (wa.me fallback)
      * Digunakan jika ingin generate link manual
      */
@@ -219,120 +152,26 @@ class WhatsAppManager {
     
     /**
      * Ambil log pengiriman untuk user tertentu
+     * DEPRECATED: Logging database dinonaktifkan
      */
     public function getLogByUser($userId, $limit = 10) {
-        try {
-            $sql = "SELECT * FROM log_whatsapp WHERE user_id = ? ORDER BY waktu DESC LIMIT ?";
-            $stmt = $this->conn->prepare($sql);
-            
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->conn->error);
-            }
-            
-            $stmt->bind_param("ii", $userId, $limit);
-            $stmt->execute();
-            
-            $result = $stmt->get_result();
-            $logs = [];
-            
-            while ($row = $result->fetch_assoc()) {
-                $logs[] = $row;
-            }
-            
-            $stmt->close();
-            return $logs;
-        } catch (Exception $e) {
-            error_log("Failed to fetch WhatsApp logs: " . $e->getMessage());
-            return [];
-        }
+        return [];
     }
     
     /**
      * Ambil semua log (untuk admin)
+     * DEPRECATED: Logging database dinonaktifkan
      */
     public function getAllLogs($limit = 50, $offset = 0, $status = null) {
-        try {
-            $where = "";
-            $params = [];
-            $types = "";
-            
-            if ($status) {
-                $where = "WHERE status = ?";
-                $params[] = $status;
-                $types = "s";
-            }
-            
-            $sql = "SELECT lw.*, u.nama, u.email FROM log_whatsapp lw 
-                    LEFT JOIN users u ON lw.user_id = u.id 
-                    {$where}
-                    ORDER BY lw.waktu DESC 
-                    LIMIT ? OFFSET ?";
-            
-            $stmt = $this->conn->prepare($sql);
-            
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->conn->error);
-            }
-            
-            $params[] = $limit;
-            $params[] = $offset;
-            $types .= "ii";
-            
-            $stmt->bind_param($types, ...$params);
-            $stmt->execute();
-            
-            $result = $stmt->get_result();
-            $logs = [];
-            
-            while ($row = $result->fetch_assoc()) {
-                $logs[] = $row;
-            }
-            
-            $stmt->close();
-            return $logs;
-        } catch (Exception $e) {
-            error_log("Failed to fetch all WhatsApp logs: " . $e->getMessage());
-            return [];
-        }
+        return [];
     }
     
     /**
      * Hitung total log
+     * DEPRECATED: Logging database dinonaktifkan
      */
     public function countLogs($status = null) {
-        try {
-            $where = "";
-            $params = [];
-            $types = "";
-            
-            if ($status) {
-                $where = "WHERE status = ?";
-                $params[] = $status;
-                $types = "s";
-            }
-            
-            $sql = "SELECT COUNT(*) as total FROM log_whatsapp {$where}";
-            
-            $stmt = $this->conn->prepare($sql);
-            
-            if (!$stmt) {
-                throw new Exception("Prepare failed: " . $this->conn->error);
-            }
-            
-            if ($types) {
-                $stmt->bind_param($types, ...$params);
-            }
-            
-            $stmt->execute();
-            $result = $stmt->get_result();
-            $row = $result->fetch_assoc();
-            $stmt->close();
-            
-            return $row['total'] ?? 0;
-        } catch (Exception $e) {
-            error_log("Failed to count WhatsApp logs: " . $e->getMessage());
-            return 0;
-        }
+        return 0;
     }
 }
 

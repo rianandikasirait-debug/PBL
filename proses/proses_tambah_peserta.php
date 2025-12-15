@@ -92,21 +92,12 @@ try {
             $waManager = new WhatsAppManager($conn);
             
             // Format pesan dengan informasi akun default - friendly & professional
-            $pesan = "🎉 *Selamat Datang di SmartNote!*\n\n";
-            $pesan .= "Halo! Akun Anda telah berhasil dibuat. Berikut adalah informasi login Anda:\n\n";
-            $pesan .= "━━━━━━━━━━━━━━━━━━━\n";
-            $pesan .= "👤 *Informasi Akun*\n";
-            $pesan .= "📧 Email: {$email}\n";
-            $pesan .= "🔑 Password: {$nik}\n";
-            $pesan .= "━━━━━━━━━━━━━━━━━━━\n\n";
-            $pesan .= "🔒 *Langkah Keamanan Penting:*\n";
-            $pesan .= "✅ Login ke sistem menggunakan kredensial di atas\n";
-            $pesan .= "✅ Segera ganti password dengan yang lebih aman\n";
-            $pesan .= "✅ Jangan bagikan informasi ini kepada siapapun\n\n";
-            $pesan .= "💡 *Tips:* Gunakan kombinasi huruf besar, kecil, angka, dan simbol untuk password yang kuat.\n\n";
-            $pesan .= "Jika ada pertanyaan, jangan ragu untuk menghubungi admin.\n\n";
-            $pesan .= "Salam hangat,\n";
-            $pesan .= "Tim SmartNote Notulen 📝";
+            $pesan = "\xE2\x9C\xA8 *Halo, Akun SmartNote Siap!* \xE2\x9C\xA8\n\n";
+            $pesan .= "Berikut akses masuk Anda:\n";
+            $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
+            $pesan .= "\xF0\x9F\x94\x91 Password: {$nik}\n\n";
+            $pesan .= "\xF0\x9F\x94\x92 *Mohon segera ganti password setelah login ya!*\n\n";
+            $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
             
             
             $waResult = $waManager->sendMessage($userId, $nomor_whatsapp, $pesan);
