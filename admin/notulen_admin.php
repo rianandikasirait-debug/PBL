@@ -177,6 +177,56 @@ if ($q) {
                 padding-top: 90px;
             }
         }
+        
+        /* FIX TABLE MOBILE ALIGNMENT */
+        @media (max-width: 768px) {
+            .mobile-table-fix .table-responsive {
+                display: block !important;
+                border: 0 !important;
+            }
+            .mobile-table-fix table, 
+            .mobile-table-fix thead, 
+            .mobile-table-fix tbody, 
+            .mobile-table-fix tr, 
+            .mobile-table-fix th, 
+            .mobile-table-fix td {
+                display: revert !important; /* Revert to browser default table behavior */
+            }
+            .mobile-table-fix table {
+                display: table !important;
+                width: 100% !important;
+            }
+            .mobile-table-fix thead {
+                display: table-header-group !important;
+            }
+            .mobile-table-fix tbody {
+                display: table-row-group !important;
+            }
+            .mobile-table-fix tr {
+                display: table-row !important;
+            }
+            .mobile-table-fix th, .mobile-table-fix td {
+                display: table-cell !important;
+            }
+            
+            /* FORCE DELETE BUTTON STYLE ON MOBILE */
+            .mobile-table-fix .remove-btn {
+                background-color: #dc3545 !important; /* Bootstrap Danger Red */
+                color: #ffffff !important;
+                border: 1px solid #dc3545 !important;
+                width: 30px !important;
+                height: 30px !important;
+                padding: 0 !important;
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                font-size: 0.8rem !important;
+            }
+            .mobile-table-fix .remove-btn:hover {
+                background-color: #bb2d3b !important;
+                border-color: #b02a37 !important;
+            }
+        }
     </style>
 
     <!-- Sidebar Desktop -->
@@ -324,19 +374,19 @@ if ($q) {
                 <!-- List peserta (target) -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold mb-2">Daftar Peserta:</label>
-                    <div class="card border-0 shadow-sm">
+                    <div class="card border-0 shadow-sm mobile-table-fix">
                         <div class="card-body p-0">
                             <div class="table-responsive">
-                                <table class="table table-hover mb-0 align-middle">
+                                <table class="table table-hover table-sm mb-0 align-middle" style="white-space: nowrap;">
                                     <thead class="bg-light">
-                                        <tr>
-                                            <th style="width: 50px;" class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0 text-center">No</th>
-                                            <th class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0 text-start">Nama Peserta</th>
-                                            <th style="width: 100px;" class="text-center px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Aksi</th>
+                                        <tr style="border-bottom: 1px solid #dee2e6;">
+                                            <th style="width: 50px;" class="px-2 px-md-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0 text-center">No</th>
+                                            <th class="px-2 px-md-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0 text-start">Nama Peserta</th>
+                                            <th style="width: 100px;" class="text-center px-2 px-md-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="addedContainer">
-                                        <tr id="emptyRow">
+                                        <tr id="emptyRow" style="border-bottom: 1px solid #dee2e6;">
                                             <td colspan="3" class="text-center text-muted py-5">
                                                 <div class="d-flex flex-column align-items-center">
                                                     <i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i>
@@ -561,22 +611,24 @@ if (btnSimpanPeserta) {
         addedContainer.innerHTML = '';
 
         if (selected.length === 0) {
-            addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
+            addedContainer.innerHTML = '<tr id="emptyRow" style="border-bottom: 1px solid #dee2e6 !important;"><td colspan="3" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
         } else {
             selected.forEach((cb, index) => {
                 const id = cb.value;
                 const name = cb.dataset.name;
                 
                 const tr = document.createElement('tr');
-                tr.className = 'added-item align-middle border-bottom';
-                tr.dataset.id = id; // Keep data-id for form submission logic
+                tr.className = 'added-item align-middle border-bottom'; // Use class for border
+                tr.dataset.id = id; 
+                // Removed manual style.cssText
+                
                 tr.innerHTML = `
-                    <td class="px-4 text-center text-muted small">${index + 1}</td>
-                    <td class="px-4 text-start">
+                    <td class="px-2 px-md-4 text-center text-muted small">${index + 1}</td>
+                    <td class="px-2 px-md-4 text-start">
                         ${escapeHtml(name)}
                         <!-- Hidden input for form submission if needed, though existing submit logic uses dataset.id -->
                     </td>
-                    <td class="text-center px-4">
+                    <td class="text-center px-2 px-md-4">
                         <button type="button" class="btn btn-sm btn-danger remove-btn text-white" data-id="${id}">
                             <i class="bi bi-trash"></i>
                         </button>
@@ -617,7 +669,7 @@ addedContainer.addEventListener('click', function(e) {
         });
 
         if (remainingItems.length === 0) {
-            addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
+            addedContainer.innerHTML = '<tr id="emptyRow" style="border-bottom: 1px solid #dee2e6 !important;"><td colspan="3" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
         }
     }
 });
