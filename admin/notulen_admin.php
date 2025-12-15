@@ -330,13 +330,14 @@ if ($q) {
                                 <table class="table table-hover mb-0 align-middle">
                                     <thead class="bg-light">
                                         <tr>
+                                            <th style="width: 50px;" class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">No</th>
                                             <th class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Nama Peserta</th>
                                             <th style="width: 100px;" class="text-center px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody id="addedContainer">
                                         <tr id="emptyRow">
-                                            <td colspan="2" class="text-center text-muted py-5">
+                                            <td colspan="3" class="text-center text-muted py-5">
                                                 <div class="d-flex flex-column align-items-center">
                                                     <i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i>
                                                     <small>Belum ada peserta yang ditambahkan</small>
@@ -391,7 +392,7 @@ if ($q) {
                                     id="u<?= $u['id'] ?>">
                                 <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
                                     <?= htmlspecialchars($u['nama']) ?>
-                                    <small class="text-muted d-block"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
+                                    <small class="text-muted d-block" style="text-transform: lowercase !important;"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
                                 </label>
                             </div>
                             <?php endforeach; ?>
@@ -560,9 +561,9 @@ if (btnSimpanPeserta) {
         addedContainer.innerHTML = '';
 
         if (selected.length === 0) {
-            addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="2" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
+            addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td></tr>';
         } else {
-            selected.forEach(cb => {
+            selected.forEach((cb, index) => {
                 const id = cb.value;
                 const name = cb.dataset.name;
                 
@@ -570,6 +571,7 @@ if (btnSimpanPeserta) {
                 tr.className = 'added-item align-middle';
                 tr.dataset.id = id; // Keep data-id for form submission logic
                 tr.innerHTML = `
+                    <td class="px-4 text-center text-muted small">${index + 1}</td>
                     <td>
                         ${escapeHtml(name)}
                         <!-- Hidden input for form submission if needed, though existing submit logic uses dataset.id -->

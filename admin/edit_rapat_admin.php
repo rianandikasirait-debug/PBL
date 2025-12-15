@@ -469,7 +469,7 @@ foreach ($current_participants as $pid) {
                                   <?= $isChecked ?>>
                               <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
                                   <?= htmlspecialchars($u['nama']) ?>
-                                  <small class="text-muted d-block"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
+                                  <small class="text-muted d-block" style="text-transform: lowercase !important;"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
                               </label>
                           </div>
                           <?php endforeach; ?>
