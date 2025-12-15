@@ -380,7 +380,7 @@ if ($q) {
                             row.innerHTML = `
                                 <div class="row align-items-center g-2">
                                     <div class="col-md-5">
-                                        <input type="text" name="judul_lampiran[]" class="form-control form-control-sm" placeholder="Judul Lampiran (mis. Undangan)" required>
+                                        <input type="text" name="judul_lampiran[]" class="form-control form-control-sm" placeholder="Judul Lampiran" required>
                                     </div>
                                     <div class="col-md-5">
                                         <input type="file" name="file_lampiran[]" class="form-control form-control-sm" required>
