@@ -1,0 +1,66 @@
+/* ===== FORM STYLES ===== */
+/* Extracted from edit_rapat_admin.php, notulen_admin.php, etc. */
+
+/* Button Styles */
+.btn.btn-back {
+    background-color: #00C853 !important; 
+    border-color: #00C853 !important;
+    color: #ffffff !important;
+    font-weight: bold;
+    text-decoration: none !important;
+}
+
+.btn.btn-back:hover, 
+.btn.btn-back:focus {
+    background-color: #02913f !important; 
+    border-color: #02913f !important;
+}
+
+/* Form wrapper */
+.form-wrapper {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* Lampiran row styles */
+.lampiran-row {
+    transition: all 0.2s ease;
+}
+
+.lampiran-row:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* Soft danger button */
+.btn-soft-danger {
+    background-color: #f8d7da;
+    color: #dc3545;
+    border: 1px solid #f5c2c7;
+}
+
+.btn-soft-danger:hover {
+    background-color: #dc3545;
+    color: white;
+    border-color: #dc3545;
+}
+
+/* Border dashed for buttons */
+.border-dashed {
+    border-style: dashed !important;
+}
+
+/* Save button */
+.btn-save {
+    background-color: #00C853;
+    border-color: #00C853;
+    color: white;
+    font-weight: 600;
+}
+
+.btn-save:hover {
+    background-color: #02913f;
+    border-color: #02913f;
+    color: white;
+}

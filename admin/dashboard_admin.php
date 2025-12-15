@@ -70,104 +70,10 @@ while ($row = $result->fetch_assoc()) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/admin.min.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
 </head>
 
 <body>
-    <!-- CSS Header & Sidebar -->
-    <style>
-        /* ===== SIDEBAR DESKTOP ===== */
-        .sidebar-admin {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 250px;
-            height: 100vh;
-            background: #ffffff;
-            border-right: 1px solid #e6e6e6;
-            padding: 20px 15px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            z-index: 999;
-        }
-
-        .sidebar-admin .title {
-            font-size: 22px;
-            font-weight: 700;
-            margin-bottom: 25px;
-            padding-left: 10px;
-        }
-
-        .sidebar-admin a {
-            display: block;
-            padding: 10px 15px;
-            border-radius: 8px;
-            margin-bottom: 8px;
-            color: #222;
-            font-weight: 500;
-            text-decoration: none !important;
-            display: flex;
-            align-items: center;
-        }
-
-        .sidebar-admin a:hover,
-        .sidebar-admin a.active {
-            background: #00C853;
-            color: #fff !important;
-        }
-
-        /* ===== HEADER (TOP BAR) ===== */
-        .header-admin {
-            position: fixed;
-            top: 0;
-            left: 250px;
-            right: 0;
-            height: 70px;
-            background: white;
-            border-bottom: 1px solid #e6e6e6;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 25px;
-            z-index: 998;
-        }
-
-        .header-admin .page-title {
-            font-size: 20px;
-            font-weight: 700;
-        }
-
-        .header-admin .right-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        /* ===== MAIN CONTENT ADJUSTMENT ===== */
-        .main-content {
-            margin-left: 250px;
-            padding: 90px 20px 20px 20px; /* Top padding = header height + gap */
-            min-height: 100vh;
-            background-color: #f8f9fa; /* Optional: light bg for contrast */
-        }
-
-        /* ===== MOBILE ONLY ===== */
-        @media (max-width: 991px) {
-            .sidebar-admin {
-                display: none;
-            }
-
-            .header-admin {
-                left: 0 !important;
-            }
-
-            .main-content {
-                margin-left: 0;
-                padding-top: 90px;
-            }
-        }
-    </style>
-
     <!-- Sidebar Desktop -->
     <div class="sidebar-admin d-none d-lg-flex">
         <div class="sidebar-top">

@@ -40,6 +40,7 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
 
     <link rel="stylesheet" href="../css/admin.min.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
 </head>
 
 <body>

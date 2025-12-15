@@ -1,0 +1,144 @@
+/* ===== SIDEBAR & LAYOUT STYLES ===== */
+/* Extracted from admin & peserta PHP files */
+
+/* ===== SIDEBAR DESKTOP ===== */
+.sidebar-admin {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100vh;
+    background: #ffffff;
+    border-right: 1px solid #e6e6e6;
+    padding: 20px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    z-index: 999;
+}
+
+.sidebar-admin .title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    padding-left: 10px;
+}
+
+.sidebar-admin a {
+    display: block;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    color: #222;
+    font-weight: 500;
+    text-decoration: none !important;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-admin a:hover,
+.sidebar-admin a.active {
+    background: #00C853;
+    color: #fff !important;
+}
+
+/* ===== HEADER (TOP BAR) ===== */
+.header-admin {
+    position: fixed;
+    top: 0;
+    left: 250px;
+    right: 0;
+    height: 70px;
+    background: white;
+    border-bottom: 1px solid #e6e6e6;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 25px;
+    z-index: 998;
+}
+
+.header-admin .page-title {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.header-admin .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+/* ===== MAIN CONTENT ADJUSTMENT ===== */
+.main-content {
+    margin-left: 250px;
+    padding: 90px 20px 20px 20px;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+/* ===== MOBILE ONLY ===== */
+@media (max-width: 991px) {
+    .sidebar-admin {
+        display: none;
+    }
+
+    .header-admin {
+        left: 0 !important;
+    }
+
+    .main-content {
+        margin-left: 0;
+        padding-top: 90px;
+    }
+}
+
+/* FIX TABLE MOBILE ALIGNMENT */
+@media (max-width: 768px) {
+    .mobile-table-fix .table-responsive {
+        display: block !important;
+        border: 0 !important;
+    }
+    .mobile-table-fix table, 
+    .mobile-table-fix thead, 
+    .mobile-table-fix tbody, 
+    .mobile-table-fix tr, 
+    .mobile-table-fix th, 
+    .mobile-table-fix td {
+        display: revert !important; /* Revert to browser default table behavior */
+    }
+    .mobile-table-fix table {
+        display: table !important;
+        width: 100% !important;
+    }
+    .mobile-table-fix thead {
+        display: table-header-group !important;
+    }
+    .mobile-table-fix tbody {
+        display: table-row-group !important;
+    }
+    .mobile-table-fix tr {
+        display: table-row !important;
+    }
+    .mobile-table-fix th, .mobile-table-fix td {
+        display: table-cell !important;
+    }
+
+    /* FORCE DELETE BUTTON STYLE ON MOBILE */
+    .mobile-table-fix .remove-btn {
+        background-color: #dc3545 !important; /* Bootstrap Danger Red */
+        color: #ffffff !important;
+        border: 1px solid #dc3545 !important;
+        width: 30px !important;
+        height: 30px !important;
+        padding: 0 !important;
+        display: inline-flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        font-size: 0.8rem !important;
+    }
+    .mobile-table-fix .remove-btn:hover {
+        background-color: #bb2d3b !important;
+        border-color: #b02a37 !important;
+    }
+}

@@ -39,6 +39,7 @@ $foto_profile = (!empty($foto_path) && file_exists($foto_path)) ? $foto_path : '
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" rel="stylesheet">
     <link rel="stylesheet" href="../css/admin.min.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
 
 </head>
 

@@ -62,6 +62,7 @@ if ($wa_message) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:wght@400" />
     <link rel="stylesheet" href="../css/admin.min.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
 
 </head>
 
