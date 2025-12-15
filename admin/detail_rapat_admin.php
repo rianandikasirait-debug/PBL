@@ -361,28 +361,7 @@ if (trim($peserta_raw) !== '') {
                     </div>
                     <div class="card border-0 shadow-sm" style="max-height: 400px; overflow-y: auto;">
                         <div class="list-group list-group-flush" id="participantList">
-                            <?php if (!empty($peserta_details)): ?>
-                                <?php foreach ($peserta_details as $index => $pd): ?>
-                                    <div class="list-group-item d-flex align-items-center py-3 px-3 border-bottom-0 border-top-0 border-end-0 border-start-0">
-                                        <span class="me-3 fw-bold text-secondary small" style="min-width: 25px;"><?= $index + 1 ?>.</span>
-                                        <?php if (!empty($pd['foto']) && file_exists('../file/' . $pd['foto'])): ?>
-                                            <img src="../file/<?= htmlspecialchars($pd['foto']) ?>" class="rounded-circle me-3 border" style="width: 38px; height: 38px; object-fit: cover; flex-shrink: 0;">
-                                        <?php else: ?>
-                                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;">
-                                                <i class="bi bi-person-fill text-secondary fs-5"></i>
-                                            </div>
-                                        <?php endif; ?>
-                                        <div class="flex-grow-1">
-                                            <div class="fw-medium text-dark name-text"><?= htmlspecialchars($pd['nama']); ?></div>
-                                            <?php if (!empty($pd['email'])): ?>
-                                                <div class="text-muted small" style="font-size: 0.75rem;"><?= htmlspecialchars($pd['email']); ?></div>
-                                            <?php endif; ?>
-                                        </div>
-                                    </div>
-                                <?php endforeach; ?>
-                            <?php else: ?>
-                                <div class="p-4 text-center text-muted small">Belum ada peserta yang tercatat.</div>
-                            <?php endif; ?>
+                           <!-- Data will be populated by JavaScript -->
                         </div>
                     </div>
                 </div>
@@ -458,29 +437,90 @@ if (trim($peserta_raw) !== '') {
                 }
             });
         }
-    </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="../js/admin.js"></script>
-    <script>
-        document.getElementById('searchPeserta').addEventListener('input', function() {
-            const searchText = this.value.toLowerCase();
-            const list = document.getElementById('participantList');
-            // Get direct children divs that act as items
-            const cols = list.children;
+        // Data Peserta dari PHP
+        const participants = <?= json_encode($peserta_details ?? [], JSON_UNESCAPED_UNICODE); ?>;
+        const participantList = document.getElementById('participantList');
+        const searchInput = document.getElementById('searchPeserta');
 
-            for (let i = 0; i < cols.length; i++) {
-                const item = cols[i];
-                if (item.classList.contains('list-group-item')) {
-                    const text = item.textContent || item.innerText;
-                    if (text.toLowerCase().indexOf(searchText) > -1) {
-                        item.style.removeProperty('display'); // Reset to CSS default (flex)
-                    } else {
-                        item.style.display = 'none'; // Hide
-                    }
-                }
+        // Render Function
+        function renderPeserta(data) {
+            participantList.innerHTML = '';
+
+            if (data.length === 0) {
+                participantList.innerHTML = '<div class="p-4 text-center text-muted small">Peserta tidak ditemukan.</div>';
+                return;
             }
-        });
+
+            // Render loop
+            data.forEach((pd, index) => {
+                const nama = escapeHtml(pd.nama || '');
+                const email = escapeHtml(pd.email || '');
+                // NIK tidak ditampilkan di UI tapi bisa dicari
+                
+                // Foto Logic
+                let photoHtml = '';
+                if (pd.foto && pd.foto !== '') {
+                    const photoPath = `../file/${encodeURIComponent(pd.foto)}`;
+                    photoHtml = `<img src="${photoPath}" class="rounded-circle me-3 border" style="width: 38px; height: 38px; object-fit: cover; flex-shrink: 0;" onerror="handleImageError(this)">`;
+                } else {
+                    photoHtml = `<div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>`;
+                }
+
+                const item = document.createElement('div');
+                item.className = 'list-group-item d-flex align-items-center py-3 px-3 border-bottom-0 border-top-0 border-end-0 border-start-0';
+                item.innerHTML = `
+                    <span class="me-3 fw-bold text-secondary small" style="min-width: 25px;">${index + 1}.</span>
+                    ${photoHtml}
+                    <div class="flex-grow-1">
+                        <div class="fw-medium text-dark name-text">${nama}</div>
+                        ${email ? `<div class="text-muted small" style="font-size: 0.75rem;">${email}</div>` : ''}
+                    </div>
+                `;
+                participantList.appendChild(item);
+            });
+        }
+
+        // Image Error Handler
+        function handleImageError(img) {
+            img.onerror = null;
+            const fallback = document.createElement('div');
+            fallback.className = 'bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border';
+            fallback.style.width = '38px';
+            fallback.style.height = '38px';
+            fallback.style.flexShrink = '0';
+            fallback.innerHTML = '<i class="bi bi-person-fill text-secondary fs-5"></i>';
+            img.parentNode.replaceChild(fallback, img);
+        }
+
+        // Escape HTML helper
+        function escapeHtml(text) {
+             if (!text) return '';
+             return String(text)
+                 .replace(/&/g, "&amp;")
+                 .replace(/</g, "&lt;")
+                 .replace(/>/g, "&gt;")
+                 .replace(/"/g, "&quot;")
+                 .replace(/'/g, "&#039;");
+        }
+
+        // Filter Function
+        if (searchInput) {
+            searchInput.addEventListener('input', function() {
+                const keyword = this.value.toLowerCase();
+                const filtered = participants.filter(pd => {
+                    const nama = (pd.nama || '').toLowerCase();
+                    const email = (pd.email || '').toLowerCase();
+                    const nik = (pd.nik || '').toLowerCase();
+                    
+                    return nama.includes(keyword) || email.includes(keyword) || nik.includes(keyword);
+                });
+                renderPeserta(filtered);
+            });
+        }
+
+        // Initial Render
+        renderPeserta(participants);
     </script>
 </body>
 
