@@ -337,13 +337,29 @@ if ($error_msg)
                             </div>
 
                             <hr>
-                            <div class="d-flex justify-content-between align-items-center mt-4">
-                                <a href="kelola_rapat_admin.php" class="btn btn-back">Kembali</a>
-                                <div class="d-flex gap-3">
-                                    <button type="reset" class="btn btn-secondary">Batal</button>
-                                    <button type="submit" class="btn btn-success"><i class="bi bi-person-plus me-2"></i>Tambahkan Pengguna</button>
+                            <div class="d-flex justify-content-between align-items-center mt-4 flex-wrap gap-2 mobile-action-container">
+                                <a href="kelola_rapat_admin.php" class="btn btn-back btn-sm-mobile">Kembali</a>
+                                <div class="d-flex gap-2">
+                                    <button type="reset" class="btn btn-secondary btn-sm-mobile">Batal</button>
+                                    <button type="submit" class="btn btn-success btn-sm-mobile">
+                                        <i class="bi bi-person-plus me-1"></i> <span class="d-none d-sm-inline">Tambahkan Pengguna</span><span class="d-inline d-sm-none">Simpan</span>
+                                    </button>
                                 </div>
                             </div>
+                            
+                            <style>
+                                @media (max-width: 576px) {
+                                    .btn-sm-mobile {
+                                        font-size: 0.85rem;
+                                        padding: 0.375rem 0.75rem;
+                                    }
+                                    /* Make green button smaller as requested */
+                                    .btn-success.btn-sm-mobile {
+                                        padding-left: 1rem;
+                                        padding-right: 1rem;
+                                    }
+                                }
+                            </style>
                         </form>
 
                     </div>
