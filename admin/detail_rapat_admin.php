@@ -398,7 +398,7 @@ if (trim($peserta_raw) !== '') {
         if (logoutBtn) {
             logoutBtn.addEventListener("click", async function (e) {
                 e.preventDefault();
-                const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                const confirmed = await showConfirm("Yakin mau keluar?");
                 if (confirmed) {
                     window.location.href = "../proses/proses_logout.php";
                 }
@@ -408,7 +408,7 @@ if (trim($peserta_raw) !== '') {
         if (logoutBtnMobile) {
             logoutBtnMobile.addEventListener("click", async function (e) {
                 e.preventDefault();
-                const confirmed = await showConfirm("Apakah kamu yakin ingin logout?");
+                const confirmed = await showConfirm("Yakin mau keluar?");
                 if (confirmed) {
                     window.location.href = "../proses/proses_logout.php";
                 }

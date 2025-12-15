@@ -285,15 +285,6 @@ foreach ($current_participants as $pid) {
 
   <!-- Main Content -->
     <div class="main-content">
-
-
-        <nav aria-label="breadcrumb">
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="dashboard_admin.php">Dashboard</a></li>
-                <li class="breadcrumb-item active" aria-current="page">Edit Notulen</li>
-            </ol>
-        </nav>
-
     <div class="form-wrapper">
       <h5 class="fw-semibold mb-4">Edit Notulen</h5>
 
@@ -330,8 +321,6 @@ foreach ($current_participants as $pid) {
           <select class="form-control" name="status" id="statusSelect">
             <option value="draft" <?= ($notulen['status'] ?? 'draft') === 'draft' ? 'selected' : '' ?>>Draft (Dapat Diedit)</option>
             <option value="final" <?= ($notulen['status'] ?? 'draft') === 'final' ? 'selected' : '' ?>>Final (Tidak Dapat Diedit)</option>
-            <option value="revisi" <?= ($notulen['status'] ?? 'draft') === 'revisi' ? 'selected' : '' ?>>Revisi</option>
-            <option value="selesai" <?= ($notulen['status'] ?? 'draft') === 'selesai' ? 'selected' : '' ?>>Selesai</option>
           </select>
           <small class="text-muted d-block mt-1">Ubah ke "Final" untuk mengunci notulen agar tidak dapat diedit</small>
         </div>
