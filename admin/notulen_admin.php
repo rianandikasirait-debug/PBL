@@ -21,8 +21,9 @@ $userPhoto = $userData['foto'] ?? null;
 
 // Ambil daftar peserta
 $users = [];
-$q = $conn->prepare("SELECT id, nama, email FROM users WHERE role = 'peserta' ORDER BY nama ASC");
+$q = $conn->prepare("SELECT id, nama, email FROM users WHERE role = 'peserta' AND id != ? ORDER BY nama ASC");
 if ($q) {
+    $q->bind_param("i", $userId);
     $q->execute();
     $res = $q->get_result();
     while ($r = $res->fetch_assoc()) {
@@ -290,6 +291,15 @@ if ($q) {
                     <input type="date" class="form-control" name="tanggal" id="tanggal" required>
                 </div>
 
+                <!-- Status Notulen -->
+                <div class="mb-3">
+                    <label class="form-label">Status Notulen</label>
+                    <select class="form-control" name="status" id="statusSelect">
+                        <option value="draft">Draft (Dapat Diedit)</option>
+                        <option value="final">Final (Tidak Dapat Diedit)</option>
+                    </select>
+                </div>
+
                 <!-- Isi/TinyMCE -->
                 <div class="mb-3">
                     <label class="form-label">Isi Notulen</label>
@@ -303,30 +313,40 @@ if ($q) {
                 </div>
 
                 <!-- PESERTA -->
-                <div class="mb-3">
-                    <label class="form-label">Peserta Notulen</label>
-                    <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#modalPeserta">
-                        <i class="bi bi-people-fill me-2"></i> Pilih Peserta
+                <div class="mb-4">
+                    <label class="form-label fw-semibold">Peserta Notulen</label>
+                    <button type="button" class="btn btn-outline-success w-100 py-2 border-dashed" data-bs-toggle="modal" data-bs-target="#modalPeserta" style="border-style: dashed;">
+                        <i class="bi bi-plus-circle me-2"></i> Pilih Peserta
                     </button>
+                    <small class="text-muted d-block mt-2">Klik tombol di atas untuk memilih peserta rapat.</small>
                 </div>
 
                 <!-- List peserta (target) -->
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Peserta yang Telah Ditambahkan:</label>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead class="table-light">
-                                <tr>
-                                    <th class="align-middle">Nama Peserta</th>
-                                    <th style="width: 100px;" class="text-center align-middle">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="addedContainer">
-                                <tr id="emptyRow">
-                                    <td colspan="2" class="text-center text-muted py-3">Belum ada peserta yang ditambahkan</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                <div class="mb-4">
+                    <label class="form-label fw-semibold mb-2">Daftar Peserta:</label>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-0">
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0 align-middle">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Nama Peserta</th>
+                                            <th style="width: 100px;" class="text-center px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="addedContainer">
+                                        <tr id="emptyRow">
+                                            <td colspan="2" class="text-center text-muted py-5">
+                                                <div class="d-flex flex-column align-items-center">
+                                                    <i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i>
+                                                    <small>Belum ada peserta yang ditambahkan</small>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -371,7 +391,7 @@ if ($q) {
                                     id="u<?= $u['id'] ?>">
                                 <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
                                     <?= htmlspecialchars($u['nama']) ?>
-                                    <small class="text-muted d-block"><?= htmlspecialchars($u['email']) ?></small>
+                                    <small class="text-muted d-block"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
                                 </label>
                             </div>
                             <?php endforeach; ?>

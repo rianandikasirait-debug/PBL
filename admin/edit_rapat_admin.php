@@ -40,9 +40,12 @@ if (!$notulen) {
   exit;
 }
 
-// Ambil daftar semua user untuk dropdown peserta
-$sql_users = "SELECT id, nama FROM users ORDER BY nama ASC";
-$res_users = $conn->query($sql_users);
+// Ambil daftar semua user untuk dropdown peserta (kecuali saya sendiri)
+$sql_users = "SELECT id, nama, email FROM users WHERE id != ? ORDER BY nama ASC";
+$stmt_users = $conn->prepare($sql_users);
+$stmt_users->bind_param("i", $userId);
+$stmt_users->execute();
+$res_users = $stmt_users->get_result();
 $all_users = []; // array of arrays: [ ['id'=>..,'nama'=>..], ... ]
 while ($row = $res_users->fetch_assoc()) {
   $all_users[] = $row;
@@ -363,65 +366,60 @@ foreach ($current_participants as $pid) {
         </div>
 
         <!-- Dropdown Peserta -->
-        <div class="mb-3">
-          <label class="form-label">Peserta Notulen</label>
-          <div class="dropdown w-100" data-bs-auto-close="false">
-            <button class="btn btn-save w-100 dropdown-toggle" type="button" data-bs-toggle="dropdown"
-              aria-expanded="false">
-              Pilih Peserta
-            </button>
+        <!-- Dropdown Peserta REPLACED WITH MODAL TRIGGER -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold">Peserta Notulen</label>
+          <button type="button" class="btn btn-outline-success w-100 py-2 border-dashed" data-bs-toggle="modal"
+            data-bs-target="#modalPeserta" style="border-style: dashed;">
+            <i class="bi bi-plus-circle me-2"></i> Pilih Peserta
+          </button>
+          <small class="text-muted d-block mt-2">Klik tombol di atas untuk mengubah daftar peserta.</small>
+        </div>
 
-            <div class="dropdown-menu p-3 w-100" style="max-height: 360px; overflow:auto;">
-              <div class="mb-2">
-                <input type="text" class="form-control" id="searchInput" placeholder="Cari peserta..." />
-              </div>
-
-              <div class="form-check mb-2">
-                <input class="form-check-input" type="checkbox" id="selectAll">
-                <label class="form-check-label" for="selectAll">Pilih Semua</label>
-              </div>
-
-              <hr />
-
-              <div id="notulenList">
-                <?php if (empty($all_users)): ?>
-                    <div class="text-muted">Belum ada peserta.</div>
-                <?php else: ?>
-                    <?php foreach ($all_users as $user): ?>
-                        <div class="form-check notulen-item py-1">
-                            <input class="form-check-input notulen-checkbox" type="checkbox"
-                                value="<?= htmlspecialchars($user['id']) ?>" id="u<?= $user['id'] ?>"
-                                data-name="<?= htmlspecialchars($user['nama']) ?>">
-                            <label class="form-check-label" for="u<?= $user['id'] ?>"><?= htmlspecialchars($user['nama']) ?></label>
+        <!-- List peserta (Table View) -->
+        <div class="mb-4">
+          <label class="form-label fw-semibold mb-2">Daftar Peserta:</label>
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-hover mb-0 align-middle">
+                  <thead class="bg-light">
+                    <tr>
+                      <th class="px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Nama Peserta</th>
+                      <th style="width: 100px;"
+                        class="text-center px-4 py-3 text-secondary small fw-bold text-uppercase border-bottom-0">Aksi
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="addedContainer">
+                    <?php if (empty($current_participant_items)): ?>
+                    <tr id="emptyRow">
+                      <td colspan="2" class="text-center text-muted py-5">
+                        <div class="d-flex flex-column align-items-center">
+                          <i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i>
+                          <small>Belum ada peserta yang ditambahkan</small>
                         </div>
+                      </td>
+                    </tr>
+                    <?php else: ?>
+                    <?php foreach ($current_participant_items as $item): ?>
+                    <tr class="added-item align-middle" data-id="<?= htmlspecialchars($item['id']) ?>">
+                      <td class="px-4">
+                        <?= htmlspecialchars($item['nama']) ?>
+                        <input type="hidden" name="peserta[]" value="<?= htmlspecialchars($item['id']) ?>">
+                      </td>
+                      <td class="text-center px-4">
+                        <button type="button" class="btn btn-sm btn-danger remove-btn text-white"
+                          data-id="<?= htmlspecialchars($item['id']) ?>">
+                          <i class="bi bi-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
                     <?php endforeach; ?>
-                <?php endif; ?>
+                    <?php endif; ?>
+                  </tbody>
+                </table>
               </div>
-
-              <hr />
-
-              <div class="d-flex justify-content-between">
-                <button id="clearSearchBtn" type="button" class="btn btn-sm btn-light">Reset</button>
-                <button id="addButton" type="button" class="btn btn-sm btn-success">Tambah</button>
-              </div>
-            </div>
-          </div>
-
-          <!-- List peserta -->
-          <div id="addedList" class="added-list mt-3">
-            <h6 class="fw-bold mb-2">Peserta yang Telah Ditambahkan:</h6>
-            <div id="addedContainer">
-              <!-- Pre-fill participants -->
-              <?php foreach ($current_participant_items as $item): ?>
-                <div class="added-item d-flex align-items-center gap-2 mb-2 p-2 bg-light rounded">
-                  <span class="flex-grow-1"><?= htmlspecialchars($item['nama']) ?></span>
-                  <input type="hidden" name="peserta[]" value="<?= htmlspecialchars($item['id']) ?>">
-                  <button type="button" class="btn btn-sm btn-outline-danger remove-btn">Hapus</button>
-                </div>
-              <?php endforeach; ?>
-              <?php if (empty($current_participants) || (count($current_participants) == 1 && empty($current_participants[0]))): ?>
-                <p class="text-muted">Belum ada peserta yang ditambahkan</p>
-              <?php endif; ?>
             </div>
           </div>
         </div>
@@ -432,6 +430,61 @@ foreach ($current_participants as $pid) {
         </div>
       </form>
     </div>
+  </div>
+
+  <!-- Modal Pilih Peserta -->
+  <div class="modal fade" id="modalPeserta" tabindex="-1" aria-labelledby="modalPesertaLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="modalPesertaLabel">Pilih Peserta Rapat</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                  <div class="mb-3">
+                      <input type="text" class="form-control" id="searchInput" placeholder="Cari nama peserta...">
+                  </div>
+                  
+                  <div class="d-flex justify-content-between mb-2">
+                      <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="selectAll">
+                          <label class="form-check-label" for="selectAll">Pilih Semua</label>
+                      </div>
+                      <button type="button" id="clearSearchBtn" class="btn btn-sm btn-outline-secondary">Reset Pilihan</button>
+                  </div>
+
+                  <div class="border rounded p-2" style="max-height: 300px; overflow-y: auto;">
+                      <div id="notulenList">
+                          <?php foreach ($all_users as $u): ?>
+                          <?php 
+                              // Cek apakah user sudah ada di daftar peserta saat ini
+                              $isChecked = in_array($u['id'], $current_participants ?? []) ? 'checked' : '';
+                          ?>
+                          <div class="form-check notulen-item py-1 border-bottom">
+                              <input class="form-check-input notulen-checkbox"
+                                  type="checkbox"
+                                  value="<?= $u['id'] ?>"
+                                  data-name="<?= htmlspecialchars($u['nama']) ?>"
+                                  id="u<?= $u['id'] ?>"
+                                  <?= $isChecked ?>>
+                              <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
+                                  <?= htmlspecialchars($u['nama']) ?>
+                                  <small class="text-muted d-block"><?= htmlspecialchars(strtolower($u['email'])) ?></small>
+                              </label>
+                          </div>
+                          <?php endforeach; ?>
+                      </div>
+                      <div id="noResults" class="text-center text-muted py-3 d-none">
+                          Peserta tidak ditemukan
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                  <button type="button" class="btn btn-success" id="btnSimpanPeserta">Simpan Pilihan</button>
+              </div>
+          </div>
+      </div>
   </div>
 
   <script>
@@ -547,7 +600,7 @@ foreach ($current_participants as $pid) {
         }
 
         // ===================
-        // Fungsi Dropdown Peserta
+        // Fungsi Modal Peserta (Updated)
         // ===================
         
         // Helper function untuk escape HTML
@@ -561,109 +614,127 @@ foreach ($current_participants as $pid) {
         }
         
         const searchInput = document.getElementById('searchInput');
-        const notulenItems = document.querySelectorAll('#notulenList .form-check');
+        const notulenItems = document.querySelectorAll('.notulen-item');
+        const notulenCheckboxes = document.querySelectorAll('.notulen-checkbox');
         const selectAll = document.getElementById('selectAll');
-        const addButton = document.getElementById('addButton');
+        const btnSimpanPeserta = document.getElementById('btnSimpanPeserta');
         const addedContainer = document.getElementById('addedContainer');
         const clearSearchBtn = document.getElementById('clearSearchBtn');
+        const noResults = document.getElementById('noResults');
+        const modalPeserta = document.getElementById('modalPeserta');
 
-        // Search
+        // Fitur Pencarian di Modal
         if (searchInput) {
-            searchInput.addEventListener('keyup', () => {
-                const filter = searchInput.value.toLowerCase();
+            searchInput.addEventListener('keyup', function() {
+                const filter = this.value.toLowerCase();
+                let hasVisible = false;
+
                 notulenItems.forEach(item => {
-                    const text = item.innerText.toLowerCase();
-                    item.style.display = text.includes(filter) ? '' : 'none';
+                    const label = item.querySelector('label').innerText.toLowerCase();
+                    if (label.includes(filter)) {
+                        item.classList.remove('d-none');
+                        hasVisible = true;
+                    } else {
+                        item.classList.add('d-none');
+                    }
+                });
+
+                if (noResults) {
+                    noResults.classList.toggle('d-none', hasVisible);
+                }
+            });
+        }
+
+        // Checkbox Pilih Semua
+        if (selectAll) {
+            selectAll.addEventListener('change', function () {
+                // Hanya select yang visible jika sedang search
+                const visibleCheckboxes = Array.from(notulenCheckboxes).filter(cb => !cb.closest('.notulen-item').classList.contains('d-none'));
+                
+                visibleCheckboxes.forEach(cb => {
+                    cb.checked = this.checked;
                 });
             });
         }
 
+        // Tombol Bersihkan/Reset
         if (clearSearchBtn) {
-            clearSearchBtn.addEventListener('click', () => {
+            clearSearchBtn.addEventListener('click', function () {
+                notulenCheckboxes.forEach(cb => cb.checked = false);
+                if (selectAll) selectAll.checked = false;
                 if (searchInput) {
                     searchInput.value = '';
-                    searchInput.dispatchEvent(new Event('keyup'));
+                    searchInput.dispatchEvent(new Event('keyup')); // Trigger search reset
                 }
             });
         }
 
-        // Select all
-        if (selectAll) {
-            selectAll.addEventListener('change', function() {
-                const allCheckboxes = document.querySelectorAll('.notulen-checkbox');
-                allCheckboxes.forEach(cb => cb.checked = this.checked);
-            });
-        }
-
-        // Tambah peserta
-        if (addButton) {
-            addButton.addEventListener('click', function() {
+        // Tombol Simpan Pilihan (Dari Modal)
+        if (btnSimpanPeserta) {
+            btnSimpanPeserta.addEventListener('click', function () {
                 const selected = document.querySelectorAll('.notulen-checkbox:checked');
                 
+                // Clear container
+                addedContainer.innerHTML = '';
+
                 if (selected.length === 0) {
-                    showToast('Pilih minimal 1 peserta', 'warning');
-                    return;
-                }
-
-                // Ambil peserta yang sudah ada untuk mencegah duplikat
-                const existingIds = new Set();
-                addedContainer.querySelectorAll('.added-item').forEach(item => {
-                    const inputs = item.querySelectorAll('input[type="hidden"]');
-                    inputs.forEach(inp => {
-                        existingIds.add(inp.value);
+                    addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="2" class="text-center text-muted py-5"><div class="d-flex flex-column align-items-center"><i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i><small>Belum ada peserta yang ditambahkan</small></div></td></tr>';
+                } else {
+                    selected.forEach(cb => {
+                        const id = cb.value;
+                        const name = cb.dataset.name;
+                        
+                        const tr = document.createElement('tr');
+                        tr.className = 'added-item align-middle';
+                        tr.dataset.id = id;
+                        tr.innerHTML = `
+                            <td class="px-4">
+                                ${escapeHtml(name)}
+                                <input type="hidden" name="peserta[]" value="${escapeHtml(id)}">
+                            </td>
+                            <td class="text-center px-4">
+                                <button type="button" class="btn btn-sm btn-danger remove-btn text-white" data-id="${id}">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </td>
+                        `;
+                        addedContainer.appendChild(tr);
                     });
-                });
-                
-                // Hapus pesan "Belum ada peserta" jika ada
-                const emptyMsg = addedContainer.querySelector('.text-muted');
-                if (emptyMsg && emptyMsg.innerText.includes('Belum ada peserta')) {
-                    emptyMsg.remove();
                 }
 
-                selected.forEach(cb => {
-                    const id = cb.value;
-                    // Get name from data-name attribute or label text
-                    let name = cb.dataset.name;
-                    if (!name) {
-                        const label = document.querySelector(`label[for="${cb.id}"]`);
-                        name = label ? label.textContent.trim() : 'Unknown';
-                    }
-                    
-                    // Cek jika id sudah ada untuk mencegah duplikat
-                    if (existingIds.has(id)) return;
-
-                    const div = document.createElement('div');
-                    div.className = 'added-item d-flex align-items-center gap-2 mb-2 p-2 bg-light rounded';
-                    div.innerHTML = `
-                        <span class="flex-grow-1">${escapeHtml(name)}</span>
-                        <input type="hidden" name="peserta[]" value="${escapeHtml(id)}">
-                        <button type="button" class="btn btn-sm btn-outline-danger remove-btn">Hapus</button>
-                    `;
-                    addedContainer.appendChild(div);
-                    
-                    // Uncheck setelah ditambah
-                    cb.checked = false;
-                });
-
-                if (selectAll) selectAll.checked = false;
-                // Re-bind remove events for new items (or delegate)
-                // Since simpler, we can delegate on container (but I'll keep the function approach for now or use delegation)
+                // Tutup Modal
+                const modalInstance = bootstrap.Modal.getInstance(modalPeserta);
+                if (modalInstance) {
+                    modalInstance.hide();
+                }
+                
+                showToast('Daftar peserta diperbarui', 'success');
             });
-             
-             // Event delegation for remove buttons (handles both existing and new items)
-             addedContainer.addEventListener('click', function(e) {
+        }
+
+        // Event delegation for remove buttons (Hapus dari tabel)
+        if (addedContainer) {
+            addedContainer.addEventListener('click', function(e) {
                 if (e.target.classList.contains('remove-btn') || e.target.closest('.remove-btn')) {
                     e.preventDefault();
                     const btn = e.target.classList.contains('remove-btn') ? e.target : e.target.closest('.remove-btn');
+                    const id = btn.dataset.id;
+                    
+                    // Uncheck di modal (agar sinkron jika dibuka lagi)
+                    const modalCb = document.querySelector(`.notulen-checkbox[value="${id}"]`);
+                    if (modalCb) modalCb.checked = false;
+                    
                     const item = btn.closest('.added-item');
                     if (item) item.remove();
                     
                     if (addedContainer.querySelectorAll('.added-item').length === 0) {
-                        addedContainer.innerHTML = '<p class="text-muted">Belum ada peserta yang ditambahkan</p>';
+                        addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="2" class="text-center text-muted py-5"><div class="d-flex flex-column align-items-center"><i class="bi bi-people text-secondary mb-2" style="font-size: 2rem; opacity: 0.5;"></i><small>Belum ada peserta yang ditambahkan</small></div></td></tr>';
                     }
                 }
-             });
+            });
         }
+        
+
     });
 
     // Handle pre-existing remove buttons (if any hardcoded) - Delegation above handles it
