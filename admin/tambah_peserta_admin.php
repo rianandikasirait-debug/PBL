@@ -1,33 +1,7 @@
 <?php
-session_start(); // PASTIKAN hanya 1x di file ini
-
-// Cek login
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit;
-}
-
-// Ambil data pengguna yang sedang login
-require_once __DIR__ . '/../koneksi.php';
-$userId = (int) $_SESSION['user_id'];
-$stmt = $conn->prepare("SELECT nama, foto FROM users WHERE id = ?");
-$stmt->bind_param("i", $userId);
-$stmt->execute();
-$userRes = $stmt->get_result();
-$userData = $userRes->fetch_assoc();
-$stmt->close();
-$userName = $userData['nama'] ?? 'Admin';
-$userPhoto = $userData['foto'] ?? null;
-
-// Ambil pesan dan kosongkan sesi supaya tidak tampil lagi setelah muat ulang
-$success_msg = $_SESSION['success_message'] ?? '';
-$error_msg = $_SESSION['error_message'] ?? '';
-
-if ($success_msg)
-    unset($_SESSION['success_message']);
-if ($error_msg)
-    unset($_SESSION['error_message']);
+include '../config_admin/db_tambah_peserta.php';
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 
