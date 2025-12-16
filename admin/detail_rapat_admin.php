@@ -278,23 +278,6 @@ if (trim($peserta_raw) !== '') {
                 <?= $notulen['hasil']; // Isi rapat biasanya HTML dari TinyMCE, jadi tidak di-escape ?>
             </div>
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="fw-semibold mb-0">Peserta Rapat:</h6>
-                        <div class="input-group" style="width: 300px;">
-                            <span class="input-group-text bg-white border-end-0 text-muted ps-3"><i class="bi bi-search"></i></span>
-                            <input type="text" id="searchPeserta" class="form-control border-start-0 shadow-none ps-2" placeholder="Cari peserta..." style="font-size: 0.95rem;">
-                        </div>
-                    </div>
-                    <div class="card border-0 shadow-sm" style="max-height: 400px; overflow-y: auto;">
-                        <div class="list-group list-group-flush" id="participantList">
-                           <!-- Data will be populated by JavaScript -->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <h6 class="fw-semibold mb-3">Lampiran:</h6>
             <?php if (!empty($lampiranList)): ?>
                 <?php foreach($lampiranList as $lamp): ?>
@@ -336,6 +319,23 @@ if (trim($peserta_raw) !== '') {
                     <p class="text-muted">Tidak ada lampiran.</p>
                 <?php endif; ?>
             <?php endif; ?>
+
+            <div class="row mb-3">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <h6 class="fw-semibold mb-0">Peserta Rapat:</h6>
+                        <div class="input-group" style="width: 300px;">
+                            <span class="input-group-text bg-white border-end-0 text-muted ps-3"><i class="bi bi-search"></i></span>
+                            <input type="text" id="searchPeserta" class="form-control border-start-0 shadow-none ps-2" placeholder="Cari peserta..." style="font-size: 0.95rem;">
+                        </div>
+                    </div>
+                    <div class="card border-0 shadow-sm" style="max-height: 400px; overflow-y: auto;">
+                        <div class="list-group list-group-flush" id="participantList">
+                           <!-- Data will be populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <div class="text-end mt-4">
                 <a href="dashboard_admin.php" class="btn btn-back"></i> Kembali</a>
