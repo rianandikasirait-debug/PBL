@@ -366,10 +366,10 @@ if ($wa_message) {
                     }
                 </style>
                 <select id="rowsPerPage" class="form-select form-select-green-outline">
-                    <option value="5">5 pengguna</option>
-                    <option value="10" selected>10 pengguna</option>
-                    <option value="25">25 pengguna</option>
-                    <option value="50">50 pengguna</option>
+                    <option value="5">5 Data</option>
+                    <option value="10" selected>10 Data</option>
+                    <option value="25">25 Data</option>
+                    <option value="50">50 Data</option>
                     <option value="all">Semua Data</option>
                 </select>
 
