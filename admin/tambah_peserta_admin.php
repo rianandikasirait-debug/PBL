@@ -50,8 +50,13 @@ if ($error_msg)
             window.addEventListener('DOMContentLoaded', function () {
                 alert(<?= json_encode($error_msg) ?>);
             });
+            
+        <?php endif; ?>
+    $_SESSION['success_message'] = 'Pengguna berhasil ditambahkan';
+header('Location: ../admin/kelola_rapat_admin.php');
+exit;
         </script>
-    <?php endif; ?>
+
     <!DOCTYPE html>
     <html lang="id">
 

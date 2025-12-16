@@ -65,7 +65,6 @@ if ($wa_message) {
     <link rel="stylesheet" href="../css/sidebar.css">
 
 </head>
-
 <body>
     <!-- CSS Header & Sidebar -->
     <style>
@@ -150,11 +149,12 @@ if ($wa_message) {
             transition: all 0.2s;
             border: none;
         }
-        
+
         .btn-soft-danger:hover {
             background-color: #fca5a5;
             color: #b91c1c;
         }
+
         .main-content {
             margin-left: 250px;
             padding: 90px 20px 20px 20px;
@@ -194,11 +194,11 @@ if ($wa_message) {
     <div class="sidebar-admin d-none d-lg-flex">
         <div class="sidebar-top">
             <div class="title text-success">SmartNote</div>
-            
+
             <a href="dashboard_admin.php" class="<?= basename($_SERVER['PHP_SELF']) === 'dashboard_admin.php' ? 'active' : '' ?>">
                 <i class="bi bi-grid me-2"></i> Dashboard
             </a>
-            
+
             <a href="kelola_rapat_admin.php" class="<?= basename($_SERVER['PHP_SELF']) === 'kelola_rapat_admin.php' ? 'active' : '' ?>">
                 <i class="bi bi-people me-2"></i> Kelola Pengguna
             </a>
@@ -227,7 +227,7 @@ if ($wa_message) {
                 <div class="fw-bold small"><?= htmlspecialchars($userName) ?></div>
                 <small class="text-muted" style="font-size: 0.75rem;">Administrator</small>
             </div>
-            
+
             <?php if ($userPhoto && file_exists("../file/" . $userPhoto)): ?>
                 <img src="../file/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
@@ -238,7 +238,7 @@ if ($wa_message) {
 
     <!-- Sidebar Mobile -->
     <div class="offcanvas offcanvas-start" tabindex="-1" id="sidebarMobile">
-         <div class="offcanvas-header">
+        <div class="offcanvas-header">
             <h5 class="offcanvas-title fw-bold text-success">SmartNote</h5>
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
@@ -257,7 +257,7 @@ if ($wa_message) {
             </ul>
 
             <ul class="nav flex-column gap-2 mt-4 border-top pt-3">
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link text-dark fw-medium <?= basename($_SERVER['PHP_SELF']) === 'profile.php' ? 'bg-success text-white rounded' : '' ?>" href="profile.php">
                         <i class="bi bi-person-circle me-2"></i> Profile
                     </a>
@@ -275,22 +275,25 @@ if ($wa_message) {
         <div class="table-wrapper">
             <div class="d-flex justify-content-between align-items-center mb-3 gap-2 flex-wrap">
                 <div class="d-flex align-items-center gap-2 flex-grow-1">
-                   <span class="material-symbols-rounded" style="font-size:28px;">
+                    <span class="material-symbols-rounded" style="font-size:28px;">
                         person_search
                     </span>
                     <input type="text" id="searchInput" class="form-control search-box flex-grow-1" placeholder="Cari pengguna...">
                 </div>
-                
+
                 <!-- DROPDOWN ROWS PER PAGE -->
-                 <style>
+                <style>
                     .form-select-green-outline {
-                        border: 1px solid #198754 !important; /* Bootstrap Success Green */
+                        border: 1px solid #198754 !important;
+                        /* Bootstrap Success Green */
                         color: #198754;
                         border-radius: 8px;
                         font-weight: 500;
-                        padding-right: 2.5rem; /* Space for arrow */
+                        padding-right: 2.5rem;
+                        /* Space for arrow */
                         width: auto;
                     }
+
                     .form-select-green-outline:focus {
                         box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
                         border-color: #198754;
@@ -311,7 +314,6 @@ if ($wa_message) {
                 </a>
             </div>
 
-            <div id="alertBox"></div>
             <div class="table-responsive d-none d-md-block">
                 <table class="table table-hover align-middle">
                     <thead>
@@ -338,7 +340,24 @@ if ($wa_message) {
         </div>
     </div>
     </div>
-
+    <!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="successToast"
+        class="toast align-items-center text-bg-success border-0"
+        role="alert"
+        aria-live="assertive"
+        aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                Pesan
+            </div>
+            <button type="button"
+                    class="btn-close btn-close-white me-2 m-auto"
+                    data-bs-dismiss="toast"></button>
+        </div>
+    </div>
+</div>
     <!-- DEBUG: tampilkan data JSON di source page (HTML comment) supaya bisa dicek lewat View Source -->
     <?php
     echo '<!-- DEBUG: $all_users = ' . htmlspecialchars(json_encode($all_users, JSON_UNESCAPED_UNICODE), ENT_QUOTES, 'UTF-8') . ' -->';
@@ -355,7 +374,6 @@ if ($wa_message) {
         const pagination = document.getElementById("pagination");
         const dataInfo = document.getElementById("dataInfo");
         const searchInput = document.getElementById("searchInput");
-        const alertBox = document.getElementById("alertBox");
         const rowsPerPageSelect = document.getElementById("rowsPerPage"); // New Element
 
         let currentPage = 1;
@@ -372,24 +390,24 @@ if ($wa_message) {
         // Fungsi render tabel
         function renderTable(data) {
             tbody.innerHTML = "";
-            
+
             // Tangani Daftar Mobile
             let mobileList = document.getElementById('mobileList');
             if (!mobileList) {
                 const tableResp = document.querySelector('.table-responsive');
                 if (tableResp) {
-                     mobileList = document.createElement('div');
-                     mobileList.id = 'mobileList';
-                     mobileList.className = 'mobile-list d-block d-md-none';
-                     tableResp.parentNode.insertBefore(mobileList, tableResp);
+                    mobileList = document.createElement('div');
+                    mobileList.id = 'mobileList';
+                    mobileList.className = 'mobile-list d-block d-md-none';
+                    tableResp.parentNode.insertBefore(mobileList, tableResp);
                 }
             } else {
                 mobileList.innerHTML = "";
             }
-            
+
             if (!Array.isArray(data) || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</td></tr>`;
-                 if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</div>`;
+                if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</div>`;
                 dataInfo.textContent = "";
                 pagination.innerHTML = "";
                 return;
@@ -413,9 +431,9 @@ if ($wa_message) {
                     // Jika ada foto
                     const photoPath = `../file/${encodeURIComponent(u.foto)}`;
                     photoHtml = `<img src="${photoPath}" alt="${nama}" 
-                                      class="rounded-circle shadow-sm" 
-                                      style="width: 45px; height: 45px; object-fit: cover;"
-                                      onerror="handleImageError(this)">`;
+                                    class="rounded-circle shadow-sm" 
+                                    style="width: 45px; height: 45px; object-fit: cover;"
+                                    onerror="handleImageError(this)">`;
                 } else {
                     // Default Icon
                     photoHtml = `<i class="bi bi-person-circle text-secondary" style="font-size: 45px;"></i>`;
@@ -454,7 +472,7 @@ if ($wa_message) {
                     `;
                     mobileList.appendChild(card);
                 } else {
-                     const row = `
+                    const row = `
                     <tr>
                         <td class="align-middle text-center">${start + index + 1}</td>
                         <td class="align-middle">
@@ -501,7 +519,7 @@ if ($wa_message) {
                     `<li class="page-item ${active}" >
                     <a class="page-link" href="#" onclick="changePage(${i});return false;">${i}</a>
                 </li> `
-            );
+                );
             }
 
             pagination.insertAdjacentHTML(
@@ -541,8 +559,12 @@ if ($wa_message) {
             try {
                 const response = await fetch('../proses/proses_hapus_peserta.php', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ id: id })
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: id
+                    })
                 });
 
                 const result = await response.json();
@@ -571,20 +593,20 @@ if ($wa_message) {
         }
 
         // Fungsi tampilkan notifikasi
-        function showAlert(message, type = 'success') {
-            alertBox.innerHTML = `
-                <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                    ${message}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            `;
-            setTimeout(() => {
-                const alertElement = alertBox.querySelector('.alert');
-                if (alertElement) {
-                    new bootstrap.Alert(alertElement).close();
-                }
-            }, 5000);
-        }
+    function showToast(message, type = 'success') {
+    const toastEl = document.getElementById('successToast');
+    if (!toastEl) return;
+
+    toastEl.className = `toast align-items-center text-bg-${type} border-0`;
+
+    toastEl.querySelector('.toast-body').innerHTML = `
+        <i class="bi bi-check-circle-fill me-2"></i> ${message}
+    `;
+
+    const toast = new bootstrap.Toast(toastEl, { delay: 3000 });
+    toast.show();
+}
+
 
         // Global function to handle image errors
         function handleImageError(img) {
@@ -609,14 +631,14 @@ if ($wa_message) {
         }
 
         if (searchInput) {
-            searchInput.addEventListener("input", function () {
+            searchInput.addEventListener("input", function() {
                 const keyword = this.value.toLowerCase();
                 filteredUsers = users.filter(
                     (u) =>
-                        (u.nama && String(u.nama).toLowerCase().includes(keyword)) ||
-                        (u.email && String(u.email).toLowerCase().includes(keyword)) ||
-                        (u.nik && String(u.nik).toLowerCase().includes(keyword)) ||
-                        (u.role && String(u.role).toLowerCase().includes(keyword))
+                    (u.nama && String(u.nama).toLowerCase().includes(keyword)) ||
+                    (u.email && String(u.email).toLowerCase().includes(keyword)) ||
+                    (u.nik && String(u.nik).toLowerCase().includes(keyword)) ||
+                    (u.role && String(u.role).toLowerCase().includes(keyword))
                 );
                 currentPage = 1;
                 renderTable(filteredUsers);
@@ -625,36 +647,42 @@ if ($wa_message) {
 
         // Render awal
         renderTable(filteredUsers);
-        
+        <?php if (isset($_SESSION['success_message'])): ?>
+    window.addEventListener('DOMContentLoaded', function () {
+        showToast(<?= json_encode($_SESSION['success_message']) ?>, 'success');
+    });
+<?php unset($_SESSION['success_message']); endif; ?>
+
+
         // Pendengar perubahan ukuran layar
-        window.addEventListener('resize', function () {
-             renderTable(filteredUsers);
+        window.addEventListener('resize', function() {
+            renderTable(filteredUsers);
         });
-        
+
         // Buka WhatsApp otomatis jika tautan ada
         <?php if ($wa_link): ?>
-        window.addEventListener('DOMContentLoaded', function() {
-            const waLink = <?= json_encode($wa_link) ?>;
-            const waNomor = <?= json_encode($wa_nomor) ?>;
-            
-            // Tampilkan dialog konfirmasi
-            showConfirm('Peserta berhasil ditambahkan! Buka WhatsApp untuk mengirim informasi login ke ' + waNomor + '?')
-                .then(function(confirmed) {
-                    if (confirmed) {
-                        // Buka WhatsApp di tab baru
-                        window.open(waLink, '_blank');
-                        <?php if ($wa_message): ?>
-                        showToast(<?= json_encode($wa_message) ?>, 'success');
-                        <?php endif; ?>
-                    }
-                });
-        });
+            window.addEventListener('DOMContentLoaded', function() {
+                const waLink = <?= json_encode($wa_link) ?>;
+                const waNomor = <?= json_encode($wa_nomor) ?>;
+
+                // Tampilkan dialog konfirmasi
+                showConfirm('Peserta berhasil ditambahkan! Buka WhatsApp untuk mengirim informasi login ke ' + waNomor + '?')
+                    .then(function(confirmed) {
+                        if (confirmed) {
+                            // Buka WhatsApp di tab baru
+                            window.open(waLink, '_blank');
+                            <?php if ($wa_message): ?>
+                                showToast(<?= json_encode($wa_message) ?>, 'success');
+                            <?php endif; ?>
+                        }
+                    });
+            });
         <?php endif; ?>
 
         // Handler Logout
         const logoutBtn = document.getElementById("logoutBtn");
         if (logoutBtn) {
-            logoutBtn.addEventListener("click", async function (e) {
+            logoutBtn.addEventListener("click", async function(e) {
                 e.preventDefault();
                 const confirmed = await showConfirm("Yakin mau keluar?");
                 if (confirmed) {
@@ -664,7 +692,7 @@ if ($wa_message) {
         }
         const logoutBtnMobile = document.getElementById("logoutBtnMobile");
         if (logoutBtnMobile) {
-            logoutBtnMobile.addEventListener("click", async function (e) {
+            logoutBtnMobile.addEventListener("click", async function(e) {
                 e.preventDefault();
                 const confirmed = await showConfirm("Yakin mau keluar?");
                 if (confirmed) {
