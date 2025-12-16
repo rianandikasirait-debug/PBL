@@ -141,31 +141,13 @@ $hasPhoto = ($foto && file_exists($filePath));
         }
     </style>
 
-<?php include '../Nav_Side_Bar/sidebar.php'; ?>
-
-    <!-- Header / Top Bar -->
-    <div class="header-admin">
-        <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile">
-            <i class="bi bi-list"></i>
-        </button>
-
-        <div class="page-title">Profile Admin</div>
-
-        <div class="right-section">
-            <div class="d-none d-md-block text-end me-2">
-                <div class="fw-bold small"><?= htmlspecialchars($user['nama']) ?></div>
-                <small class="text-muted" style="font-size: 0.75rem;">Administrator</small>
-            </div>
-            
-            <?php if ($hasPhoto): ?>
-                <img src="<?= htmlspecialchars($filePath) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
-            <?php else: ?>
-                <i class="bi bi-person-circle fs-2 text-secondary"></i>
-            <?php endif; ?>
-        </div>
-    </div>
-
-
+<?php 
+    $pageTitle = "Profile Admin";
+    // sidebar
+    include '../Nav_Side_Bar/sidebar.php'; 
+    // navbar
+    include '../Nav_Side_Bar/navbar.php';
+?>
 
     <!-- Main -->
     <div class="main-content">

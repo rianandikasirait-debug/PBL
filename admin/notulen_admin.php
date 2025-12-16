@@ -248,31 +248,13 @@ if ($q) {
         }
     </style>
 
-<?php include '../Nav_Side_Bar/sidebar.php'; ?>
-
-    <!-- Header / Top Bar -->
-    <div class="header-admin">
-        <button class="btn btn-outline-success d-lg-none" type="button" data-bs-toggle="offcanvas" data-bs-target="#sidebarMobile">
-            <i class="bi bi-list"></i>
-        </button>
-
-        <div class="page-title">Tambah Notulen</div>
-
-        <div class="right-section">
-            <div class="d-none d-md-block text-end me-2">
-                <div class="fw-bold small"><?= htmlspecialchars($userName) ?></div>
-                <small class="text-muted" style="font-size: 0.75rem;">Administrator</small>
-            </div>
-            
-            <?php if ($userPhoto && file_exists("../file/" . $userPhoto)): ?>
-                <img src="../file/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
-            <?php else: ?>
-                <i class="bi bi-person-circle fs-2 text-secondary"></i>
-            <?php endif; ?>
-        </div>
-    </div>
-
-
+<?php 
+    $pageTitle = "Tambah Notulen";
+    // sidebar
+    include '../Nav_Side_Bar/sidebar.php';
+    // navbar
+    include '../Nav_Side_Bar/navbar.php'; 
+?>
 
     <!-- CONTENT -->
     <div class="main-content">
