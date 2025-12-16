@@ -141,13 +141,14 @@ if ($wa_message) {
             background-color: #fee2e2;
             color: #dc3545;
             border-radius: 8px;
-            width: 35px;
-            height: 35px;
+            width: 45px; /* Slightly larger */
+            height: 45px; /* Slightly larger */
             display: inline-flex;
             align-items: center;
             justify-content: center;
             transition: all 0.2s;
             border: none;
+            font-size: 1.1rem;
         }
 
         .btn-soft-danger:hover {
@@ -187,6 +188,48 @@ if ($wa_message) {
             font-size: 0.9rem;
             display: inline-block;
             letter-spacing: 0.5px;
+        }
+
+        /* OVERRIDE MOBILE TABLE STYLES */
+        @media (max-width: 767.98px) {
+            .table-responsive {
+                display: block !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+            }
+            .table-responsive table {
+                display: table !important;
+                width: max-content !important; /* Allow table to grow beyond screen width */
+                table-layout: auto !important; /* Let columns size themselves */
+            }
+            .table-responsive table thead {
+                display: table-header-group !important;
+            }
+            .table-responsive table tbody tr {
+                display: table-row !important;
+            }
+            .table-responsive table tbody tr td, 
+            .table-responsive table thead tr th {
+                display: table-cell !important;
+                border-bottom: 1px solid #dee2e6 !important;
+                padding: 1rem 2rem !important;
+                white-space: nowrap !important;
+                vertical-align: middle !important; /* Ensure vertical centering */
+                min-width: 150px !important;
+                width: auto !important; /* Override global fixed widths */
+            }
+            /* Specific Alignment for Action and No columns */
+            .table-responsive table tbody tr td:last-child, 
+            .table-responsive table thead tr th:last-child,
+            .table-responsive table tbody tr td:first-child, 
+            .table-responsive table thead tr th:first-child {
+                text-align: center !important;
+                width: 1% !important; /* Shrink to fit content + padding */
+                white-space: nowrap !important;
+                min-width: 80px !important; /* Explicit smaller width for these columns */
+                padding-left: 1rem !important;
+                padding-right: 1rem !important;
+            }
         }
     </style>
 
@@ -311,17 +354,17 @@ if ($wa_message) {
                 </a>
             </div>
 
-            <div class="table-responsive d-none d-md-block">
+                <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
                 <table class="table table-hover align-middle">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 5%;">NO</th>
-                            <th style="width: 10%;">FOTO</th>
-                            <th style="width: 14%;">NAMA</th>
-                            <th style="width: 15%;">NIK</th>
-                            <th style="width: 25%;">EMAIL</th>
-                            <th class="text-center" style="width: 18%;">ROLE</th>
-                            <th class="text-center" style="width: 10%;">AKSI</th>
+                            <th class="text-center" style="width: 50px;">NO</th>
+                            <th>FOTO</th>
+                            <th>NAMA</th>
+                            <th>NIK</th>
+                            <th>EMAIL</th>
+                            <th class="text-center">ROLE</th>
+                            <th class="text-center">AKSI</th>
                         </tr>
                     </thead>
                     <tbody id="userTableBody">
@@ -388,23 +431,8 @@ if ($wa_message) {
         function renderTable(data) {
             tbody.innerHTML = "";
 
-            // Tangani Daftar Mobile
-            let mobileList = document.getElementById('mobileList');
-            if (!mobileList) {
-                const tableResp = document.querySelector('.table-responsive');
-                if (tableResp) {
-                    mobileList = document.createElement('div');
-                    mobileList.id = 'mobileList';
-                    mobileList.className = 'mobile-list d-block d-md-none';
-                    tableResp.parentNode.insertBefore(mobileList, tableResp);
-                }
-            } else {
-                mobileList.innerHTML = "";
-            }
-
             if (!Array.isArray(data) || data.length === 0) {
                 tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</td></tr>`;
-                if (mobileList) mobileList.innerHTML = `<div class="text-center text-muted py-4">Tidak ada data pengguna ditemukan.</div>`;
                 dataInfo.textContent = "";
                 pagination.innerHTML = "";
                 return;
@@ -413,8 +441,6 @@ if ($wa_message) {
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
             const paginatedData = data.slice(start, end);
-
-            const isMobile = window.innerWidth < 768;
 
             paginatedData.forEach((u, index) => {
                 const nama = escapeHtml(u.nama || '');
@@ -436,46 +462,13 @@ if ($wa_message) {
                     photoHtml = `<i class="bi bi-person-circle text-secondary" style="font-size: 45px;"></i>`;
                 }
 
-                if (isMobile) {
-                    if (!mobileList) return;
-                    const card = document.createElement('div');
-                    card.className = 'mobile-card';
-                    card.innerHTML = `
-                        <div class="mobile-card-inner">
-                            <div class="d-flex justify-content-between align-items-start mb-2">
-                                <span class="badge-role-custom">${role}</span>
-                                <button class="btn btn-sm btn-soft-danger btn-delete" onclick="deleteUser(${Number(u.id)}, this)" title="Hapus">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </div>
-                            
-                            <div class="d-flex align-items-center mb-3">
-                                <div class="me-3" style="width: 50px; text-align: center;">
-                                    ${photoHtml.replace('style="width: 45px; height: 45px;', 'style="width: 50px; height: 50px;')}
-                                </div>
-                                <div class="d-flex flex-column">
-                                    <div class="mobile-card-title">${nama}</div>
-                                    <small class="text-muted text-break">${email}</small>
-                                </div>
-                            </div>
-                            
-                            <div class="mobile-card-info border-top pt-2 mt-2">
-                                <div class="mobile-card-info-row d-flex align-items-center text-muted small">
-                                    <i class="bi bi-card-heading me-2"></i>
-                                    <span>NIK: ${nik}</span>
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    mobileList.appendChild(card);
-                } else {
-                    const row = `
+                const row = `
                     <tr>
-                        <td class="align-middle text-center">${start + index + 1}</td>
+                        <td class="align-middle text-center text-dark fw-bold">${start + index + 1}</td>
                         <td class="align-middle">
                             ${photoHtml}
                         </td>
-                        <td class="align-middle fw-medium">${nama}</td>
+                        <td class="align-middle fw-medium mb-1">${nama}</td>
                         <td class="align-middle">${nik}</td>
                         <td class="align-middle">${email}</td>
                         <td class="align-middle text-center"><span class="badge-role-custom">${role}</span></td>
@@ -485,9 +478,8 @@ if ($wa_message) {
                             </button>
                         </td>
                     </tr>
-                    `;
-                    tbody.insertAdjacentHTML("beforeend", row);
-                }
+                `;
+                tbody.insertAdjacentHTML("beforeend", row);
             });
 
             updatePagination(data);
@@ -651,10 +643,7 @@ if ($wa_message) {
 <?php unset($_SESSION['success_message']); endif; ?>
 
 
-        // Pendengar perubahan ukuran layar
-        window.addEventListener('resize', function() {
-            renderTable(filteredUsers);
-        });
+
 
         // Buka WhatsApp otomatis jika tautan ada
         <?php if ($wa_link): ?>
