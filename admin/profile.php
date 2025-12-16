@@ -208,7 +208,7 @@ $hasPhoto = ($foto && file_exists($filePath));
             </ul>
 
             <ul class="nav flex-column gap-2 mt-4 border-top pt-3">
-                 <li class="nav-item">
+                <li class="nav-item">
                     <a class="nav-link text-dark fw-medium <?= basename($_SERVER['PHP_SELF']) === 'profile.php' ? 'bg-success text-white rounded' : '' ?>" href="profile.php">
                         <i class="bi bi-person-circle me-2"></i> Profile
                     </a>
@@ -234,9 +234,9 @@ $hasPhoto = ($foto && file_exists($filePath));
 
                     <?php if ($hasPhoto): ?>
                         <img src="<?= htmlspecialchars($filePath) . '?v=' . time(); ?>"
-                             alt="Profile"
-                             class="profile-avatar-modern"
-                             style="object-fit: cover;">
+                            alt="Profile"
+                            class="profile-avatar-modern"
+                            style="object-fit: cover;">
                     <?php else: ?>
                         <i class="bi bi-person-circle"
                            style="font-size: 95px; color: #495057;"></i>
@@ -290,9 +290,14 @@ $hasPhoto = ($foto && file_exists($filePath));
         document.getElementById("logoutBtn").addEventListener("click", confirmLogout);
         document.getElementById("logoutBtnMobile").addEventListener("click", confirmLogout);
     </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="../js/admin.js"></script>
-
+    <?php if (isset($_SESSION['success_message'])): ?>
+        <script>
+            window.addEventListener('DOMContentLoaded', function () {
+                showToast(<?= json_encode($_SESSION['success_message']) ?>, 'success');
+            });
+        </script>
+<?php unset($_SESSION['success_message']); endif; ?>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
