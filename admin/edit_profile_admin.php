@@ -24,6 +24,14 @@ if (!$user) {
     exit;
 }
 
+//update edit profile
+if ($updateBerhasil) {
+    $_SESSION['success_message'] = 'Profil berhasil diperbarui';
+    header('Location: ../admin/profile.php');
+    exit;
+}
+
+
 $foto_path = !empty($user['foto']) ? '../file/' . $user['foto'] : '';
 $foto_profile = (!empty($foto_path) && file_exists($foto_path)) ? $foto_path : '';
 ?>
