@@ -35,6 +35,31 @@ include '../config_admin/db_detail_rapat_admin.php';
           background-color: #02913f !important; 
           border-color: #02913f !important;
         }
+        /* Search peserta group styling */
+        .search-peserta-group {
+          border: 1.5px solid #dee2e6;
+          border-radius: 8px;
+          overflow: hidden;
+          transition: border-color 0.2s ease;
+        }
+        .search-peserta-group:focus-within {
+          border-color: #00C853;
+        }
+        .search-peserta-group:focus-within .bi-search {
+          color: #00C853;
+        }
+        /* Section title with accent border */
+        .section-title {
+          border-left: 4px solid #00C853;
+          padding-left: 12px;
+          margin-bottom: 1rem;
+          font-weight: 600;
+        }
+        .section-divider {
+          border: 0;
+          border-top: 1px solid #e9ecef;
+          margin: 1.5rem 0;
+        }
     </style>
 </head>
 
@@ -167,6 +192,8 @@ include '../config_admin/db_detail_rapat_admin.php';
                 <?= $notulen['hasil']; // Isi rapat biasanya HTML dari TinyMCE, jadi tidak di-escape ?>
             </div>
 
+            <hr>
+
             <h6 class="fw-semibold mb-3">Lampiran:</h6>
             <?php if (!empty($lampiranList)): ?>
                 <?php foreach($lampiranList as $lamp): ?>
@@ -209,19 +236,17 @@ include '../config_admin/db_detail_rapat_admin.php';
                 <?php endif; ?>
             <?php endif; ?>
 
-            <div class="row mb-3">
-                <div class="col-12">
-                    <div class="d-flex justify-content-between align-items-center mb-2">
-                        <h6 class="fw-semibold mb-0">Peserta Rapat:</h6>
-                        <div class="input-group" style="width: 300px;">
-                            <span class="input-group-text bg-white border-end-0 text-muted ps-3"><i class="bi bi-search"></i></span>
-                            <input type="text" id="searchPeserta" class="form-control border-start-0 shadow-none ps-2" placeholder="Cari peserta..." style="font-size: 0.95rem;">
-                        </div>
+            <div class="card border-0 shadow-sm mb-3">
+                <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+                    <h6 class="fw-semibold mb-0"><i class="bi bi-people-fill me-2 text-success"></i>Peserta Rapat</h6>
+                    <div class="input-group search-peserta-group" style="width: 280px;">
+                        <span class="input-group-text bg-white border-0 text-muted ps-3"><i class="bi bi-search"></i></span>
+                        <input type="text" id="searchPeserta" class="form-control border-0 shadow-none ps-2" placeholder="Cari peserta..." style="font-size: 0.9rem;">
                     </div>
-                    <div class="card border-0 shadow-sm" style="max-height: 400px; overflow-y: auto;">
-                        <div class="list-group list-group-flush" id="participantList">
-                           <!-- Data will be populated by JavaScript -->
-                        </div>
+                </div>
+                <div class="card-body p-0" style="max-height: 350px; overflow-y: auto;">
+                    <div class="list-group list-group-flush" id="participantList">
+                       <!-- Data will be populated by JavaScript -->
                     </div>
                 </div>
             </div>
