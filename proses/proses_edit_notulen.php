@@ -67,6 +67,11 @@ if (isset($_FILES['file_lampiran']) && isset($_POST['judul_lampiran'])) {
     $stmtLampiran = $conn->prepare("INSERT INTO tb_lampiran (id_notulen, judul_lampiran, file_lampiran) VALUES (?, ?, ?)");
     
     for ($i = 0; $i < $count; $i++) {
+        // Validation: Skip input if no file selected (empty name)
+        if (empty($files['name'][$i])) {
+            continue;
+        }
+
         if ($files['error'][$i] === UPLOAD_ERR_OK) {
             $tmp = $files['tmp_name'][$i];
             $originalName = basename($files['name'][$i]);
