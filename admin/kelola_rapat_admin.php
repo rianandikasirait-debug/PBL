@@ -232,6 +232,9 @@ if ($wa_message) {
                 padding-right: 1rem !important;
             }
         }
+        #rowsPerPage {
+            color: #495057;
+        }
     </style>
 
     <!-- Sidebar Desktop -->
