@@ -258,7 +258,7 @@ $hasPhoto = ($foto && file_exists($filePath));
                     </div>
 
                     <div class="info-item">
-                        <span class="info-label">Nomor Induk (NIK/NIP)</span>
+                        <span class="info-label">Nomor Induk (NIK)</span>
                         <span class="info-value"><?= !empty($user['nik']) ? htmlspecialchars($user['nik']) : '-'; ?></span>
                     </div>
 

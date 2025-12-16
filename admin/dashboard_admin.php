@@ -71,6 +71,11 @@ while ($row = $result->fetch_assoc()) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
     <link rel="stylesheet" href="../css/admin.min.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <style>
+    #filterPembuat {
+        padding-left: 2px !important;
+    }
+</style>
 </head>
 
 <body>

@@ -295,6 +295,9 @@ if ($wa_message) {
                         box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
                         border-color: #198754;
                     }
+                    #rowsPerPage {
+                         color: #495057;
+                    }
                 </style>
                 <select id="rowsPerPage" class="form-select form-select-green-outline">
                     <option value="5">5 data</option>
