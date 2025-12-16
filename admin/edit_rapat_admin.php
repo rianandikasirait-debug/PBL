@@ -102,7 +102,7 @@ foreach ($current_participants as $pid) {
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-  <script src="https://cdn.tiny.cloud/1/cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5/tinymce/6/tinymce.min.js"
+  <script src="https://cdn.tiny.cloud/1/mnqdvqiep8rrq6ozk4hrfn9d8734oxaqe4cyps522sfrd8y3/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
   <link rel="stylesheet" href="../css/admin.min.css">
   <link rel="stylesheet" href="../css/sidebar.css">
@@ -570,7 +570,7 @@ foreach ($current_participants as $pid) {
       selector: '#isi',
       height: 350,
       menubar: false,
-      api_key: 'cl3yw8j9ej8nes9mctfudi2r0jysibdrbn3y932667p04jg5',
+      api_key: 'mnqdvqiep8rrq6ozk4hrfn9d8734oxaqe4cyps522sfrd8y3',
       plugins: "lists link table code",
       toolbar: "undo redo | bold italic underline | bullist numlist | link",
       readonly: <?= ($notulen['status'] ?? 'draft') === 'final' ? 'true' : 'false' ?>
