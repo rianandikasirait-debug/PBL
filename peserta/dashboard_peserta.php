@@ -271,10 +271,13 @@ $stmt->close();
         <div class="row g-3 mb-4 row-cols-1 row-cols-md-2">
             <!-- Card 1: Total Notulen -->
             <div class="col">
-                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex flex-column justify-content-center align-items-center text-center bg-white" style="border: 1px solid #198754;">
-                    <h6 class="text-secondary mb-2">Total Notulen</h6>
-                    <h2 id="totalNotulenCard" class="fw-bold text-success mb-0"><?php echo $totalNotulen; ?></h2>
-                    <small class="text-muted">Dokumen</small>
+                <div class="highlight-card h-100 p-3 rounded-3 border-success shadow-sm d-flex align-items-center justify-content-center gap-3 bg-white" style="border: 1px solid #198754;">
+                    <i class="bi bi-file-earmark-text text-success" style="font-size: 3.5rem;"></i>
+                    <div class="text-center">
+                        <h6 class="text-secondary mb-1">Total Notulen</h6>
+                        <h2 id="totalNotulenCard" class="fw-bold text-success mb-0"><?php echo $totalNotulen; ?></h2>
+                        <small class="text-muted">Dokumen</small>
+                    </div>
                 </div>
             </div>
 
