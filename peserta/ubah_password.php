@@ -199,8 +199,8 @@ if ($error_msg) unset($_SESSION['error_message']);
                 <small class="text-muted" style="font-size: 0.75rem;">Peserta</small>
             </div>
             
-            <?php if (!empty($userPhoto) && file_exists('../file/' . $userPhoto)): ?>
-                <img src="../file/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+            <?php if (!empty($userPhoto) && file_exists('../uploads/' . $userPhoto)): ?>
+                <img src="../uploads/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
                 <i class="bi bi-person-circle fs-2 text-secondary"></i>
             <?php endif; ?>

@@ -45,11 +45,11 @@ if (isset($_FILES['file_lampiran']) && $_FILES['file_lampiran']['error'] === UPL
 
     // Generate Safe Filename
     $safeName = time() . '_' . preg_replace('/[^a-z0-9\-_.]/i', '_', $originalName);
-    $destination = __DIR__ . '/../file/' . $safeName;
+    $destination = __DIR__ . '/../uploads/' . $safeName;
 
     if (move_uploaded_file($tmpName, $destination)) {
         // Delete old file if exists
-        $oldFile = __DIR__ . '/../file/' . $existing['file_lampiran'];
+        $oldFile = __DIR__ . '/../uploads/' . $existing['file_lampiran'];
         if (file_exists($oldFile)) {
             @unlink($oldFile);
         }

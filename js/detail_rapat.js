@@ -71,7 +71,7 @@ document.addEventListener("DOMContentLoaded", function () {
             // Foto Logic
             let photoHtml = '';
             if (pd.foto && pd.foto !== '') {
-                const photoPath = `../file/${encodeURIComponent(pd.foto)}`;
+                const photoPath = `../uploads/${encodeURIComponent(pd.foto)}`;
                 photoHtml = `<img src="${photoPath}" class="rounded-circle me-3 border" style="width: 38px; height: 38px; object-fit: cover; flex-shrink: 0;" onerror="handleImageError(this)">`;
             } else {
                 photoHtml = `<div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>`;

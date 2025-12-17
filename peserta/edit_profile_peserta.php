@@ -24,7 +24,7 @@ if (!$user) {
     exit;
 }
 
-$foto_path = !empty($user['foto']) ? '../file/' . $user['foto'] : '';
+$foto_path = !empty($user['foto']) ? '../uploads/' . $user['foto'] : '';
 $foto_profile = (!empty($foto_path) && file_exists($foto_path)) ? $foto_path : '';
 ?>
 <!DOCTYPE html>
@@ -173,8 +173,8 @@ $foto_profile = (!empty($foto_path) && file_exists($foto_path)) ? $foto_path : '
                 <small class="text-muted" style="font-size: 0.75rem;">Peserta</small>
             </div>
             
-            <?php if (!empty($user['foto']) && file_exists('../file/' . $user['foto'])): ?>
-                <img src="../file/<?= htmlspecialchars($user['foto']) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+            <?php if (!empty($user['foto']) && file_exists('../uploads/' . $user['foto'])): ?>
+                <img src="../uploads/<?= htmlspecialchars($user['foto']) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
                 <i class="bi bi-person-circle fs-2 text-secondary"></i>
             <?php endif; ?>

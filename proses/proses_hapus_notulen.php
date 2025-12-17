@@ -35,7 +35,7 @@ try {
     $stmt->close();
 
     if ($row && !empty($row['tindak_lanjut'])) {
-        $file = __DIR__ . '/../file/' . $row['tindak_lanjut'];
+        $file = __DIR__ . '/../uploads/' . $row['tindak_lanjut'];
         if (file_exists($file)) {
             unlink($file); // hapus file lampiran dari filesystem
         }

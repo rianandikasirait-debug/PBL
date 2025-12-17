@@ -95,7 +95,7 @@ if ($stmt->execute()) {
                 if (empty($title)) $title = $originalName; // Fallback title
                 
                 $safeName = time() . '_' . $i . '_' . preg_replace('/[^a-z0-9\-_.]/i', '_', $originalName);
-                $dest = __DIR__ . '/../file/' . $safeName;
+                $dest = __DIR__ . '/../uploads/' . $safeName;
                 
                 if (move_uploaded_file($tmp, $dest)) {
                     $stmtLampiran->bind_param('iss', $notulenId, $title, $safeName);
@@ -123,16 +123,15 @@ if ($stmt->execute()) {
             $participants = $stmtParticipants->get_result();
             
             // Format pesan WhatsApp
-            $pesanTemplate = "📋 *Undangan Rapat - SmartNote*\n\n";
-            $pesanTemplate .= "Anda diundang untuk menghadiri rapat:\n";
-            $pesanTemplate .= "📌 Judul: {$judul}\n";
-            $pesanTemplate .= "📅 Tanggal: " . date('d F Y', strtotime($tanggal)) . "\n\n";
-            $pesanTemplate .= "Silakan cek detail lengkap di aplikasi SmartNote.\n\n";
-            $pesanTemplate .= "_Terima kasih atas partisipasinya_ 🙏";
+            $pesan = "\xE2\x9C\xA8 *Halo, Akun SmartNote Siap!* \xE2\x9C\xA8\n\n";
+            $pesan .= "Berikut akses masuk Anda:\n";
+            $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
+            $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
+            $pesan .= "\xF0\x9F\x94\x92 *Password default Anda adalah NIK: {$nik}. Mohon segera ganti password setelah login ya!*\n\n";
+            $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
             
             // Kirim ke setiap peserta
             while ($participant = $participants->fetch_assoc()) {
-                $pesan = str_replace('{nama}', $participant['nama'], $pesanTemplate);
                 $result = $waManager->sendMessage(
                     $participant['id'],
                     $participant['nomor_whatsapp'],

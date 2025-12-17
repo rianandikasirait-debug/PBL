@@ -31,8 +31,8 @@ if (!$displayPhoto && isset($_SESSION['foto'])) $displayPhoto = $_SESSION['foto'
             <small class="text-muted" style="font-size: 0.75rem;">Notulis</small>
         </div>
         
-        <?php if ($displayPhoto && file_exists("../file/" . $displayPhoto)): ?>
-            <img src="../file/<?= htmlspecialchars($displayPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+        <?php if ($displayPhoto && file_exists("../uploads/" . $displayPhoto)): ?>
+            <img src="../uploads/<?= htmlspecialchars($displayPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
         <?php else: ?>
             <i class="bi bi-person-circle fs-2 text-secondary"></i>
         <?php endif; ?>

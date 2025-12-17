@@ -28,6 +28,6 @@ if (!$user) {
 
 // Buat variabel foto
 $foto = $user['foto'] ?? null;
-$filePath = "../file/" . $foto;
+$filePath = "../uploads/" . $foto;
 $hasPhoto = ($foto && file_exists($filePath));
 ?>

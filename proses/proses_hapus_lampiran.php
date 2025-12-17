@@ -38,7 +38,7 @@ if ($lampiran) {
     
     if ($delStmt->execute()) {
         // Delete physical file
-        $filePath = __DIR__ . '/../file/' . $lampiran['file_lampiran'];
+        $filePath = __DIR__ . '/../uploads/' . $lampiran['file_lampiran'];
         if (file_exists($filePath)) {
             unlink($filePath);
         }

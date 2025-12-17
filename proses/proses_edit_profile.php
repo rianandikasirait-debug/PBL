@@ -39,8 +39,8 @@ if (isset($_POST['delete_photo']) && $_POST['delete_photo'] == '1') {
     $res_old = $stmt_old->get_result();
     if ($row_old = $res_old->fetch_assoc()) {
         $old_photo = $row_old['foto'];
-        if ($old_photo && file_exists(__DIR__ . '/../file/' . $old_photo)) {
-            unlink(__DIR__ . '/../file/' . $old_photo);
+        if ($old_photo && file_exists(__DIR__ . '/../uploads/' . $old_photo)) {
+            unlink(__DIR__ . '/../uploads/' . $old_photo);
         }
     }
     $stmt_old->close();
@@ -109,7 +109,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] != UPLOAD_ERR_NO_FILE) {
     // Buat nama file aman
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
     $namaFile = time() . "_" . uniqid() . "." . $ext; // Lebih unik
-    $target_dir = __DIR__ . '/../file/';
+    $target_dir = __DIR__ . '/../uploads/';
 
     // Pindahkan file
     if (move_uploaded_file($file['tmp_name'], $target_dir . $namaFile)) {

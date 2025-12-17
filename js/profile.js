@@ -89,7 +89,7 @@ if (editProfileForm) {
     // Handle Delete Photo
     if (btnDeletePhoto) {
         btnDeletePhoto.addEventListener('click', function () {
-            modalProfilePreview.src = '../file/user.jpg'; // Reset to default
+            modalProfilePreview.src = '../uploads/user.jpg'; // Reset to default
             modalFotoInput.value = ''; // Clear file input
             if (deletePhotoInput) deletePhotoInput.value = '1'; // Set erase flag
             if (deletePhotoContainer) deletePhotoContainer.style.display = 'none';

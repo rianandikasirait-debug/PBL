@@ -51,7 +51,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let photoHtml = '';
             if (u.foto && u.foto !== '') {
                 // Jika ada foto
-                const photoPath = `../file/${encodeURIComponent(u.foto)}`;
+                const photoPath = `../uploads/${encodeURIComponent(u.foto)}`;
                 photoHtml = `<img src="${photoPath}" alt="${nama}" 
                                 class="rounded-circle shadow-sm" 
                                 style="width: 45px; height: 45px; object-fit: cover;"

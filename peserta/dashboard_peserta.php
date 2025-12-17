@@ -226,8 +226,8 @@ $stmt->close();
                 <small class="text-muted" style="font-size: 0.75rem;">Peserta</small>
             </div>
             
-            <?php if ($userPhoto && file_exists("../file/" . $userPhoto)): ?>
-                <img src="../file/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+            <?php if ($userPhoto && file_exists("../uploads/" . $userPhoto)): ?>
+                <img src="../uploads/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
                 <i class="bi bi-person-circle fs-2 text-secondary"></i>
             <?php endif; ?>
@@ -397,7 +397,7 @@ $stmt->close();
                             <div class="d-flex justify-content-between align-items-center mb-2">
                                 ${statusBadge}
                                 <div class="d-flex gap-2">
-                                    ${item.Lampiran ? `<a href="../file/${encodeURIComponent(item.Lampiran)}" class="btn btn-sm text-secondary p-0" title="Download" download><i class="bi bi-download fs-5"></i></a>` : ''}
+                                    ${item.Lampiran ? `<a href="../uploads/${encodeURIComponent(item.Lampiran)}" class="btn btn-sm text-secondary p-0" title="Download" download><i class="bi bi-download fs-5"></i></a>` : ''}
                                 </div>
                             </div>
 

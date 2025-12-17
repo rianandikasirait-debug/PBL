@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function () {
         div.id = 'lampiran-' + data.id;
         div.innerHTML = `
             <div class="d-flex align-items-center">
-                    <a href="../file/${data.file_lampiran}" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+                    <a href="../uploads/${data.file_lampiran}" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
                     <i class="bi bi-file-earmark-text me-2 text-primary"></i>
                     <span>${data.judul_lampiran}</span>
                     </a>

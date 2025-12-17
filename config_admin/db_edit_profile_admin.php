@@ -34,6 +34,6 @@ if (isset($updateBerhasil) && $updateBerhasil) {
 }
 
 
-$foto_path = !empty($user['foto']) ? '../file/' . $user['foto'] : '';
+$foto_path = !empty($user['foto']) ? '../uploads/' . $user['foto'] : '';
 $foto_profile = (!empty($foto_path) && file_exists($foto_path)) ? $foto_path : '';
 ?>

@@ -26,7 +26,7 @@ if (!$user) {
 }
 
 // Atur foto default jika kosong
-$foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/user.jpg') . '?v=' . time();
+$foto_profile = (!empty($user['foto']) ? '../uploads/' . $user['foto'] : '../uploads/user.jpg') . '?v=' . time();
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -174,8 +174,8 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
                 <small class="text-muted" style="font-size: 0.75rem;">Peserta</small>
             </div>
             
-            <?php if (!empty($user['foto']) && file_exists('../file/' . $user['foto'])): ?>
-                <img src="../file/<?= htmlspecialchars($user['foto']) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+            <?php if (!empty($user['foto']) && file_exists('../uploads/' . $user['foto'])): ?>
+                <img src="../uploads/<?= htmlspecialchars($user['foto']) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
                 <i class="bi bi-person-circle fs-2 text-secondary"></i>
             <?php endif; ?>
@@ -230,8 +230,8 @@ $foto_profile = (!empty($user['foto']) ? '../file/' . $user['foto'] : '../file/u
             <div class="profile-card-modern">
                 <!-- Header: Foto, Nama, Peran -->
                 <div class="profile-header-modern">
-                    <?php if (!empty($user['foto']) && file_exists('../file/' . $user['foto'])): ?>
-                        <img src="../file/<?= htmlspecialchars($user['foto']) . '?v=' . time() ?>" alt="Profile" class="profile-avatar-modern">
+                    <?php if (!empty($user['foto']) && file_exists('../uploads/' . $user['foto'])): ?>
+                        <img src="../uploads/<?= htmlspecialchars($user['foto']) . '?v=' . time() ?>" alt="Profile" class="profile-avatar-modern">
                     <?php else: ?>
                         <i class="bi bi-person-circle text-secondary" style="font-size: 80px;"></i>
                     <?php endif; ?>

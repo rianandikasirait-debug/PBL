@@ -37,7 +37,7 @@ if (empty($judul)) {
 
 // Generate Safe Filename
 $safeName = time() . '_' . preg_replace('/[^a-z0-9\-_.]/i', '_', $originalName);
-$destination = __DIR__ . '/../file/' . $safeName;
+$destination = __DIR__ . '/../uploads/' . $safeName;
 
 // 4. Upload & Insert
 if (move_uploaded_file($tmpName, $destination)) {

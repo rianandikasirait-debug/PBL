@@ -199,11 +199,11 @@ include '../config_admin/db_detail_rapat_admin.php';
                 <?php foreach($lampiranList as $lamp): ?>
                     <div class="mb-4">
                         <h6 class="fw-bold mb-2 text-dark"><?= htmlspecialchars($lamp['judul_lampiran']) ?></h6>
-                        <div class="d-flex gap-2">
-                             <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
+                         <div class="d-flex gap-2">
+                             <a href="../uploads/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-eye me-2"></i>Lihat Lampiran
                             </a>
-                            <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-success btn-sm" download>
+                            <a href="../uploads/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-success btn-sm" download>
                                 <i class="bi bi-download me-2"></i>Unduh Lampiran
                             </a>
                         </div>
@@ -219,10 +219,10 @@ include '../config_admin/db_detail_rapat_admin.php';
                 ?>
                     <div class="mb-4">
                         <div class="d-flex gap-2">
-                             <a href="../file/<?= htmlspecialchars($f); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
+                             <a href="../uploads/<?= htmlspecialchars($f); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-eye me-2"></i>Lihat Lampiran
                             </a>
-                            <a href="../file/<?= htmlspecialchars($f); ?>" class="btn btn-outline-success btn-sm" download>
+                            <a href="../uploads/<?= htmlspecialchars($f); ?>" class="btn btn-outline-success btn-sm" download>
                                 <i class="bi bi-download me-2"></i>Unduh Lampiran
                             </a>
                         </div>

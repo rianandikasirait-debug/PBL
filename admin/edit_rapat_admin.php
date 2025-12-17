@@ -111,7 +111,7 @@ include '../config_admin/db_edit_rapat_admin.php';
                 <?php foreach ($lampiranList as $lamp): ?>
                     <div class="list-group-item d-flex justify-content-between align-items-center" id="lampiran-row-<?= $lamp['id'] ?>">
                         <div class="d-flex align-items-center flex-grow-1 me-3">
-                             <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']) ?>" target="_blank" class="text-decoration-none text-dark d-flex align-items-center me-2" id="lampiran-link-<?= $lamp['id'] ?>">
+                             <a href="../uploads/<?= htmlspecialchars($lamp['file_lampiran']) ?>" target="_blank" class="text-decoration-none text-dark d-flex align-items-center me-2" id="lampiran-link-<?= $lamp['id'] ?>">
                                 <i class="bi bi-file-earmark-text me-2 text-primary"></i>
                              </a>
                              <span id="lampiran-title-<?= $lamp['id'] ?>" class="fw-medium"><?= htmlspecialchars($lamp['judul_lampiran']) ?></span>

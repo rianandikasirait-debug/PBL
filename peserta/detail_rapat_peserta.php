@@ -309,8 +309,8 @@ if (trim($peserta_raw) !== '') {
                 <small class="text-muted" style="font-size: 0.75rem;">Peserta</small>
             </div>
             
-            <?php if (!empty($userPhoto) && file_exists('../file/' . $userPhoto)): ?>
-                <img src="../file/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
+            <?php if (!empty($userPhoto) && file_exists('../uploads/' . $userPhoto)): ?>
+                <img src="../uploads/<?= htmlspecialchars($userPhoto) ?>" class="rounded-circle border" style="width:40px;height:40px;object-fit:cover;">
             <?php else: ?>
                 <i class="bi bi-person-circle fs-2 text-secondary"></i>
             <?php endif; ?>
@@ -378,10 +378,10 @@ if (trim($peserta_raw) !== '') {
                     <div class="mb-4">
                         <h6 class="fw-bold mb-2 text-dark"><?= htmlspecialchars($lamp['judul_lampiran']) ?></h6>
                         <div class="d-flex gap-2">
-                             <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
+                             <a href="../uploads/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-eye me-2"></i>Lihat Lampiran
                             </a>
-                            <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-success btn-sm" download>
+                            <a href="../uploads/<?= htmlspecialchars($lamp['file_lampiran']); ?>" class="btn btn-outline-success btn-sm" download>
                                 <i class="bi bi-download me-2"></i>Unduh Lampiran
                             </a>
                         </div>
@@ -397,10 +397,10 @@ if (trim($peserta_raw) !== '') {
                 ?>
                     <div class="mb-4">
                         <div class="d-flex gap-2">
-                             <a href="../file/<?= htmlspecialchars($f); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
+                             <a href="../uploads/<?= htmlspecialchars($f); ?>" class="btn btn-outline-primary btn-sm" target="_blank">
                                 <i class="bi bi-eye me-2"></i>Lihat Lampiran
                             </a>
-                            <a href="../file/<?= htmlspecialchars($f); ?>" class="btn btn-outline-success btn-sm" download>
+                            <a href="../uploads/<?= htmlspecialchars($f); ?>" class="btn btn-outline-success btn-sm" download>
                                 <i class="bi bi-download me-2"></i>Unduh Lampiran
                             </a>
                         </div>
@@ -478,7 +478,7 @@ if (trim($peserta_raw) !== '') {
                 // Foto Logic
                 let photoHtml = '';
                 if (pd.foto && pd.foto !== '') {
-                    const photoPath = `../file/${encodeURIComponent(pd.foto)}`;
+                    const photoPath = `../uploads/${encodeURIComponent(pd.foto)}`;
                     photoHtml = `<img src="${photoPath}" class="rounded-circle me-3 border" style="width: 38px; height: 38px; object-fit: cover; flex-shrink: 0;" onerror="handleImageError(this)">`;
                 } else {
                     photoHtml = `<div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>`;

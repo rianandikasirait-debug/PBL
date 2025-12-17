@@ -18,7 +18,7 @@ $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
 if ($user && !empty($user['foto'])) {
-    $filePath = "../file/" . $user['foto'];
+    $filePath = "../uploads/" . $user['foto'];
 
     // Hapus file jika ada
     if (file_exists($filePath)) {

@@ -117,7 +117,7 @@ try {
         // -----------------------------------------
         // C. HAPUS FILE FOTO USER (JIKA ADA)
         // -----------------------------------------
-        $path_foto = __DIR__ . '/../file/' . $foto_file;
+        $path_foto = __DIR__ . '/../uploads/' . $foto_file;
 
         // Hanya hapus jika:
         // - File ada

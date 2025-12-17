@@ -59,8 +59,8 @@ if (isset($_POST['delete_photo']) && $_POST['delete_photo'] == '1') {
     $res_old = $stmt_old->get_result();
     if ($row_old = $res_old->fetch_assoc()) {
         $old_photo = $row_old['foto'];
-        if ($old_photo && $old_photo !== 'user.jpg' && file_exists(__DIR__ . '/../file/' . $old_photo)) {
-            unlink(__DIR__ . '/../file/' . $old_photo);
+        if ($old_photo && $old_photo !== 'user.jpg' && file_exists(__DIR__ . '/../uploads/' . $old_photo)) {
+            unlink(__DIR__ . '/../uploads/' . $old_photo);
         }
     }
     
@@ -99,7 +99,7 @@ if (isset($_FILES['foto']) && $_FILES['foto']['error'] != UPLOAD_ERR_NO_FILE) {
     // Proses Upload
     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
     $namaFile = time() . "_" . uniqid() . "." . $ext;
-    $target_dir = __DIR__ . '/../file/';
+    $target_dir = __DIR__ . '/../uploads/';
 
     if (move_uploaded_file($file['tmp_name'], $target_dir . $namaFile)) {
         // Hapus foto lama

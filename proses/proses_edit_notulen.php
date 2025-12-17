@@ -79,7 +79,7 @@ if (isset($_FILES['file_lampiran']) && isset($_POST['judul_lampiran'])) {
             if (empty($title)) $title = $originalName; // Fallback title
             
             $safeName = time() . '_' . $i . '_' . preg_replace('/[^a-z0-9\-_.]/i', '_', $originalName);
-            $dest = __DIR__ . '/../file/' . $safeName;
+            $dest = __DIR__ . '/../uploads/' . $safeName;
             
             if (move_uploaded_file($tmp, $dest)) {
                 $stmtLampiran->bind_param('iss', $id, $title, $safeName);

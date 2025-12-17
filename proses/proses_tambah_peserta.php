@@ -95,8 +95,8 @@ try {
             $pesan = "\xE2\x9C\xA8 *Halo, Akun SmartNote Siap!* \xE2\x9C\xA8\n\n";
             $pesan .= "Berikut akses masuk Anda:\n";
             $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
-            $pesan .= "\xF0\x9F\x94\x91 Password: {$nik}\n\n";
-            $pesan .= "\xF0\x9F\x94\x92 *Mohon segera ganti password setelah login ya!*\n\n";
+            $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
+            $pesan .= "\xF0\x9F\x94\x92 *Password default Anda adalah NIK: {$nik}. Mohon segera ganti password setelah login ya!*\n\n";
             $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
             
             
