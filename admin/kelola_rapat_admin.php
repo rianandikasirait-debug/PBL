@@ -275,9 +275,9 @@ include '../config_admin/db_kelola_rapat_admin.php';
                     <option value="all">Semua Data</option>
                 </select>
 
-                <a href="tambah_peserta_admin.php" class="btn btn-success d-flex align-items-center gap-2">
+                <button type="button" class="btn btn-success d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
                     <i class="bi bi-plus-circle"></i> Tambah Pengguna
-                </a>
+                </button>
             </div>
 
                 <div class="table-responsive" style="overflow-x: auto; white-space: nowrap;">
@@ -361,6 +361,56 @@ include '../config_admin/db_kelola_rapat_admin.php';
                             </button>
                         </div>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Pengguna Baru -->
+    <div class="modal fade" id="modalTambahPengguna" tabindex="-1" aria-labelledby="modalTambahPenggunaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahPenggunaLabel">
+                        <i class="bi bi-person-plus-fill me-2 text-success"></i>Tambah Pengguna Baru
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahPengguna">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="newNama" name="nama" placeholder="Masukkan nama pengguna baru" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="newEmail" name="email" placeholder="Masukkan email pengguna baru" required>
+                            <div id="emailSuggestionModal" class="mt-2" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="newNik" name="nik" placeholder="Masukkan NIK peserta" required>
+                            <small class="text-muted">⚠️ NIK akan digunakan sebagai password default. Peserta wajib mengganti password saat login pertama.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nomor WhatsApp <span class="badge bg-info">Opsional</span></label>
+                            <input type="text" class="form-control" id="newWhatsapp" name="nomor_whatsapp" placeholder="Contoh: 62812345678 atau 0812345678">
+                            <small class="text-muted">Jika diisi, akun peserta akan dikirim otomatis via WhatsApp</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" disabled>
+                                <option value="peserta" selected>Peserta</option>
+                            </select>
+                            <small class="text-muted">Role akan otomatis diatur sebagai 'Peserta'.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success" id="btnSimpanPengguna">
+                        <i class="bi bi-person-plus me-1"></i>Simpan Pengguna
+                    </button>
                 </div>
             </div>
         </div>

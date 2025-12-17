@@ -291,10 +291,38 @@ include '../config_admin/db_notulen.admin.php';
                 <!-- PESERTA -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold">Peserta Notulen</label>
-                    <button type="button" class="btn btn-outline-success w-100 py-2 border-dashed" data-bs-toggle="modal" data-bs-target="#modalPeserta" style="border-style: dashed;">
-                        <i class="bi bi-plus-circle me-2"></i> Pilih Peserta
-                    </button>
-                    <small class="text-muted d-block mt-2">Klik tombol di atas untuk memilih peserta rapat.</small>
+                    <div class="row g-3">
+                        <!-- Pilih Peserta (Kiri) -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center py-4">
+                                    <div class="mb-3">
+                                        <i class="bi bi-people-fill text-success" style="font-size: 2.5rem;"></i>
+                                    </div>
+                                    <h6 class="fw-semibold mb-2">Pilih Peserta</h6>
+                                    <p class="text-muted small mb-3">Pilih dari daftar pengguna yang sudah ada</p>
+                                    <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#modalPeserta">
+                                        <i class="bi bi-list-ul me-2"></i>Pilih Peserta
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Tambah Pengguna Baru (Kanan) -->
+                        <div class="col-md-6">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body text-center py-4">
+                                    <div class="mb-3">
+                                        <i class="bi bi-person-plus-fill text-success" style="font-size: 2.5rem;"></i>
+                                    </div>
+                                    <h6 class="fw-semibold mb-2">Tambah Pengguna Baru</h6>
+                                    <p class="text-muted small mb-3">Buat akun peserta baru langsung dari sini</p>
+                                    <button type="button" class="btn btn-outline-success w-100" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
+                                        <i class="bi bi-person-plus me-2"></i>Tambah Pengguna
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- List peserta (target) -->
@@ -381,6 +409,56 @@ include '../config_admin/db_notulen.admin.php';
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
                     <button type="button" class="btn btn-success" id="btnSimpanPeserta">Simpan Pilihan</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tambah Pengguna Baru -->
+    <div class="modal fade" id="modalTambahPengguna" tabindex="-1" aria-labelledby="modalTambahPenggunaLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTambahPenggunaLabel">
+                        <i class="bi bi-person-plus-fill me-2 text-success"></i>Tambah Pengguna Baru
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="formTambahPengguna">
+                        <div class="mb-3">
+                            <label class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="newNama" name="nama" placeholder="Masukkan nama pengguna baru" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="newEmail" name="email" placeholder="Masukkan email pengguna baru" required>
+                            <div id="emailSuggestionModal" class="mt-2" style="display: none;"></div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="newNik" name="nik" placeholder="Masukkan NIK peserta" required>
+                            <small class="text-muted">⚠️ NIK akan digunakan sebagai password default. Peserta wajib mengganti password saat login pertama.</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Nomor WhatsApp <span class="badge bg-info">Opsional</span></label>
+                            <input type="text" class="form-control" id="newWhatsapp" name="nomor_whatsapp" placeholder="Contoh: 62812345678 atau 0812345678">
+                            <small class="text-muted">Jika diisi, akun peserta akan dikirim otomatis via WhatsApp</small>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Role</label>
+                            <select class="form-select" disabled>
+                                <option value="peserta" selected>Peserta</option>
+                            </select>
+                            <small class="text-muted">Role akan otomatis diatur sebagai 'Peserta'.</small>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                    <button type="button" class="btn btn-success" id="btnSimpanPengguna">
+                        <i class="bi bi-person-plus me-1"></i>Tambahkan
+                    </button>
                 </div>
             </div>
         </div>

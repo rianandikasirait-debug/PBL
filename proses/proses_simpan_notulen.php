@@ -4,6 +4,7 @@ session_start();
 
 // Sertakan file koneksi database ($conn diasumsikan tersedia)
 require_once __DIR__ . '/../koneksi.php';
+require_once __DIR__ . '/../config.php';
 error_reporting(0); // Suppress errors to allow JSON response
 
 // Pastikan request menggunakan metode POST — endpoint ini hanya menerima POST
@@ -106,7 +107,54 @@ if ($stmt->execute()) {
         }
     }
 
-    echo json_encode(['success' => true, 'message' => 'Notulen berhasil disimpan', 'upload_errors' => $uploadErrors]);
+    // ---------- Send WhatsApp Notifications to Participants ----------
+    $waErrors = [];
+    
+    if (defined('SEND_WA_ON_NOTULEN_CREATE') && SEND_WA_ON_NOTULEN_CREATE === true && !empty($clean)) {
+        require_once __DIR__ . '/../includes/whatsapp.php';
+        $waManager = new WhatsAppManager($conn);
+        
+        // Ambil informasi peserta yang dipilih
+        $participantIds = implode(',', $clean);
+        $stmtParticipants = $conn->prepare("SELECT id, nama, nomor_whatsapp FROM users WHERE id IN ($participantIds) AND nomor_whatsapp IS NOT NULL AND nomor_whatsapp != ''");
+        
+        if ($stmtParticipants) {
+            $stmtParticipants->execute();
+            $participants = $stmtParticipants->get_result();
+            
+            // Format pesan WhatsApp
+            $pesanTemplate = "📋 *Undangan Rapat - SmartNote*\n\n";
+            $pesanTemplate .= "Anda diundang untuk menghadiri rapat:\n";
+            $pesanTemplate .= "📌 Judul: {$judul}\n";
+            $pesanTemplate .= "📅 Tanggal: " . date('d F Y', strtotime($tanggal)) . "\n\n";
+            $pesanTemplate .= "Silakan cek detail lengkap di aplikasi SmartNote.\n\n";
+            $pesanTemplate .= "_Terima kasih atas partisipasinya_ 🙏";
+            
+            // Kirim ke setiap peserta
+            while ($participant = $participants->fetch_assoc()) {
+                $pesan = str_replace('{nama}', $participant['nama'], $pesanTemplate);
+                $result = $waManager->sendMessage(
+                    $participant['id'],
+                    $participant['nomor_whatsapp'],
+                    $pesan
+                );
+                
+                if (!$result['success']) {
+                    $waErrors[] = "Gagal kirim ke {$participant['nama']}: {$result['message']}";
+                }
+            }
+            
+            $stmtParticipants->close();
+        }
+    }
+    
+    echo json_encode([
+        'success' => true, 
+        'message' => 'Notulen berhasil disimpan', 
+        'upload_errors' => $uploadErrors,
+        'wa_errors' => $waErrors,
+        'wa_sent' => count($clean) - count($waErrors)
+    ]);
 } else {
     // Jika gagal, kembalikan pesan error (berisi $stmt->error)
     echo json_encode(['success' => false, 'message' => 'Gagal menyimpan notulen: ' . $stmt->error]);

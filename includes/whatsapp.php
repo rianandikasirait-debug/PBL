@@ -7,14 +7,23 @@
  */
 
 require_once __DIR__ . '/../koneksi.php';
+require_once __DIR__ . '/../config.php';
 
 class WhatsAppManager {
     private $conn;
-    private $useApi = false; // Set ke true jika ada Meta API key
-    private $metaApiKey = ''; // Simpan di env variable nanti
+    private $useApi = false;
+    private $fonnte_api_key = '';
+    private $fonnte_api_url = '';
     
     public function __construct($dbConnection) {
         $this->conn = $dbConnection;
+        
+        // Load Fonnte configuration
+        if (defined('USE_FONNTE_API') && USE_FONNTE_API === true) {
+            $this->useApi = true;
+            $this->fonnte_api_key = defined('FONNTE_API_KEY') ? FONNTE_API_KEY : '';
+            $this->fonnte_api_url = defined('FONNTE_API_URL') ? FONNTE_API_URL : 'https://api.fonnte.com/send';
+        }
     }
     
     /**
@@ -50,21 +59,20 @@ class WhatsAppManager {
             $sent = false;
             $errorMsg = '';
             
-            // 1. Coba Meta API (jika dikonfigurasi di masa depan)
-            if ($this->useApi && !empty($this->metaApiKey)) {
-                list($sent, $errorMsg) = $this->sendViaAPI($nomor, $pesan);
+            // 1. Coba Fonnte API (jika dikonfigurasi)
+            if ($this->useApi && !empty($this->fonnte_api_key)) {
+                list($sent, $errorMsg) = $this->sendViaFonnte($nomor, $pesan);
             }
             
             // 2. Fallback ke wa.me (selalu berhasil - hanya generate link)
             if (!$sent) {
                 // wa.me fallback selalu dianggap "sent" karena hanya generate link
-                // Tidak ada logging database lagi per request user
                 $sent = true; 
             }
             
             return [
                 'success' => true,
-                'message' => 'Pesan WhatsApp berhasil disiapkan'
+                'message' => 'Pesan WhatsApp berhasil dikirim'
             ];
             
         } catch (Exception $e) {
@@ -126,13 +134,73 @@ class WhatsAppManager {
     }
     
     /**
-     * Kirim via Meta WhatsApp Cloud API
-     * (Implementasi untuk masa depan)
+     * Kirim via Fonnte WhatsApp API
+     * 
+     * @param string $nomor - Nomor WhatsApp yang sudah dinormalisasi
+     * @param string $pesan - Isi pesan
+     * @return array [bool success, string errorMsg]
      */
-    private function sendViaAPI($nomor, $pesan) {
-        // TODO: Implementasi dengan Meta API
-        // Untuk sekarang return false agar fallback ke wa.me
-        return [false, 'Meta API belum dikonfigurasi'];
+    private function sendViaFonnte($nomor, $pesan) {
+        // Validasi API key
+        if (empty($this->fonnte_api_key)) {
+            return [false, 'Fonnte API key tidak dikonfigurasi'];
+        }
+        
+        try {
+            // Prepare data untuk Fonnte API
+            $data = array(
+                'target' => $nomor,
+                'message' => $pesan,
+                'countryCode' => '62' // Indonesia
+            );
+            
+            // Initialize cURL
+            $curl = curl_init();
+            
+            curl_setopt_array($curl, array(
+                CURLOPT_URL => $this->fonnte_api_url,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => http_build_query($data),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: ' . $this->fonnte_api_key
+                ),
+            ));
+            
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+            $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+            
+            curl_close($curl);
+            
+            if ($err) {
+                error_log("Fonnte cURL Error: " . $err);
+                return [false, 'Connection error: ' . $err];
+            }
+            
+            // Parse response
+            $result = json_decode($response, true);
+            
+            // Log response untuk debugging
+            error_log("Fonnte Response (HTTP $httpCode): " . $response);
+            
+            // Check if successful
+            if ($httpCode == 200 && isset($result['status']) && $result['status'] == true) {
+                return [true, ''];
+            } else {
+                $errorMsg = isset($result['reason']) ? $result['reason'] : 'Unknown error';
+                return [false, $errorMsg];
+            }
+            
+        } catch (Exception $e) {
+            error_log('Fonnte Exception: ' . $e->getMessage());
+            return [false, $e->getMessage()];
+        }
     }
     
     /**

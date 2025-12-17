@@ -352,4 +352,117 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+
+    /* =======================
+       MODAL TAMBAH PENGGUNA BARU
+    ======================= */
+    const btnSimpanPengguna = document.getElementById('btnSimpanPengguna');
+    const formTambahPengguna = document.getElementById('formTambahPengguna');
+    const modalTambahPengguna = document.getElementById('modalTambahPengguna');
+    
+    // Email Suggestion Logic for Modal
+    const newNamaInput = document.getElementById('newNama');
+    const newEmailInput = document.getElementById('newEmail');
+    const emailSuggestionModal = document.getElementById('emailSuggestionModal');
+
+    if (newNamaInput && newEmailInput && emailSuggestionModal) {
+        newNamaInput.addEventListener('input', function() {
+            const name = this.value;
+            // Basic sanitization: lowercase, remove special chars, replace spaces with nothing
+            const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
+
+            if (cleanName.length > 0) {
+                const candidateEmail = cleanName + '@gmail.com';
+                // Show clickable badge
+                emailSuggestionModal.style.display = 'block';
+                emailSuggestionModal.innerHTML = `
+                    <small class="text-muted d-block mb-1">Rekomendasi:</small>
+                    <span class="badge bg-success-subtle text-success border border-success" 
+                          style="cursor: pointer; font-size: 0.9rem;"
+                          onclick="fillModalEmail('${candidateEmail}')">
+                        <i class="bi bi-magic me-1"></i> ${candidateEmail}
+                    </span>
+                `;
+            } else {
+                emailSuggestionModal.style.display = 'none';
+                emailSuggestionModal.innerHTML = '';
+            }
+        });
+
+        // Function to fill email (exposed globally for onclick)
+        window.fillModalEmail = function(email) {
+            newEmailInput.value = email;
+            // Visual feedback
+            newEmailInput.classList.add('is-valid');
+            setTimeout(() => newEmailInput.classList.remove('is-valid'), 1000);
+        };
+    }
+
+    if (btnSimpanPengguna && formTambahPengguna) {
+        btnSimpanPengguna.addEventListener('click', async function() {
+            // Get form values
+            const nama = document.getElementById('newNama').value.trim();
+            const email = document.getElementById('newEmail').value.trim();
+            const nik = document.getElementById('newNik').value.trim();
+            const whatsapp = document.getElementById('newWhatsapp').value.trim();
+
+            // Basic validation
+            if (!nama || !email || !nik) {
+                showToast('Nama, Email, dan NIK wajib diisi', 'error');
+                return;
+            }
+
+            // Disable button and show loading
+            const originalText = btnSimpanPengguna.innerHTML;
+            btnSimpanPengguna.disabled = true;
+            btnSimpanPengguna.innerHTML = '<span class="spinner-border spinner-border-sm me-1"></span>Menyimpan...';
+
+            try {
+                const formData = new FormData();
+                formData.append('nama', nama);
+                formData.append('email', email);
+                formData.append('nik', nik);
+                formData.append('nomor_whatsapp', whatsapp);
+
+                const response = await fetch('../proses/proses_tambah_peserta_ajax.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    // Close modal
+                    const modal = bootstrap.Modal.getInstance(modalTambahPengguna);
+                    if (modal) modal.hide();
+
+                    // Reset form
+                    formTambahPengguna.reset();
+                    if (emailSuggestionModal) {
+                        emailSuggestionModal.style.display = 'none';
+                        emailSuggestionModal.innerHTML = '';
+                    }
+
+                    // Show success message
+                    showToast('Pengguna berhasil ditambahkan!', 'success');
+
+                    // Reload page to show new user in table
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1000);
+
+                } else {
+                    showToast(result.message || 'Gagal menambahkan pengguna', 'error');
+                }
+
+            } catch (error) {
+                console.error('Error:', error);
+                showToast('Terjadi kesalahan: ' + error.message, 'error');
+            } finally {
+                // Restore button
+                btnSimpanPengguna.disabled = false;
+                btnSimpanPengguna.innerHTML = originalText;
+            }
+        });
+    }
 });
