@@ -123,6 +123,7 @@ include '../config_admin/db_kelola_rapat_admin.php';
             font-size: 1.1rem;
         }
 
+
         .btn-soft-success:hover {
             background-color: #c8e6c9;
             color: #1b5e20;
@@ -209,20 +210,25 @@ include '../config_admin/db_kelola_rapat_admin.php';
 
         /* Custom Tambah Pengguna Button Style */
         .btn-tambah-pengguna {
-            border: 1.5px solid #198754;
-            border-radius: 8px;
-            padding: 10px 24px;
-            font-weight: 500;
-            font-size: 0.95rem;
-            background-color: #fff;
-            color: #198754;
-            transition: all 0.25s ease;
+        background-color: #00C853 !important; 
+          border-color: #00C853 !important;
+          color: #ffffff !important;
+          font-weight: bold;
+          text-decoration: none !important;
         }
 
         .btn-tambah-pengguna:hover {
-            background-color: #198754;
-            border-color: #198754;
-            color: #fff;
+           background-color: #02913f !important; 
+          border-color: #02913f !important;
+        }
+        .btn.btn-secondary {
+            background-color: #00C853 !important; 
+            border-color: #00C853 !important;
+            color: #ffffff !important
+        }
+        .btn.btn-secondary:hover, .btn.btn-secondary:focus {
+            background-color: #02913f !important; 
+            border-color: #02913f !important;
         }
     </style>
 
