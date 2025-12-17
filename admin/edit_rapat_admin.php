@@ -109,16 +109,42 @@ include '../config_admin/db_edit_rapat_admin.php';
               <label class="small text-muted mb-2">Lampiran Saat Ini:</label>
               <div class="list-group">
                 <?php foreach ($lampiranList as $lamp): ?>
-                    <div class="list-group-item d-flex justify-content-between align-items-center" id="lampiran-<?= $lamp['id'] ?>">
-                        <div class="d-flex align-items-center">
-                             <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']) ?>" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+                    <div class="list-group-item d-flex justify-content-between align-items-center" id="lampiran-row-<?= $lamp['id'] ?>">
+                        <div class="d-flex align-items-center flex-grow-1 me-3">
+                             <a href="../file/<?= htmlspecialchars($lamp['file_lampiran']) ?>" target="_blank" class="text-decoration-none text-dark d-flex align-items-center me-2" id="lampiran-link-<?= $lamp['id'] ?>">
                                 <i class="bi bi-file-earmark-text me-2 text-primary"></i>
-                                <span><?= htmlspecialchars($lamp['judul_lampiran']) ?></span>
                              </a>
+                             <span id="lampiran-title-<?= $lamp['id'] ?>" class="fw-medium"><?= htmlspecialchars($lamp['judul_lampiran']) ?></span>
+                             
+                             <!-- Edit Input (Hidden by default) -->
+                             <div id="lampiran-edit-container-<?= $lamp['id'] ?>" class="d-none w-100">
+                                <input type="text" id="lampiran-input-<?= $lamp['id'] ?>" class="form-control form-control-sm" value="<?= htmlspecialchars($lamp['judul_lampiran']) ?>">
+                             </div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-soft-danger" onclick="deleteLampiran(<?= $lamp['id'] ?>)" title="Hapus Lampiran">
-                            <i class="bi bi-trash"></i>
-                        </button>
+                        
+                        <div class="d-flex gap-1 align-items-center">
+                            <!-- Action Buttons -->
+                            <div id="lampiran-actions-<?= $lamp['id'] ?>">
+                                <?php if (($notulen['status'] ?? 'draft') === 'draft'): ?>
+                                <button type="button" class="btn btn-sm btn-soft-primary" onclick="editLampiran(<?= $lamp['id'] ?>)" title="Edit Judul">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                <?php endif; ?>
+                                <button type="button" class="btn btn-sm btn-soft-danger" onclick="deleteLampiran(<?= $lamp['id'] ?>)" title="Hapus Lampiran">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+
+                            <!-- Save/Cancel Buttons (Hidden by default) -->
+                            <div id="lampiran-save-actions-<?= $lamp['id'] ?>" class="d-none">
+                                <button type="button" class="btn btn-sm btn-success" onclick="saveLampiran(<?= $lamp['id'] ?>)" title="Simpan">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEditLampiran(<?= $lamp['id'] ?>)" title="Batal">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 <?php endforeach; ?>
               </div>
@@ -224,21 +250,49 @@ include '../config_admin/db_edit_rapat_admin.php';
                 // Helper to add row to existing list (visual only)
                 function addExistingLampiranRow(data) {
                     const listGroup = document.querySelector('.list-group');
-                    if (!listGroup) return; // Should exist if checked correctly, or create if not exist
+                    if (!listGroup) return; 
 
                     const div = document.createElement('div');
                     div.className = 'list-group-item d-flex justify-content-between align-items-center';
-                    div.id = 'lampiran-' + data.id;
+                    div.id = 'lampiran-row-' + data.id;
+                    
+                    // Check draft status from global variable or PHP injection
+                    // Since this page is loaded, we can use the window.notulenStatus variable defined at bottom
+                    const isDraft = (window.notulenStatus === 'draft');
+
                     div.innerHTML = `
-                        <div class="d-flex align-items-center">
-                             <a href="../file/${data.file_lampiran}" target="_blank" class="text-decoration-none text-dark d-flex align-items-center">
+                        <div class="d-flex align-items-center flex-grow-1 me-3">
+                             <a href="../file/${data.file_lampiran}" target="_blank" class="text-decoration-none text-dark d-flex align-items-center me-2" id="lampiran-link-${data.id}">
                                 <i class="bi bi-file-earmark-text me-2 text-primary"></i>
-                                <span>${data.judul_lampiran}</span>
                              </a>
+                             <span id="lampiran-title-${data.id}" class="fw-medium">${data.judul_lampiran}</span>
+                             
+                             <div id="lampiran-edit-container-${data.id}" class="d-none w-100">
+                                <input type="text" id="lampiran-input-${data.id}" class="form-control form-control-sm" value="${data.judul_lampiran}">
+                             </div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-soft-danger" onclick="deleteLampiran(${data.id})" title="Hapus Lampiran">
-                            <i class="bi bi-trash"></i>
-                        </button>
+                        
+                        <div class="d-flex gap-1 align-items-center">
+                            <div id="lampiran-actions-${data.id}">
+                                ${isDraft ? `
+                                <button type="button" class="btn btn-sm btn-soft-primary" onclick="editLampiran(${data.id})" title="Edit Judul">
+                                    <i class="bi bi-pencil"></i>
+                                </button>
+                                ` : ''}
+                                <button type="button" class="btn btn-sm btn-soft-danger" onclick="deleteLampiran(${data.id})" title="Hapus Lampiran">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+
+                            <div id="lampiran-save-actions-${data.id}" class="d-none">
+                                <button type="button" class="btn btn-sm btn-success" onclick="saveLampiran(${data.id})" title="Simpan">
+                                    <i class="bi bi-check-lg"></i>
+                                </button>
+                                <button type="button" class="btn btn-sm btn-secondary" onclick="cancelEditLampiran(${data.id})" title="Batal">
+                                    <i class="bi bi-x-lg"></i>
+                                </button>
+                            </div>
+                        </div>
                     `;
                     listGroup.appendChild(div);
                 }
@@ -257,8 +311,8 @@ include '../config_admin/db_edit_rapat_admin.php';
                     });
                     const result = await response.json();
                     
-                    if (result.success) {
-                        const item = document.getElementById('lampiran-' + id);
+                if (result.success) {
+                        const item = document.getElementById('lampiran-row-' + id);
                         if(item) item.remove();
                         showToast('Lampiran berhasil dihapus', 'success');
                     } else {
@@ -267,6 +321,82 @@ include '../config_admin/db_edit_rapat_admin.php';
                 } catch (error) {
                     console.error('Error:', error);
                     showToast('Terjadi kesalahan sistem', 'error');
+                }
+            }
+
+            // === EDIT LAMPIRAN LOGIC ===
+            function editLampiran(id) {
+                // Hide display elements
+                document.getElementById(`lampiran-title-${id}`).classList.add('d-none');
+                document.getElementById(`lampiran-actions-${id}`).classList.add('d-none');
+                
+                // Show edit elements
+                document.getElementById(`lampiran-edit-container-${id}`).classList.remove('d-none');
+                document.getElementById(`lampiran-save-actions-${id}`).classList.remove('d-none');
+                
+                // Focus input
+                document.getElementById(`lampiran-input-${id}`).focus();
+            }
+
+            function cancelEditLampiran(id) {
+                // Reset input value to original title
+                const originalTitle = document.getElementById(`lampiran-title-${id}`).innerText;
+                document.getElementById(`lampiran-input-${id}`).value = originalTitle;
+
+                // Revert UI
+                document.getElementById(`lampiran-title-${id}`).classList.remove('d-none');
+                document.getElementById(`lampiran-actions-${id}`).classList.remove('d-none');
+                
+                document.getElementById(`lampiran-edit-container-${id}`).classList.add('d-none');
+                document.getElementById(`lampiran-save-actions-${id}`).classList.add('d-none');
+            }
+
+            async function saveLampiran(id) {
+                const newTitle = document.getElementById(`lampiran-input-${id}`).value.trim();
+                
+                if (!newTitle) {
+                    showToast("Judul lampiran tidak boleh kosong", "error");
+                    return;
+                }
+
+                // Show loading state (opt)
+                const saveBtn = document.querySelector(`#lampiran-save-actions-${id} .btn-success`);
+                const originalBtnContent = saveBtn.innerHTML;
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+
+                try {
+                    const formData = new FormData();
+                    formData.append('id', id);
+                    formData.append('judul_lampiran', newTitle);
+
+                    const response = await fetch('../proses/proses_edit_lampiran.php', {
+                        method: 'POST',
+                        body: formData
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success) {
+                        // Update UI with new title
+                        document.getElementById(`lampiran-title-${id}`).innerText = newTitle;
+                        
+                        // Revert to display mode
+                        cancelEditLampiran(id); 
+                        
+                        // Revert "cancel" effect which reset the input, we want the input to have new value next time or just valid sync
+                        document.getElementById(`lampiran-input-${id}`).value = newTitle; // Sync input
+
+                        showToast("Judul lampiran berhasil diperbarui", "success");
+                    } else {
+                        showToast(result.message || "Gagal memperbarui judul", "error");
+                    }
+                } catch (error) {
+                    console.error(error);
+                    showToast("Terjadi kesalahan sistem", "error");
+                } finally {
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalBtnContent;
                 }
             }
         </script>

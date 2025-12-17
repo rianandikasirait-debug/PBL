@@ -87,7 +87,24 @@ include '../config_admin/db_profile.php';
             align-items: center;
             gap: 15px;
         }
-
+        .btn.btn-light.border {
+            background-color: #00C853 !important; 
+            border-color: #00C853 !important;
+            color: #ffffff !important
+        }
+        .btn.btn-light.border:hover {
+            background-color: #02913f !important; 
+            border-color: #02913f !important;
+        }
+        .btn.btn-success {
+            background-color: #00C853 !important; 
+            border-color: #00C853 !important;
+            color: #ffffff !important
+        }
+        .btn.btn-success:hover {
+            background-color: #02913f !important; 
+            border-color: #02913f !important;
+        }
         /* ===== MAIN CONTENT ADJUSTMENT ===== */
         .main-content {
             margin-left: 250px;
