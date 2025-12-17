@@ -146,7 +146,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Tombol Sebelumnya
         const prevLi = document.createElement("li");
         prevLi.className = `page-item ${currentPage === 1 ? "disabled" : ""}`;
-        prevLi.innerHTML = `<a class="page-link border-success text-success" href="#">Sebelumnya</a>`;
+        prevLi.innerHTML = `<a class="page-link border-success text-success" href="#">«</a>`;
         prevLi.querySelector("a").addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage > 1) {
@@ -177,7 +177,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // Tombol Selanjutnya
         const nextLi = document.createElement("li");
         nextLi.className = `page-item ${currentPage === totalPages ? "disabled" : ""}`;
-        nextLi.innerHTML = `<a class="page-link border-success text-success" href="#">Selanjutnya</a>`;
+        nextLi.innerHTML = `<a class="page-link border-success text-success" href="#">»</a>`;
         nextLi.querySelector("a").addEventListener("click", (e) => {
             e.preventDefault();
             if (currentPage < totalPages) {
@@ -211,11 +211,13 @@ document.addEventListener("DOMContentLoaded", function () {
         currentPage = 1;
         updateTable();
     });
-    rowsPerPageSelect.addEventListener("change", () => {
-        rowsPerPage = rowsPerPageSelect.value === "all" ? "all" : parseInt(rowsPerPageSelect.value, 10);
-        currentPage = 1;
-        updateTable();
-    });
+    if (rowsPerPageSelect) {
+        rowsPerPageSelect.addEventListener("change", () => {
+            rowsPerPage = rowsPerPageSelect.value === "all" ? "all" : parseInt(rowsPerPageSelect.value, 10);
+            currentPage = 1;
+            updateTable();
+        });
+    }
 
     document.addEventListener("click", async function (e) {
         const btn = e.target.closest(".btn-delete");

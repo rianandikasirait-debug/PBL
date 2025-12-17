@@ -76,6 +76,7 @@ $created_by = $notulen['created_by'] ?? 'Admin';
 // Uraikan peserta SEBELUM menutup koneksi
 $peserta_raw = $notulen['peserta'] ?? '';
 $peserta_names = [];
+$peserta_details = []; // Initialize the array
 if (trim($peserta_raw) !== '') {
     $parts = array_filter(array_map('trim', explode(',', $peserta_raw)), function($v){ return $v !== ''; });
     $peserta_ids = array_filter(array_map('intval', $parts), function($v){ return $v > 0; });

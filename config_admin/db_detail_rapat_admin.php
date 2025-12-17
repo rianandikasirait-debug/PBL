@@ -68,6 +68,7 @@ $tanggal = date('d/m/Y', strtotime($notulen['tanggal']));
 $peserta_raw = $notulen['peserta'] ?? '';
 $peserta_ids = [];
 $peserta_names = [];
+$peserta_details = []; // Initialize the array
 
 if (trim($peserta_raw) !== '') {
     // pisahkan & sanitasi ke integer

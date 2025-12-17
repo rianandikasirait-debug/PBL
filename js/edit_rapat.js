@@ -397,14 +397,14 @@ document.addEventListener('DOMContentLoaded', function () {
     const btnSimpanPengguna = document.getElementById('btnSimpanPengguna');
     const formTambahPengguna = document.getElementById('formTambahPengguna');
     const modalTambahPengguna = document.getElementById('modalTambahPengguna');
-    
+
     // Email Suggestion Logic for Modal
     const newNamaInput = document.getElementById('newNama');
     const newEmailInput = document.getElementById('newEmail');
     const emailSuggestionModal = document.getElementById('emailSuggestionModal');
 
     if (newNamaInput && newEmailInput && emailSuggestionModal) {
-        newNamaInput.addEventListener('input', function() {
+        newNamaInput.addEventListener('input', function () {
             const name = this.value;
             // Basic sanitization: lowercase, remove special chars, replace spaces with nothing
             const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -428,7 +428,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
 
         // Function to fill email (exposed globally for onclick)
-        window.fillModalEmail = function(email) {
+        window.fillModalEmail = function (email) {
             newEmailInput.value = email;
             // Visual feedback
             newEmailInput.classList.add('is-valid');
@@ -437,7 +437,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     if (btnSimpanPengguna && formTambahPengguna) {
-        btnSimpanPengguna.addEventListener('click', async function() {
+        btnSimpanPengguna.addEventListener('click', async function () {
             // Get form values
             const nama = document.getElementById('newNama').value.trim();
             const email = document.getElementById('newEmail').value.trim();
@@ -567,7 +567,9 @@ async function deleteLampiran(id) {
         const result = await response.json();
 
         if (result.success) {
-            const item = document.getElementById('lampiran-' + id);
+            // Try both ID formats for compatibility
+            let item = document.getElementById('lampiran-row-' + id);
+            if (!item) item = document.getElementById('lampiran-' + id);
             if (item) item.remove();
             showToast('Lampiran berhasil dihapus', 'success');
         } else {
@@ -576,5 +578,103 @@ async function deleteLampiran(id) {
     } catch (error) {
         console.error('Error:', error);
         showToast('Terjadi kesalahan sistem', 'error');
+    }
+}
+
+// === EDIT LAMPIRAN LOGIC ===
+function editLampiran(id) {
+    // Hide display elements
+    const title = document.getElementById(`lampiran-title-${id}`);
+    const actions = document.getElementById(`lampiran-actions-${id}`);
+    const editContainer = document.getElementById(`lampiran-edit-container-${id}`);
+    const saveActions = document.getElementById(`lampiran-save-actions-${id}`);
+
+    if (title) title.classList.add('d-none');
+    if (actions) actions.classList.add('d-none');
+
+    // Show edit elements
+    if (editContainer) editContainer.classList.remove('d-none');
+    if (saveActions) saveActions.classList.remove('d-none');
+
+    // Focus input
+    const input = document.getElementById(`lampiran-input-${id}`);
+    if (input) input.focus();
+}
+
+function cancelEditLampiran(id) {
+    // Reset input value to original title
+    const titleEl = document.getElementById(`lampiran-title-${id}`);
+    const inputEl = document.getElementById(`lampiran-input-${id}`);
+
+    if (titleEl && inputEl) {
+        inputEl.value = titleEl.innerText;
+    }
+
+    // Revert UI
+    if (titleEl) titleEl.classList.remove('d-none');
+    const actions = document.getElementById(`lampiran-actions-${id}`);
+    if (actions) actions.classList.remove('d-none');
+
+    const editContainer = document.getElementById(`lampiran-edit-container-${id}`);
+    const saveActions = document.getElementById(`lampiran-save-actions-${id}`);
+    if (editContainer) editContainer.classList.add('d-none');
+    if (saveActions) saveActions.classList.add('d-none');
+}
+
+async function saveLampiran(id) {
+    const inputEl = document.getElementById(`lampiran-input-${id}`);
+    if (!inputEl) return;
+
+    const newTitle = inputEl.value.trim();
+
+    if (!newTitle) {
+        showToast("Judul lampiran tidak boleh kosong", "error");
+        return;
+    }
+
+    // Show loading state
+    const saveBtn = document.querySelector(`#lampiran-save-actions-${id} .btn-success`);
+    let originalBtnContent = '';
+    if (saveBtn) {
+        originalBtnContent = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<span class="spinner-border spinner-border-sm"></span>';
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('id', id);
+        formData.append('judul_lampiran', newTitle);
+
+        const response = await fetch('../proses/proses_edit_lampiran.php', {
+            method: 'POST',
+            body: formData
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+            // Update UI with new title
+            const titleEl = document.getElementById(`lampiran-title-${id}`);
+            if (titleEl) titleEl.innerText = newTitle;
+
+            // Revert to display mode
+            cancelEditLampiran(id);
+
+            // Sync input value
+            inputEl.value = newTitle;
+
+            showToast("Judul lampiran berhasil diperbarui", "success");
+        } else {
+            showToast(result.message || "Gagal memperbarui judul", "error");
+        }
+    } catch (error) {
+        console.error(error);
+        showToast("Terjadi kesalahan sistem", "error");
+    } finally {
+        if (saveBtn) {
+            saveBtn.disabled = false;
+            saveBtn.innerHTML = originalBtnContent;
+        }
     }
 }

@@ -101,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
         pagination.insertAdjacentHTML(
             "beforeend",
             `<li class="page-item ${currentPage === 1 ? "disabled" : ""}" >
-                <a class="page-link" href="#" onclick="changePage(${currentPage - 1});return false;">Sebelumnya</a>
+                <a class="page-link" href="#" onclick="changePage(${currentPage - 1});return false;">«</a>
         </li> `
         );
 
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
         pagination.insertAdjacentHTML(
             "beforeend",
             `<li class="page-item ${currentPage === totalPages ? "disabled" : ""}" >
-                <a class="page-link" href="#" onclick="changePage(${currentPage + 1});return false;">Selanjutnya</a>
+                <a class="page-link" href="#" onclick="changePage(${currentPage + 1});return false;">»</a>
         </li>`
         );
     }
@@ -359,14 +359,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const btnSimpanPengguna = document.getElementById('btnSimpanPengguna');
     const formTambahPengguna = document.getElementById('formTambahPengguna');
     const modalTambahPengguna = document.getElementById('modalTambahPengguna');
-    
+
     // Email Suggestion Logic for Modal
     const newNamaInput = document.getElementById('newNama');
     const newEmailInput = document.getElementById('newEmail');
     const emailSuggestionModal = document.getElementById('emailSuggestionModal');
 
     if (newNamaInput && newEmailInput && emailSuggestionModal) {
-        newNamaInput.addEventListener('input', function() {
+        newNamaInput.addEventListener('input', function () {
             const name = this.value;
             // Basic sanitization: lowercase, remove special chars, replace spaces with nothing
             const cleanName = name.toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         // Function to fill email (exposed globally for onclick)
-        window.fillModalEmail = function(email) {
+        window.fillModalEmail = function (email) {
             newEmailInput.value = email;
             // Visual feedback
             newEmailInput.classList.add('is-valid');
@@ -399,7 +399,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (btnSimpanPengguna && formTambahPengguna) {
-        btnSimpanPengguna.addEventListener('click', async function() {
+        btnSimpanPengguna.addEventListener('click', async function () {
             // Get form values
             const nama = document.getElementById('newNama').value.trim();
             const email = document.getElementById('newEmail').value.trim();
