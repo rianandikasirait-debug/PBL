@@ -107,52 +107,17 @@ if ($stmt->execute()) {
         }
     }
 
-    // ---------- Send WhatsApp Notifications to Participants ----------
+    // ---------- WhatsApp Notifications Disabled ----------
+    // Notifikasi WA sudah dikirim saat membuat akun peserta baru
+    // Tidak perlu kirim lagi saat menyimpan notulen
     $waErrors = [];
-    
-    if (defined('SEND_WA_ON_NOTULEN_CREATE') && SEND_WA_ON_NOTULEN_CREATE === true && !empty($clean)) {
-        require_once __DIR__ . '/../includes/whatsapp.php';
-        $waManager = new WhatsAppManager($conn);
-        
-        // Ambil informasi peserta yang dipilih
-        $participantIds = implode(',', $clean);
-        $stmtParticipants = $conn->prepare("SELECT id, nama, nomor_whatsapp FROM users WHERE id IN ($participantIds) AND nomor_whatsapp IS NOT NULL AND nomor_whatsapp != ''");
-        
-        if ($stmtParticipants) {
-            $stmtParticipants->execute();
-            $participants = $stmtParticipants->get_result();
-            
-            // Format pesan WhatsApp
-            $pesan = "\xE2\x9C\xA8 *Halo, Akun SmartNote Siap!* \xE2\x9C\xA8\n\n";
-            $pesan .= "Berikut akses masuk Anda:\n";
-            $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
-            $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
-            $pesan .= "\xF0\x9F\x94\x92 *Password default Anda adalah NIK: {$nik}. Mohon segera ganti password setelah login ya!*\n\n";
-            $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
-            
-            // Kirim ke setiap peserta
-            while ($participant = $participants->fetch_assoc()) {
-                $result = $waManager->sendMessage(
-                    $participant['id'],
-                    $participant['nomor_whatsapp'],
-                    $pesan
-                );
-                
-                if (!$result['success']) {
-                    $waErrors[] = "Gagal kirim ke {$participant['nama']}: {$result['message']}";
-                }
-            }
-            
-            $stmtParticipants->close();
-        }
-    }
     
     echo json_encode([
         'success' => true, 
         'message' => 'Notulen berhasil disimpan', 
         'upload_errors' => $uploadErrors,
         'wa_errors' => $waErrors,
-        'wa_sent' => count($clean) - count($waErrors)
+        'wa_sent' => 0
     ]);
 } else {
     // Jika gagal, kembalikan pesan error (berisi $stmt->error)
