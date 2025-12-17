@@ -206,6 +206,24 @@ include '../config_admin/db_kelola_rapat_admin.php';
         #rowsPerPage {
             color: #495057;
         }
+
+        /* Custom Tambah Pengguna Button Style */
+        .btn-tambah-pengguna {
+            border: 1.5px solid #198754;
+            border-radius: 8px;
+            padding: 10px 24px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            background-color: #fff;
+            color: #198754;
+            transition: all 0.25s ease;
+        }
+
+        .btn-tambah-pengguna:hover {
+            background-color: #198754;
+            border-color: #198754;
+            color: #fff;
+        }
     </style>
 
 <?php 
@@ -229,19 +247,35 @@ include '../config_admin/db_kelola_rapat_admin.php';
 
                 <!-- DROPDOWN ROWS PER PAGE -->
                 <style>
+                    /* Konsistensi Border untuk Toolbar */
+                    .toolbar-admin .search-box {
+                        border: 1.5px solid #dee2e6;
+                        border-radius: 8px;
+                        transition: all 0.25s ease;
+                    }
+
+                    .toolbar-admin .search-box:focus {
+                        border-color: #198754;
+                        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
+                    }
+
                     .form-select-green-outline {
-                        border: 1px solid #198754 !important;
-                        /* Bootstrap Success Green */
+                        border: 1.5px solid #198754 !important;
                         color: #198754;
                         border-radius: 8px;
                         font-weight: 500;
                         padding-right: 2.5rem;
-                        /* Space for arrow */
                         width: auto;
+                        background-color: #fff;
+                        transition: all 0.25s ease;
+                    }
+
+                    .form-select-green-outline:hover {
+                        background-color: #f8f9fa;
                     }
 
                     .form-select-green-outline:focus {
-                        box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+                        box-shadow: 0 0 0 0.2rem rgba(25, 135, 84, 0.15);
                         border-color: #198754;
                     }
 
@@ -275,8 +309,8 @@ include '../config_admin/db_kelola_rapat_admin.php';
                     <option value="all">Semua Data</option>
                 </select>
 
-                <button type="button" class="btn btn-success d-flex align-items-center gap-2" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
-                    <i class="bi bi-plus-circle"></i> Tambah Pengguna
+                <button type="button" class="btn btn-outline-success d-flex align-items-center gap-2 btn-tambah-pengguna" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
+                    <i class="bi bi-person-plus"></i> Tambah Pengguna
                 </button>
             </div>
 
