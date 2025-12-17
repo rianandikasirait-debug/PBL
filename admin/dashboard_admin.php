@@ -8,7 +8,7 @@ include '../config_admin/db_dashboard.php';
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard Admin</title>
+    <title>Dashboard Notulis</title>
 
     <!-- Bootstrap CSS & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@ include '../config_admin/db_dashboard.php';
 
 <body>
 <?php 
-    $pageTitle = "Dashboard Admin";
+    $pageTitle = "Dashboard Notulis";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php';
     // header

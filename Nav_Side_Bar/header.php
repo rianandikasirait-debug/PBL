@@ -1,7 +1,7 @@
 <?php
 // Ensure variables are set
 $pageTitle = isset($pageTitle) ? $pageTitle : 'SmartNote';
-$userName = isset($userName) ? $userName : (isset($user['nama']) ? $user['nama'] : 'Admin');
+$userName = isset($userName) ? $userName : (isset($user['nama']) ? $user['nama'] : 'Notulis');
 
 // Handle photo logic
 // Priority: $userPhoto (global/session) -> $userData['foto'] (fetched user) -> $foto (profile page) -> $user['foto'] (edit profile)
@@ -28,7 +28,7 @@ if (!$displayPhoto && isset($_SESSION['foto'])) $displayPhoto = $_SESSION['foto'
     <div class="right-section">
         <div class="d-none d-md-block text-end me-2">
             <div class="fw-bold small"><?= htmlspecialchars($userName) ?></div>
-            <small class="text-muted" style="font-size: 0.75rem;">Administrator</small>
+            <small class="text-muted" style="font-size: 0.75rem;">Notulis</small>
         </div>
         
         <?php if ($displayPhoto && file_exists("../file/" . $displayPhoto)): ?>
