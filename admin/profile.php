@@ -134,6 +134,7 @@ include '../config_admin/db_profile.php';
     $pageTitle = "Profile Notulis";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php'; 
+    
     // header
     include '../Nav_Side_Bar/header.php';
 ?>

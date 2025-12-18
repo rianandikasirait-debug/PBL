@@ -223,6 +223,7 @@ include '../config_admin/db_notulen.admin.php';
     $pageTitle = "Tambah Notulen";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php';
+    
     // header
     include '../Nav_Side_Bar/header.php'; 
 ?>

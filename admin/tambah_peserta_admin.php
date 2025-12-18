@@ -180,6 +180,7 @@ include '../config_admin/db_tambah_peserta.php';
     $pageTitle = "Tambah Pengguna";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php'; 
+    
     // header
     include '../Nav_Side_Bar/header.php';
 ?>

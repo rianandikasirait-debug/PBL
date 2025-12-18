@@ -163,6 +163,7 @@ include '../config_admin/db_detail_rapat_admin.php';
     $pageTitle = "Detail Notulen";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php'; 
+    
     // header
     include '../Nav_Side_Bar/header.php';
 ?>

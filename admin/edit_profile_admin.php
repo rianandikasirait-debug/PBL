@@ -118,6 +118,7 @@ include '../config_admin/db_edit_profile_admin.php';
     $pageTitle = "Edit Profile";
     // sidebar
     include '../Nav_Side_Bar/sidebar.php'; 
+    
     // header
     include '../Nav_Side_Bar/header.php';
 ?>
