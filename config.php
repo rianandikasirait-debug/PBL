@@ -32,6 +32,3 @@ define('SEND_WA_ON_NOTULEN_CREATE', true);
 define('SEND_WA_ON_PARTICIPANT_ADD', true);
 
 ?>
-<!-- api key fonnte rian -->
-<!-- P1HFsjt3vd63u9Xh493C -->
-
