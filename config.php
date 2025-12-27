@@ -12,7 +12,7 @@
 // =============================================
 
 // API Key dari Fonnte (dapatkan dari https://fonnte.com)
-define('FONNTE_API_KEY', 'P1HFsjt3vd63u9Xh493C');
+define('FONNTE_API_KEY', '5834MBGm36Uqb3bA1rCt');
 
 // Endpoint API Fonnte
 define('FONNTE_API_URL', 'https://api.fonnte.com/send');
@@ -32,3 +32,6 @@ define('SEND_WA_ON_NOTULEN_CREATE', true);
 define('SEND_WA_ON_PARTICIPANT_ADD', true);
 
 ?>
+<!-- api key fonnte rian -->
+<!-- P1HFsjt3vd63u9Xh493C -->
+
