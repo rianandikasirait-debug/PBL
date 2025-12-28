@@ -94,11 +94,11 @@ try {
             // 1. Jika ada perubahan NIK atau Email
             if ($nikChanged || $emailChanged) {
                 $pesan = "\xE2\x9C\x8F\xEF\xB8\x8F *Akun SmartNote Diperbarui* \xE2\x9C\x8F\xEF\xB8\x8F\n\n";
-                $pesan .= "Halo {$nama}, akun Anda telah diperbarui oleh Admin.\n\n";
+                $pesan .= "Halo {$nama}, akun Anda telah diperbarui oleh Notulis.\n\n";
                 $pesan .= "Data akun terbaru:\n";
                 $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
                 $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
-                $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
+                $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $targetWa, $pesan);
                 if ($result['success']) {
@@ -111,11 +111,11 @@ try {
             // 2. Jika reset password
             if ($reset_password) {
                 $pesan = "\xF0\x9F\x94\x92 *Password Direset* \xF0\x9F\x94\x92\n\n";
-                $pesan .= "Halo {$nama}, password akun SmartNote Anda telah direset oleh Admin.\n\n";
+                $pesan .= "Halo {$nama}, password akun SmartNote Anda telah direset oleh Notulis.\n\n";
                 $pesan .= "Password baru Anda adalah NIK:\n";
                 $pesan .= "\xF0\x9F\x94\x91 Password: {$nik}\n\n";
                 $pesan .= "\xE2\x9A\xA0\xEF\xB8\x8F *Segera ganti password setelah login!*\n\n";
-                $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
+                $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $targetWa, $pesan);
                 if ($result['success']) {
@@ -133,7 +133,7 @@ try {
                 $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
                 $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
                 $pesan .= "Anda akan menerima notifikasi di nomor ini.\n\n";
-                $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
+                $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $whatsapp, $pesan);
                 if ($result['success']) {
