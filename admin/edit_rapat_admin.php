@@ -13,7 +13,7 @@ include '../config_admin/db_edit_rapat_admin.php';
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
 
-  <script src="https://cdn.tiny.cloud/1/ax0ia7o379mr6qirp1j81wj9ulw3j38l2tvuuwdktdpjxzcj/tinymce/6/tinymce.min.js"
+  <script src="https://cdn.tiny.cloud/1/wn28ehfd7f3u89ai52iyg0cab6dzyfdjc3wbnau606kudv4k/tinymce/6/tinymce.min.js"
     referrerpolicy="origin"></script>
   <link rel="stylesheet" href="../css/admin.min.css">
   <link rel="stylesheet" href="../css/sidebar.css">
@@ -436,7 +436,7 @@ include '../config_admin/db_edit_rapat_admin.php';
           selector: '#isi',
           height: 350,
           menubar: false,
-          api_key: 'ax0ia7o379mr6qirp1j81wj9ulw3j38l2tvuuwdktdpjxzcj',
+          api_key: 'wn28ehfd7f3u89ai52iyg0cab6dzyfdjc3wbnau606kudv4k',
           plugins: "lists link table code",
           toolbar: "undo redo | bold italic underline | bullist numlist | link",
           readonly: <?= ($notulen['status'] ?? 'draft') === 'final' ? 'true' : 'false' ?>
