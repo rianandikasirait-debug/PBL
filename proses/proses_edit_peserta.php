@@ -98,6 +98,7 @@ try {
                 $pesan .= "Data akun terbaru:\n";
                 $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
                 $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
+                $pesan .= "\xF0\x9F\x8C\x90 Silakan login ulang untuk melihat akun Anda di: smartnote.wuaze.com\n\n";
                 $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $targetWa, $pesan);
@@ -115,6 +116,7 @@ try {
                 $pesan .= "Password baru Anda adalah NIK:\n";
                 $pesan .= "\xF0\x9F\x94\x91 Password: {$nik}\n\n";
                 $pesan .= "\xE2\x9A\xA0\xEF\xB8\x8F *Segera ganti password setelah login!*\n\n";
+                $pesan .= "\xF0\x9F\x8C\x90 Silakan login ulang di: smartnote.wuaze.com\n\n";
                 $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $targetWa, $pesan);
@@ -133,6 +135,7 @@ try {
                 $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
                 $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
                 $pesan .= "Anda akan menerima notifikasi di nomor ini.\n\n";
+                $pesan .= "\xF0\x9F\x8C\x90 Silakan login ulang untuk melihat akun Anda di: smartnote.wuaze.com\n\n";
                 $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
                 
                 $result = $waManager->sendMessage($id, $whatsapp, $pesan);

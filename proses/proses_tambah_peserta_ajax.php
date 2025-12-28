@@ -92,7 +92,8 @@ try {
             $pesan .= "\xF0\x9F\x93\xA7 Email: {$email}\n";
             $pesan .= "\xF0\x9F\x94\x91 NIK: {$nik}\n\n";
             $pesan .= "\xF0\x9F\x94\x92 *Password default Anda adalah NIK: {$nik}. Mohon segera ganti password setelah login ya!*\n\n";
-            $pesan .= "_Admin SmartNote_ \xF0\x9F\x93\x9D";
+            $pesan .= "\xF0\x9F\x8C\x90 Silakan login di: smartnote.wuaze.com\n\n";
+            $pesan .= "_Notulis SmartNote_ \xF0\x9F\x93\x9D";
             
             $waResult = $waManager->sendMessage($userId, $nomor_whatsapp, $pesan);
         }
