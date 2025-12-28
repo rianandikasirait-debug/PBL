@@ -185,23 +185,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Fungsi tampilkan notifikasi
-    function showToast(message, type = 'success') {
-        const toastEl = document.getElementById('successToast');
-        if (!toastEl) return;
-
-        toastEl.className = `toast align-items-center text-bg-${type} border-0`;
-
-        toastEl.querySelector('.toast-body').innerHTML = `
-    <i class="bi bi-check-circle-fill me-2"></i> ${message}
-`;
-
-        const toast = new bootstrap.Toast(toastEl, {
-            delay: 3000
-        });
-        toast.show();
-    }
-
+    // Fungsi showToast menggunakan fungsi global dari admin.js
+    // (background putih dengan border hijau di kiri)
 
     // Global function to handle image errors
     window.handleImageError = function (img) {
