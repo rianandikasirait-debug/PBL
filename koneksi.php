@@ -1,4 +1,7 @@
 <?php
+// Set timezone ke WIB (Waktu Indonesia Barat)
+date_default_timezone_set('Asia/Jakarta');
+
 // Konfigurasi koneksi database
 $host = "localhost";
 $user = "root";
