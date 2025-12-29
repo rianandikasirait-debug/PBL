@@ -36,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const judul = escapeHtml(item.judul || '');
             const tanggal = escapeHtml(item.tanggal || '');
             const pembuat = escapeHtml(item.nama_notulis || 'Admin');
-            const pesertaCount = item.peserta ? item.peserta.split(',').length : 0;
+            const pesertaCount = (item.peserta && item.peserta.trim() !== '') ? item.peserta.split(',').length : 0;
             const status = escapeHtml(item.status || 'draft');
 
             // Format tanggal dengan jam

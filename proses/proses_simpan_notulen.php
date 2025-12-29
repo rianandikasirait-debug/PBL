@@ -29,25 +29,16 @@ if ($judul === '' || $tanggal === '' || $isi === '') {
 // File upload handled after insertion into tb_lampiran
 
 // ---------- Prepare peserta CSV ----------
-// ---------- Prepare peserta CSV ----------
-$currentUserId = isset($_SESSION['user_id']) ? (int)$_SESSION['user_id'] : 0;
 $clean = [];
 
 if (is_array($peserta_ids) && count($peserta_ids) > 0) {
     // Input Provided: Sanitize
     $clean = array_map('intval', $peserta_ids);
-} else {
-    // No Input: Fallback fetch all 'peserta'
-    $stmtAll = $conn->prepare("SELECT id FROM users WHERE role = 'peserta'");
-    $stmtAll->execute();
-    $resAll = $stmtAll->get_result();
-    while ($row = $resAll->fetch_assoc()) {
-        $clean[] = (int)$row['id'];
-    }
+    // Final Sanitization
+    $clean = array_unique(array_filter($clean, function($v) { return $v > 0; }));
 }
 
-// FinalSanitization
-$clean = array_unique(array_filter($clean, function($v) { return $v > 0; }));
+// If no participants selected, peserta_csv will be empty string
 $peserta_csv = implode(',', $clean);
 
 // Ensure data limits match database schema to prevent errors
