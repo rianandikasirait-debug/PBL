@@ -42,9 +42,13 @@ document.addEventListener("DOMContentLoaded", function () {
             // Format tanggal dengan jam
             let tanggalDenganJam = tanggal;
             if (item.created_at) {
-                const dateObj = new Date(item.created_at);
-                const jam = dateObj.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
-                tanggalDenganJam = `${tanggal} • ${jam}`;
+                // Parse MySQL timestamp and extract time directly (format: YYYY-MM-DD HH:MM:SS)
+                const timePart = item.created_at.split(' ')[1]; // Get "HH:MM:SS"
+                if (timePart) {
+                    const [hour, minute] = timePart.split(':');
+                    const jam = `${hour}.${minute}`;
+                    tanggalDenganJam = `${tanggal} • ${jam}`;
+                }
             }
 
             // Map status ke badge color
