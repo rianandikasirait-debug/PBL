@@ -16,7 +16,7 @@ include '../config_admin/db_notulen.admin.php';
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/forms.css">
 
-    <script src="https://cdn.tiny.cloud/1/wn28ehfd7f3u89ai52iyg0cab6dzyfdjc3wbnau606kudv4k/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script src="https://cdn.tiny.cloud/1/ax0ia7o379mr6qirp1j81wj9ulw3j38l2tvuuwdktdpjxzcj/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
     <style>
         .btn-save {
             background-color: #00C853 !important; 
