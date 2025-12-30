@@ -7,9 +7,10 @@ header('Content-Type: application/json');
 
 // 1. CEK LOGIN & ROLE
 $role = isset($_SESSION['user_role']) ? trim(strtolower($_SESSION['user_role'])) : '';
+$allowedRoles = ['admin', 'notulis'];
 
-if (!isset($_SESSION['user_id']) || $role !== 'admin') {
-    // Jika tidak login atau bukan admin -> 403 Forbidden
+if (!isset($_SESSION['user_id']) || !in_array($role, $allowedRoles)) {
+    // Jika tidak login atau bukan admin/notulis -> 403 Forbidden
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Akses ditolak. Role: ' . $role]);
     exit;

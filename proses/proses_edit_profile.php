@@ -12,8 +12,9 @@ $id = $_SESSION['user_id']; // Ambil ID user dari session (digunakan untuk updat
 $role = $_SESSION['user_role'] ?? 'peserta'; // Ambil role; default 'peserta' jika tidak ada
 
 // Tentukan halaman redirect sesuai role (profil & edit)
-$redirect_profile = ($role === 'admin') ? '../admin/profile.php' : '../peserta/profile_peserta.php';
-$redirect_edit = ($role === 'admin') ? '../admin/edit_profile_admin.php' : '../peserta/edit_profile_peserta.php';
+$adminRoles = ['admin', 'notulis'];
+$redirect_profile = in_array($role, $adminRoles) ? '../admin/profile.php' : '../peserta/profile_peserta.php';
+$redirect_edit = in_array($role, $adminRoles) ? '../admin/edit_profile_admin.php' : '../peserta/edit_profile_peserta.php';
 
 $nama = trim($_POST['nama']); // Ambil nama baru (trim spasi)
 $password_baru = $_POST['password_baru'] ?? ''; // Ambil password baru jika ada
