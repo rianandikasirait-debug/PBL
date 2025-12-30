@@ -315,10 +315,10 @@ include '../config_admin/db_notulen.admin.php';
                                     <div class="mb-2 mb-md-3">
                                         <i class="bi bi-people-fill text-success" style="font-size: 1.8rem;"></i>
                                     </div>
-                                    <h6 class="fw-semibold mb-1 mb-md-2" style="font-size: 0.85rem;">Pilih Peserta</h6>
+                                    <h6 class="fw-semibold mb-1 mb-md-2" style="font-size: 0.85rem;">Pilih<br class="d-sm-none"> Peserta</h6>
                                     <p class="text-muted small mb-2 mb-md-3 d-none d-md-block">Pilih dari daftar pengguna yang sudah ada</p>
                                     <button type="button" class="btn btn-outline-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalPeserta">
-                                        <i class="bi bi-list-ul me-1"></i><span class="d-none d-sm-inline">Pilih</span> Peserta
+                                        <i class="bi bi-people-fill me-1"></i><span class="d-none d-sm-inline">Pilih </span>Peserta
                                     </button>
                                 </div>
                             </div>
@@ -333,7 +333,7 @@ include '../config_admin/db_notulen.admin.php';
                                     <h6 class="fw-semibold mb-1 mb-md-2" style="font-size: 0.85rem;">Tambah Pengguna</h6>
                                     <p class="text-muted small mb-2 mb-md-3 d-none d-md-block">Buat akun peserta baru langsung dari sini</p>
                                     <button type="button" class="btn btn-outline-success btn-sm w-100" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
-                                        <i class="bi bi-person-plus me-1"></i><span class="d-none d-sm-inline">Tambah</span> Pengguna
+                                        <i class="bi bi-person-plus-fill me-1"></i><span class="d-none d-sm-inline">Tambah </span>Pengguna
                                     </button>
                                 </div>
                             </div>
