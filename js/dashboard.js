@@ -240,8 +240,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             const json = await res.json();
             if (json.success) {
-                // Reload page to update counters and table
-                window.location.reload();
+                // Show success notification then reload
+                showToast('Notulen berhasil dihapus.', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             } else {
                 showToast(json.message || 'Gagal menghapus notulen.', 'error');
             }
