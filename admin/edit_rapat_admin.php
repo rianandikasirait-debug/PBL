@@ -130,19 +130,19 @@ include '../config_admin/db_edit_rapat_admin.php';
           </div>
       </div>
 
-      <form id="editForm" method="POST" enctype="multipart/form-data">
+      <form id="editForm" method="POST" enctype="multipart/form-data" novalidate>
         <input type="hidden" name="id" value="<?= $id_notulen ?>">
 
         <div class="mb-3">
           <label class="form-label">Judul</label>
           <input type="text" class="form-control" name="judul" value="<?= htmlspecialchars($notulen['judul'] ?? '') ?>"
-            required />
+            />
         </div>
 
         <div class="mb-3">
           <label class="form-label">Tanggal Rapat</label>
           <div class="input-group">
-            <input type="date" class="form-control" name="tanggal" value="<?= $notulen['tanggal'] ?? '' ?>" required />
+            <input type="date" class="form-control" name="tanggal" value="<?= $notulen['tanggal'] ?? '' ?>" />
           </div>
         </div>
 

@@ -34,10 +34,7 @@ include '../config_admin/db_dashboard.php';
 
     <!-- Main Content -->
     <main class="main-content">
-        <?php if (isset($_SESSION['login_success'])): ?>
-            <div class="alert alert-success small mb-3"><?= htmlspecialchars($_SESSION['login_success']) ?></div>
-            <?php unset($_SESSION['login_success']); ?>
-        <?php endif; ?>
+
         <!-- Highlight Cards -->
 
         <!-- Card 1: Total Peserta -->
@@ -146,5 +143,13 @@ include '../config_admin/db_dashboard.php';
         window.notulenDataFromPHP = <?= json_encode($dataNotulen, JSON_UNESCAPED_UNICODE) ?>;
     </script>
     <script src="../js/dashboard.js"></script>
+    <?php if (isset($_SESSION['login_success'])): ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            showToast('<?= htmlspecialchars($_SESSION['login_success']) ?>', 'success');
+        });
+    </script>
+    <?php unset($_SESSION['login_success']); ?>
+    <?php endif; ?>
 </body>
 </html>

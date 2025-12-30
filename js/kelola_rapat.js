@@ -297,6 +297,23 @@ document.addEventListener('DOMContentLoaded', () => {
         editForm.addEventListener('submit', async function (e) {
             e.preventDefault();
 
+            // Validasi: Nama, Email, dan NIK wajib diisi
+            const nama = document.getElementById('edit_nama').value.trim();
+            const email = document.getElementById('edit_email').value.trim();
+            const nik = document.getElementById('edit_nik').value.trim();
+
+            if (!nama || !email || !nik) {
+                showToast('Nama, Email, dan NIK wajib diisi', 'error');
+                return;
+            }
+
+            // Validasi format email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showToast('Format email tidak valid', 'error');
+                return;
+            }
+
             const btnSave = document.getElementById('btnSaveEdit');
             const spinner = btnSave.querySelector('.spinner-border');
 

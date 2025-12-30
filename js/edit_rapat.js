@@ -103,6 +103,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     tinymce.triggerSave();
                 }
 
+                // Validasi: Judul, Tanggal, dan Isi wajib diisi
+                const judul = document.querySelector('input[name="judul"]').value.trim();
+                const tanggal = document.querySelector('input[name="tanggal"]').value.trim();
+                const isi = document.getElementById('isi').value.trim();
+
+                if (!judul || !tanggal || !isi) {
+                    showToast('Judul, tanggal, dan isi wajib diisi', 'error');
+                    return;
+                }
+
                 const fd = new FormData(this);
 
                 // CRITICAL FIX: Manually append participant IDs

@@ -359,23 +359,23 @@ include '../config_admin/db_kelola_rapat_admin.php';
                     <button type="button" class="btn-close shadow-none" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 pt-3">
-                    <form id="editUserForm">
+                    <form id="editUserForm" novalidate>
                         <input type="hidden" id="edit_id" name="id">
                         
                         <div class="mb-3">
                             <label for="edit_nama" class="form-label fw-medium text-dark">Nama Lengkap</label>
-                            <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nama" name="nama" required placeholder="Masukkan nama lengkap">
+                            <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nama" name="nama" placeholder="Masukkan nama lengkap">
                         </div>
                         
                         <div class="mb-3">
                             <label for="edit_email" class="form-label fw-medium text-dark">Email</label>
-                            <input type="email" class="form-control form-control-lg rounded-3 fs-6" id="edit_email" name="email" required placeholder="nama@email.com">
+                            <input type="email" class="form-control form-control-lg rounded-3 fs-6" id="edit_email" name="email" placeholder="nama@email.com">
                         </div>
                         
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label for="edit_nik" class="form-label fw-medium text-dark">NIK</label>
-                                <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nik" name="nik" required placeholder="Nomor Induk">
+                                <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nik" name="nik" placeholder="Nomor Induk">
                             </div>
                             <div class="col-md-6">
                                 <label for="edit_whatsapp" class="form-label fw-medium text-dark">WhatsApp</label>
