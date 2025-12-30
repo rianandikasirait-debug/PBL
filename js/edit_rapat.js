@@ -16,10 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <input type="file" name="file_lampiran[]" class="form-control form-control-sm file-input">
                     </div>
                     <div class="col-md-2 text-end">
-                        <button type="button" class="btn btn-sm btn-success upload-lampiran me-1" title="Upload & Simpan">
-                            <i class="bi bi-cloud-upload"></i>
-                        </button>
-                        <button type="button" class="btn btn-sm btn-soft-danger remove-lampiran">
+                        <button type="button" class="btn btn-sm btn-soft-danger remove-lampiran" title="Hapus">
                             <i class="bi bi-trash"></i>
                         </button>
                     </div>
@@ -31,59 +28,10 @@ document.addEventListener('DOMContentLoaded', function () {
             row.querySelector('.remove-lampiran').addEventListener('click', function () {
                 row.remove();
             });
-
-            // Upload event
-            const uploadBtn = row.querySelector('.upload-lampiran');
-            uploadBtn.addEventListener('click', async function () {
-                const titleInput = row.querySelector('.title-input');
-                const fileInput = row.querySelector('.file-input');
-                const file = fileInput.files[0];
-
-                if (!file) {
-                    showToast('Silakan pilih file terlebih dahulu', 'error');
-                    return;
-                }
-
-                // Show loading
-                const originalContent = uploadBtn.innerHTML;
-                uploadBtn.disabled = true;
-                uploadBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>';
-
-                try {
-                    const formData = new FormData();
-                    formData.append('id_notulen', document.querySelector('input[name="id"]').value);
-                    formData.append('judul_lampiran', titleInput.value);
-                    formData.append('file_lampiran', file);
-
-                    const res = await fetch('../proses/proses_upload_lampiran.php', {
-                        method: 'POST',
-                        body: formData
-                    });
-                    const json = await res.json();
-
-                    if (json.success) {
-                        showToast('Lampiran berhasil diupload!', 'success');
-
-                        // Move to existing list
-                        addExistingLampiranRow(json.data);
-
-                        // Remove this input row
-                        row.remove();
-                    } else {
-                        showToast(json.message || 'Gagal upload', 'error');
-                        uploadBtn.disabled = false;
-                        uploadBtn.innerHTML = originalContent;
-                    }
-                } catch (err) {
-                    console.error(err);
-                    showToast('Terjadi kesalahan sistem', 'error');
-                    uploadBtn.disabled = false;
-                    uploadBtn.innerHTML = originalContent;
-                }
-            });
         }
         addBtn.addEventListener('click', addRow);
     }
+
 
     // Helper to add row to existing list (visual only)
     function addExistingLampiranRow(data) {

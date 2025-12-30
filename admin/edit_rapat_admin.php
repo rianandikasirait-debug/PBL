@@ -163,8 +163,6 @@ include '../config_admin/db_edit_rapat_admin.php';
           <?php endif; ?>
         </div>
 
-        </div>
-
         <!-- LAMPIRAN SECTION -->
         <div class="mb-4">
           <label class="form-label fw-semibold">Lampiran</label>
