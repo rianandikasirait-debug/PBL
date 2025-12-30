@@ -174,8 +174,15 @@ $_SESSION['user_role'] = $user['role'] ?? 'peserta';
 $_SESSION['user_email'] = $user['email'];              // ➜ TAMBAHAN WAJIB
 $_SESSION['user_foto']  = $user['foto'] ?? '';
 
-// Redirect ke login.php untuk menampilkan notifikasi sukses
+// Set pesan sukses untuk ditampilkan di dashboard
 $_SESSION['login_success'] = 'Berhasil Login';
-header('Location: ../login.php');
+
+// Redirect langsung ke dashboard sesuai role
+$role = strtolower($user['role'] ?? 'peserta');
+if (in_array($role, ['admin', 'notulis'])) {
+    header('Location: ../admin/dashboard_admin.php');
+} else {
+    header('Location: ../peserta/dashboard_peserta.php');
+}
 exit;
 ?>
