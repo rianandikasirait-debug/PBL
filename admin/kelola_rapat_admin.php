@@ -316,6 +316,9 @@ include '../config_admin/db_kelola_rapat_admin.php';
                     <option value="all">Semua Data</option>
                 </select>
 
+                <a href="../proses/proses_export_peserta.php" class="btn btn-outline-success d-flex align-items-center gap-2" style="border: 1.5px solid #198754;">
+                    <i class="bi bi-file-earmark-excel"></i> Export Excel
+                </a>
                 <button type="button" class="btn btn-outline-success d-flex align-items-center gap-2 btn-tambah-pengguna" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna">
                     <i class="bi bi-person-plus"></i> Tambah Pengguna
                 </button>
