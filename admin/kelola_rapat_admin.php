@@ -375,7 +375,9 @@ include '../config_admin/db_kelola_rapat_admin.php';
                         <div class="row g-3 mb-4">
                             <div class="col-md-6">
                                 <label for="edit_nik" class="form-label fw-medium text-dark">NIK</label>
-                                <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nik" name="nik" placeholder="Nomor Induk">
+                                <input type="text" class="form-control form-control-lg rounded-3 fs-6" id="edit_nik" name="nik" 
+                                    minlength="6" maxlength="10" pattern="\d{6,10}" 
+                                    title="NIK harus berupa 6-10 digit angka" required placeholder="6-10 digit angka">
                             </div>
                             <div class="col-md-6">
                                 <label for="edit_whatsapp" class="form-label fw-medium text-dark">WhatsApp</label>
@@ -433,8 +435,11 @@ include '../config_admin/db_kelola_rapat_admin.php';
                         </div>
                         <div class="mb-3">
                             <label class="form-label">NIK</label>
-                            <input type="text" class="form-control" id="newNik" name="nik" placeholder="Masukkan NIK peserta" required>
-                            <small class="text-muted">⚠️ NIK akan digunakan sebagai password default. Peserta wajib mengganti password saat login pertama.</small>
+                            <input type="text" class="form-control" id="newNik" name="nik" 
+                                placeholder="Masukkan NIK peserta (6-10 digit)" 
+                                minlength="6" maxlength="10" pattern="\d{6,10}" 
+                                title="NIK harus berupa 6-10 digit angka" required>
+                            <small class="text-muted">⚠️ NIK harus 6-10 digit angka. Akan digunakan sebagai password default.</small>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nomor WhatsApp <span class="badge bg-info">Opsional</span></label>

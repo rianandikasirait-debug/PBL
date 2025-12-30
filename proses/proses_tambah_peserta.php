@@ -29,6 +29,13 @@ if (empty($nama) || empty($email) || empty($nik)) {
     exit;
 }
 
+// Validasi panjang NIK (min 6, max 10 digit)
+if (!preg_match('/^\d{6,10}$/', $nik)) {
+    $_SESSION['error_message'] = 'NIK harus berupa 6-10 digit angka.';
+    header('Location: ../admin/tambah_peserta_admin.php');
+    exit;
+}
+
 // Password default = NIK (akan di-hash nanti)
 $password = $nik;
 
