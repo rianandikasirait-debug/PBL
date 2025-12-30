@@ -70,7 +70,7 @@ if (!$user) {
 
 // Jika user tetap tidak ditemukan baik dari email maupun nik
 if (!$user) {
-    $_SESSION['login_error'] = 'Email/NIK tidak ditemukan.';
+    $_SESSION['login_error'] = 'Email (NIK) atau Password salah.';
     header('Location: ../login.php');
     exit;
 }
@@ -120,7 +120,7 @@ elseif ($password === $user['password']) {
 
 // Jika autentikasi gagal, set error dan redirect kembali ke login
 if (!$authenticated) {
-    $_SESSION['login_error'] = 'Password salah.';
+    $_SESSION['login_error'] = 'Email (NIK) atau Password salah.';
     header('Location: ../login.php');
     exit;
 }
