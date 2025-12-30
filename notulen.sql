@@ -73,8 +73,8 @@ CREATE TABLE IF NOT EXISTS `tb_lampiran` (
 
 
 
--- Data Default (Admin & Contoh Peserta)
+-- Data Default (Notulis & Contoh Peserta)
 -- Password default: lopolo9090
 INSERT IGNORE INTO `users` (`id`, `nama`, `email`, `nik`, `password`, `role`, `password_updated`, `is_first_login`) VALUES 
-(1, 'Admin', 'admin@gmail.com', 123456, 'lopolo9090', 'admin', 1, 0),
+(1, 'Notulis', 'notulis@gmail.com', 123456, 'lopolo9090', 'notulis', 1, 0),
 (2, 'Peserta Satu', 'peserta@gmail.com', 654321, 'lopolo9090', 'peserta', 1, 0);
