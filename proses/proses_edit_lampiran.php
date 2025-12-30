@@ -5,7 +5,8 @@ require_once __DIR__ . '/../koneksi.php';
 header('Content-Type: application/json');
 
 // 1. Authentication Check
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
     http_response_code(403);
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;

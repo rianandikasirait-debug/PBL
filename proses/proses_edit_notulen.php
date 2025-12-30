@@ -3,8 +3,9 @@ session_start(); // Mulai session — memastikan variabel session tersedia
 require_once __DIR__ . '/../koneksi.php'; // Sertakan koneksi database (variabel $conn diasumsikan ada)
 
 // Cek Login & Role
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    // Jika tidak login atau bukan admin -> arahkan ke halaman login
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
+    // Jika tidak login atau bukan admin/notulis -> arahkan ke halaman login
     header("Location: ../login.php");
     exit;
 }
