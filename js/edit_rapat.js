@@ -106,9 +106,18 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Validasi: Judul, Tanggal, dan Isi wajib diisi
                 const judul = document.querySelector('input[name="judul"]').value.trim();
                 const tanggal = document.querySelector('input[name="tanggal"]').value.trim();
-                const isi = document.getElementById('isi').value.trim();
 
-                if (!judul || !tanggal || !isi) {
+                // Get TinyMCE content properly and strip HTML tags to check if truly empty
+                let isiContent = '';
+                if (typeof tinymce !== 'undefined' && tinymce.get('isi')) {
+                    isiContent = tinymce.get('isi').getContent();
+                } else {
+                    isiContent = document.getElementById('isi').value;
+                }
+                // Strip HTML tags and check if content is empty
+                const isiText = isiContent.replace(/<[^>]*>/g, '').trim();
+
+                if (!judul || !tanggal || !isiText) {
                     showToast('Judul, tanggal, dan isi wajib diisi', 'error');
                     return;
                 }
