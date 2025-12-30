@@ -174,12 +174,8 @@ $_SESSION['user_role'] = $user['role'] ?? 'peserta';
 $_SESSION['user_email'] = $user['email'];              // ➜ TAMBAHAN WAJIB
 $_SESSION['user_foto']  = $user['foto'] ?? '';
 
-// Redirect berdasarkan role user
-if (trim(strtolower($_SESSION['user_role'])) === 'admin') {
-    header('Location: ../admin/dashboard_admin.php');
-    exit;
-} else {
-    header('Location: ../peserta/dashboard_peserta.php');
-    exit;
-}
+// Redirect ke login.php untuk menampilkan notifikasi sukses
+$_SESSION['login_success'] = 'Berhasil Login';
+header('Location: ../login.php');
+exit;
 ?>

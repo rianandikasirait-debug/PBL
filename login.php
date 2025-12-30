@@ -63,6 +63,12 @@ if ($TEST_MODE) {
                 echo '<div class="alert alert-danger small mb-3">'.htmlspecialchars($_SESSION['login_error']).'</div>';
                 unset($_SESSION['login_error']);
             }
+            if (isset($_SESSION['login_success'])) {
+                $redirectUrl = ($_SESSION['user_role'] === 'admin') ? 'admin/dashboard_admin.php' : 'peserta/dashboard_peserta.php';
+                echo '<div class="alert alert-success small mb-3">'.htmlspecialchars($_SESSION['login_success']).'</div>';
+                echo '<script>setTimeout(function(){ window.location.href = "'.$redirectUrl.'"; }, 1000);</script>';
+                unset($_SESSION['login_success']);
+            }
             ?>
 
             <form action="proses/proses_login.php" method="POST">

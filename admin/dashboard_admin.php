@@ -34,6 +34,10 @@ include '../config_admin/db_dashboard.php';
 
     <!-- Main Content -->
     <main class="main-content">
+        <?php if (isset($_SESSION['login_success'])): ?>
+            <div class="alert alert-success small mb-3"><?= htmlspecialchars($_SESSION['login_success']) ?></div>
+            <?php unset($_SESSION['login_success']); ?>
+        <?php endif; ?>
         <!-- Highlight Cards -->
 
         <!-- Card 1: Total Peserta -->
