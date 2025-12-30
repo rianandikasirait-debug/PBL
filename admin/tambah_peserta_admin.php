@@ -226,8 +226,10 @@ include '../config_admin/db_tambah_peserta.php';
                             <div class="mb-3">
                                 <label class="form-label">NIK</label>
                                 <input type="text" id="nik" name="nik" class="form-control"
-                                    placeholder="Masukkan NIK peserta" required>
-                                <small class="text-muted d-block mt-1">⚠️ NIK akan digunakan sebagai password default. Peserta wajib mengganti password saat login pertama.</small>
+                                    placeholder="Masukkan NIK peserta (6-10 digit)" 
+                                    minlength="6" maxlength="10" pattern="\d{6,10}" 
+                                    title="NIK harus berupa 6-10 digit angka" required>
+                                <small class="text-muted d-block mt-1">⚠️ NIK harus 6-10 digit angka. Akan digunakan sebagai password default.</small>
                             </div>
 
                             <div class="mb-3">

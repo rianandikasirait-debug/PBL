@@ -32,6 +32,12 @@ if (empty($nama) || empty($email) || empty($nik)) {
     exit;
 }
 
+// Validasi panjang NIK (min 6, max 10 digit)
+if (!preg_match('/^\d{6,10}$/', $nik)) {
+    echo json_encode(['success' => false, 'message' => 'NIK harus berupa 6-10 digit angka']);
+    exit;
+}
+
 // Validasi format email
 if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
     echo json_encode(['success' => false, 'message' => 'Format email tidak valid']);

@@ -33,6 +33,12 @@ if ($id <= 0 || empty($nama) || empty($email) || empty($nik)) {
     exit;
 }
 
+// Validasi panjang NIK (min 6, max 10 digit)
+if (!preg_match('/^\d{6,10}$/', $nik)) {
+    echo json_encode(['success' => false, 'message' => 'NIK harus berupa 6-10 digit angka']);
+    exit;
+}
+
 // Ambil data lama untuk perbandingan
 $sqlOld = "SELECT nama, email, nik, nomor_whatsapp FROM users WHERE id = ?";
 $stmtOld = $conn->prepare($sqlOld);
