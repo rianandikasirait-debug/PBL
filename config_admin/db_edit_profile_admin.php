@@ -5,7 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 require_once __DIR__ . '/../koneksi.php';
 
 // Cek Login
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
     header("Location: ../login.php");
     exit;
 }

@@ -9,14 +9,15 @@ header('Content-Type: application/json');
 // Mengatur response agar selalu dikirim dalam format JSON
 
 // =============================
-// 1. VALIDASI LOGIN ADMIN
+// 1. VALIDASI LOGIN ADMIN/NOTULIS
 // =============================
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
-    // Jika user belum login atau bukan admin → tolak akses
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
+    // Jika user belum login atau bukan admin/notulis → tolak akses
     http_response_code(403);
     echo json_encode([
         'success' => false,
-        'message' => 'Akses ditolak. Anda harus login sebagai admin.'
+        'message' => 'Akses ditolak. Anda harus login sebagai admin/notulis.'
     ]);
     exit;
 }

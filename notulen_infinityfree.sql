@@ -12,7 +12,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `password` varchar(255) NOT NULL,
   `nomor_whatsapp` varchar(20) NULL DEFAULT NULL,
   `foto` varchar(255) NULL DEFAULT NULL,
-  `role` enum('admin','peserta') NOT NULL DEFAULT 'peserta',
+  `role` enum('admin','notulis','peserta') NOT NULL DEFAULT 'peserta',
   `password_updated` tinyint(1) NOT NULL DEFAULT 0,
   `is_first_login` tinyint(1) NOT NULL DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,

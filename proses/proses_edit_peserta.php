@@ -13,8 +13,9 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// Cek sesi login admin
-if (!isset($_SESSION['user_id']) || $_SESSION['user_role'] !== 'admin') {
+// Cek sesi login admin/notulis
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
     echo json_encode(['success' => false, 'message' => 'Unauthorized']);
     exit;
 }

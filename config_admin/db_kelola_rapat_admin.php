@@ -4,8 +4,9 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 require_once __DIR__ . '/../koneksi.php';
 
-// Cek login
-if (!isset($_SESSION['user_id'])) {
+// Cek login dan role admin/notulis
+$allowedRoles = ['admin', 'notulis'];
+if (!isset($_SESSION['user_id']) || !in_array(strtolower($_SESSION['user_role'] ?? ''), $allowedRoles)) {
     header("Location: ../login.php");
     exit;
 }
