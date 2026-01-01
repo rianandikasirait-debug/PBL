@@ -314,7 +314,7 @@ include '../config_admin/db_edit_rapat_admin.php';
 
         <div class="d-flex justify-content-between align-items-center mt-4">
           <a href="dashboard_admin.php" class="btn btn-back">Kembali</a>
-          <button id="simpan_perubahan" type="submit" class="btn btn-save px-4">Simpan Perubahan</button>
+          <button id="simpan_perubahan" type="submit" class="btn btn-save px-4">Simpan</button>
         </div>
       </form>
     </div>
