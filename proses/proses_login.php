@@ -49,6 +49,7 @@ $stmt->close();
 
 // Jika tidak ketemu email, coba cari berdasarkan NIK
 if (!$user) {
+    // Coba cari NIK sebagai string terlebih dahulu
     $sql = "SELECT * FROM users WHERE nik = ? LIMIT 1";
     $stmt = $conn->prepare($sql);
     
@@ -59,13 +60,27 @@ if (!$user) {
         exit;
     }
     
-    // Bind NIK (convert ke int karena field nik adalah int)
-    $nikInt = intval($emailOrNik);
-    $stmt->bind_param("i", $nikInt);
+    // Bind NIK sebagai string (untuk kasus NIK disimpan sebagai varchar)
+    $stmt->bind_param("s", $emailOrNik);
     $stmt->execute();
     $result = $stmt->get_result();
     $user = $result->fetch_assoc();
     $stmt->close();
+    
+    // Jika tidak ditemukan dengan string, coba dengan integer
+    if (!$user && is_numeric($emailOrNik)) {
+        $sql = "SELECT * FROM users WHERE nik = ? LIMIT 1";
+        $stmt = $conn->prepare($sql);
+        
+        if ($stmt) {
+            $nikInt = intval($emailOrNik);
+            $stmt->bind_param("i", $nikInt);
+            $stmt->execute();
+            $result = $stmt->get_result();
+            $user = $result->fetch_assoc();
+            $stmt->close();
+        }
+    }
 }
 
 // Jika user tetap tidak ditemukan baik dari email maupun nik

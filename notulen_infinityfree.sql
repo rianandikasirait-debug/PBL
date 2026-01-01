@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nama` varchar(100) NOT NULL,
   `email` varchar(100) NOT NULL,
-  `nik` int(11) NOT NULL,
+  `nik` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `nomor_whatsapp` varchar(20) NULL DEFAULT NULL,
   `foto` varchar(255) NULL DEFAULT NULL,
