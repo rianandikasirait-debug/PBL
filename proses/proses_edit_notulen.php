@@ -37,9 +37,12 @@ if (is_array($peserta_arr)) {
 
 $peserta_str = implode(',', array_unique($clean_peserta));
 
-// Validasi sederhana: cek field wajib
-if ($id <= 0 || empty($judul) || empty($tanggal) || empty($isi)) {
-    echo json_encode(['success' => false, 'message' => 'Data tidak lengkap!']);
+// Penanggung Jawab (ID user yang bertanggung jawab) - Validasi awal
+$penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
+
+// Validasi sederhana: cek field wajib (judul, tanggal, penanggung jawab, dan isi)
+if ($id <= 0 || empty($judul) || empty($tanggal) || $penanggung_jawab === null || $penanggung_jawab <= 0 || empty($isi)) {
+    echo json_encode(['success' => false, 'message' => 'Judul, tanggal, penanggung jawab, dan isi wajib diisi']);
     exit;
 }
 
@@ -93,8 +96,7 @@ if (isset($_FILES['file_lampiran']) && isset($_POST['judul_lampiran'])) {
 }
 
 // --- 2. Update Database Notulen (Data Utama) ---
-// Penanggung Jawab (ID user yang bertanggung jawab)
-$penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
+// Penanggung Jawab sudah divalidasi di awal file
 
 $sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, status=?, penanggung_jawab=? WHERE id=?";
 $stmt = $conn->prepare($sql);
