@@ -18,6 +18,9 @@ include '../config_admin/db_edit_rapat_admin.php';
   <link rel="stylesheet" href="../css/admin.min.css">
   <link rel="stylesheet" href="../css/sidebar.css">
   <link rel="stylesheet" href="../css/forms.css">
+  <!-- Select2 for searchable dropdown -->
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" rel="stylesheet" />
   <style>
     .btn.btn-outline-success.w-100.py-2.border-dashed {
         background-color: #00C853 !important; 
@@ -102,6 +105,50 @@ include '../config_admin/db_edit_rapat_admin.php';
         font-size: 0.875rem !important;
         color: #fff !important;
     }
+    /* Select2 Green Theme Override */
+    .select2-container--bootstrap-5 .select2-selection {
+        border: 1px solid #dee2e6 !important;
+    }
+    .select2-container--bootstrap-5 .select2-selection:focus,
+    .select2-container--bootstrap-5.select2-container--focus .select2-selection,
+    .select2-container--bootstrap-5.select2-container--open .select2-selection {
+        border: 1px solid #00C853 !important;
+        box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.15) !important;
+        outline: none !important;
+    }
+    .select2-container--bootstrap-5 .select2-results__option--highlighted {
+        background-color: #00C853 !important;
+        color: #fff !important;
+    }
+    .select2-container--bootstrap-5 .select2-results__option--selected {
+        background-color: #ffffff !important;
+        color: #212529 !important;
+    }
+    .select2-container--bootstrap-5 .select2-results__option--selected.select2-results__option--highlighted {
+        background-color: #00C853 !important;
+        color: #fff !important;
+    }
+    .select2-container--bootstrap-5 .select2-dropdown {
+        border: 1px solid #00C853 !important;
+    }
+    .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field {
+        border: 1px solid #00C853 !important;
+    }
+    .select2-container--bootstrap-5 .select2-search--dropdown .select2-search__field:focus {
+        border: 1px solid #00C853 !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
+    /* Native Select Dropdown Green Styling */
+    .form-control:focus, .form-select:focus {
+        border-color: #00C853 !important;
+        box-shadow: 0 0 0 2px rgba(0, 200, 83, 0.15) !important;
+        outline: none !important;
+    }
+    .form-control option:checked, .form-select option:checked {
+        background-color: #00C853 !important;
+        color: #fff !important;
+    }
     </style>
 </head>
 <?php 
@@ -146,9 +193,22 @@ include '../config_admin/db_edit_rapat_admin.php';
           </div>
         </div>
 
+        <!-- Penanggung Jawab -->
+        <div class="mb-3">
+          <label class="form-label">Penanggung Jawab</label>
+          <select class="form-select" name="penanggung_jawab" id="penanggungJawab">
+            <option value="">-- Pilih Penanggung Jawab --</option>
+            <?php foreach ($all_users as $u): 
+                $roleDisplay = ($u['role'] === 'admin') ? 'Notulis' : ucfirst($u['role']);
+            ?>
+            <option value="<?= $u['id'] ?>" <?= (isset($notulen['penanggung_jawab']) && $notulen['penanggung_jawab'] == $u['id']) ? 'selected' : '' ?>><?= htmlspecialchars($u['nama']) ?> (<?= $roleDisplay ?>)</option>
+            <?php endforeach; ?>
+          </select>
+        </div>
+
         <div class="mb-3">
           <label class="form-label">Status Notulen</label>
-          <select class="form-control" name="status" id="statusSelect">
+          <select class="form-select" name="status" id="statusSelect">
             <option value="draft" <?= ($notulen['status'] ?? 'draft') === 'draft' ? 'selected' : '' ?>>Draft (Dapat Diedit)</option>
             <option value="final" <?= ($notulen['status'] ?? 'draft') === 'final' ? 'selected' : '' ?>>Final (Tidak Dapat Diedit)</option>
           </select>
@@ -445,6 +505,30 @@ include '../config_admin/db_edit_rapat_admin.php';
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jQuery for Select2 -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script>
+        // Initialize Select2 for Penanggung Jawab dropdown
+        $(document).ready(function() {
+            $('#penanggungJawab').select2({
+                theme: 'bootstrap-5',
+                placeholder: '-- Pilih Penanggung Jawab --',
+                allowClear: true,
+                width: '100%'
+            });
+            
+            // Initialize Select2 for Status Notulen dropdown
+            $('#statusSelect').select2({
+                theme: 'bootstrap-5',
+                minimumResultsForSearch: Infinity, // Hide search box for small dropdown
+                width: '100%'
+            });
+        });
+    </script>
+    
     <script src="../js/admin.js"></script>
     <script src="../js/edit_rapat.js"></script>
 </body>

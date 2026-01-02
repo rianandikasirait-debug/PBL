@@ -24,7 +24,7 @@ $userPhoto = $userData['foto'] ?? null;
 
 // Ambil daftar peserta (Admin + Peserta)
 $users = [];
-$q = $conn->prepare("SELECT id, nama, email FROM users WHERE role IN ('admin', 'peserta') ORDER BY nama ASC");
+$q = $conn->prepare("SELECT id, nama, email, role FROM users WHERE role IN ('admin', 'peserta', 'notulis') ORDER BY nama ASC");
 if ($q) {
     $q->execute();
     $res = $q->get_result();

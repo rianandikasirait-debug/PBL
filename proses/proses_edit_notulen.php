@@ -93,9 +93,12 @@ if (isset($_FILES['file_lampiran']) && isset($_POST['judul_lampiran'])) {
 }
 
 // --- 2. Update Database Notulen (Data Utama) ---
-$sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, status=? WHERE id=?";
+// Penanggung Jawab (ID user yang bertanggung jawab)
+$penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
+
+$sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, status=?, penanggung_jawab=? WHERE id=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssi", $judul, $tanggal, $isi, $peserta_str, $status, $id);
+$stmt->bind_param("sssssii", $judul, $tanggal, $isi, $peserta_str, $status, $penanggung_jawab, $id);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Notulen berhasil diperbarui!']);

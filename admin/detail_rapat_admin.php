@@ -177,8 +177,8 @@ include '../config_admin/db_detail_rapat_admin.php';
             <div class="d-flex justify-content-between align-items-start">
                 <div>
                     <h4 class="fw-bold mb-1"><?= htmlspecialchars($notulen['judul']); ?></h4>
-                    <p class="text-muted mb-2">Dibuat oleh: <?= htmlspecialchars($notulen['created_by'] ?? 'Admin'); ?>
-                    </p>
+                    <p class="text-muted mb-1">Dibuat oleh: <?= htmlspecialchars($notulen['created_by'] ?? 'Admin'); ?></p>
+                    <p class="text-muted mb-2">Penanggung Jawab: <?= htmlspecialchars($notulen['penanggung_jawab_nama'] ?? '-'); ?></p>
                 </div>
                 <div class="text-end">
                     <p class="fw-semibold mb-0">Tanggal Rapat:</p>

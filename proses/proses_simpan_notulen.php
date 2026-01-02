@@ -59,9 +59,11 @@ $status = $_POST['status'] ?? 'draft';
 $tempat = ''; 
 // Legacy: 'tindak_lanjut' column was used for single file. We leave it empty now.
 $legacyFileCol = ''; 
+// Penanggung Jawab (ID user yang bertanggung jawab)
+$penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
 
-$stmt = $conn->prepare("INSERT INTO tambah_notulen (id_user, judul, tanggal, tempat, peserta, hasil, tindak_lanjut, status) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param('isssssss', $userId, $judul, $tanggal, $tempat, $peserta_csv, $isi, $legacyFileCol, $status);
+$stmt = $conn->prepare("INSERT INTO tambah_notulen (id_user, judul, tanggal, tempat, peserta, hasil, tindak_lanjut, status, penanggung_jawab) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param('isssssssi', $userId, $judul, $tanggal, $tempat, $peserta_csv, $isi, $legacyFileCol, $status, $penanggung_jawab);
 
 // Eksekusi dan berikan respons JSON sesuai hasil
 if ($stmt->execute()) {

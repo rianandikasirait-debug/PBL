@@ -37,10 +37,11 @@ if (!in_array($id_notulen, $_SESSION['viewed_notulen'])) {
     $_SESSION['viewed_notulen'][] = $id_notulen;
 }
 
-// Ambil data notulen dengan nama notulis yang membuat
-$sql = "SELECT n.*, u.nama AS created_by 
+// Ambil data notulen dengan nama notulis yang membuat dan penanggung jawab
+$sql = "SELECT n.*, u.nama AS created_by, pj.nama AS penanggung_jawab_nama
         FROM tambah_notulen n 
         LEFT JOIN users u ON n.id_user = u.id 
+        LEFT JOIN users pj ON n.penanggung_jawab = pj.id
         WHERE n.id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("i", $id_notulen);
