@@ -60,13 +60,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     tinymce.triggerSave();
                 }
 
-                // Validasi: Judul, Tanggal, dan Isi wajib diisi
+                // Validasi: Judul, Tanggal, Penanggung Jawab, dan Isi wajib diisi
                 const judul = document.getElementById('judul').value.trim();
                 const tanggal = document.getElementById('tanggal').value.trim();
                 const isi = document.getElementById('isi').value.trim();
+                const penanggungJawab = document.getElementById('penanggungJawab');
+                const penanggungJawabValue = penanggungJawab ? penanggungJawab.value : '';
 
-                if (!judul || !tanggal || !isi) {
-                    showToast('Judul, tanggal, dan isi wajib diisi', 'error');
+                if (!judul || !tanggal || !penanggungJawabValue || !isi) {
+                    showToast('Judul, tanggal, penanggung jawab, dan isi wajib diisi', 'error');
                     return;
                 }
 

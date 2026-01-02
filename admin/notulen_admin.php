@@ -324,7 +324,7 @@ include '../config_admin/db_notulen.admin.php';
                 <!-- Penanggung Jawab -->
                 <div class="mb-3">
                     <label class="form-label">Penanggung Jawab</label>
-                    <select class="form-select" name="penanggung_jawab" id="penanggungJawab">
+                    <select class="form-select" name="penanggung_jawab" id="penanggungJawab" required>
                         <option value="">-- Pilih Penanggung Jawab --</option>
                         <?php foreach ($users as $u): 
                             $roleDisplay = ($u['role'] === 'admin') ? 'Notulis' : ucfirst($u['role']);
