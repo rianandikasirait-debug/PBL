@@ -1368,7 +1368,7 @@ section {
 }
 
 .team-photo-wrapper:hover .team-photo {
-    transform: scale(1.08);
+    transform: none;
 }
 
 /* Glassmorphism Overlay */
@@ -1433,6 +1433,15 @@ section {
         left: 10px;
         right: 10px;
         padding: 1rem;
+    }
+
+    .team-photo {
+        height: auto;
+        object-fit: contain;
+    }
+
+    .team-photo-wrapper {
+        transform: none;
     }
 }
 
