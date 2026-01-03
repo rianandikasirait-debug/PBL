@@ -12,7 +12,29 @@ document.addEventListener('DOMContentLoaded', function() {
     initContactForm();
     initTestimonialForm();
     initActiveNavLinks();
+    initCloseMenuOnClickOutside();
 });
+
+/**
+ * Close hamburger menu when clicking outside
+ */
+function initCloseMenuOnClickOutside() {
+    document.addEventListener('click', function(e) {
+        const navbar = document.querySelector('.navbar');
+        const navbarCollapse = document.querySelector('.navbar-collapse');
+        const navbarToggler = document.querySelector('.navbar-toggler');
+        
+        // Jika menu terbuka dan klik di luar navbar
+        if (navbarCollapse && navbarCollapse.classList.contains('show')) {
+            if (!navbar.contains(e.target) || (!navbarToggler.contains(e.target) && !navbarCollapse.contains(e.target))) {
+                const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
+                if (bsCollapse) {
+                    bsCollapse.hide();
+                }
+            }
+        }
+    });
+}
 
 /**
  * Navbar Scroll Effect
@@ -47,15 +69,7 @@ function initSmoothScroll() {
             
             const target = document.querySelector(href);
             if (target) {
-                const navbarHeight = document.querySelector('.navbar').offsetHeight;
-                const targetPosition = target.getBoundingClientRect().top + window.pageYOffset - navbarHeight;
-                
-                window.scrollTo({
-                    top: targetPosition,
-                    behavior: 'smooth'
-                });
-                
-                // Close mobile menu if open
+                // Close mobile menu FIRST before scrolling
                 const navbarCollapse = document.querySelector('.navbar-collapse');
                 if (navbarCollapse.classList.contains('show')) {
                     const bsCollapse = bootstrap.Collapse.getInstance(navbarCollapse);
@@ -63,6 +77,14 @@ function initSmoothScroll() {
                         bsCollapse.hide();
                     }
                 }
+                
+                // Delay scroll sedikit agar menu tertutup dulu, gunakan scrollIntoView agar CSS scroll-margin-top bekerja
+                setTimeout(() => {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 150);
             }
         });
     });
