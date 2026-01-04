@@ -7,6 +7,13 @@ require_once __DIR__ . '/../koneksi.php';
 require_once __DIR__ . '/../config.php';
 error_reporting(0); // Suppress errors to allow JSON response
 
+// VALIDASI SESSION: Pastikan user sudah login sebelum menyimpan notulen
+// Ini mencegah bug di mana id_user tidak valid
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id']) || (int)$_SESSION['user_id'] <= 0) {
+    echo json_encode(['success' => false, 'message' => 'Session tidak valid. Silakan login ulang.']);
+    exit;
+}
+
 // Pastikan request menggunakan metode POST — endpoint ini hanya menerima POST
 if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     echo json_encode(['success' => false, 'message' => 'Invalid method']);
