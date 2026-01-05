@@ -73,6 +73,19 @@ include '../config_admin/db_notulen.admin.php';
             background-color: #02913f !important; 
             border-color: #02913f !important;
         }
+        /* List Group Item Style - Match Detail Page */
+        .list-group-item.added-item {
+            border: none !important;
+            border-left: none !important;
+            border-right: none !important;
+            border-top: none !important;
+            border-bottom: none !important;
+            background-color: #fff !important;
+            box-shadow: none !important;
+        }
+        .list-group-item.added-item:hover {
+            background-color: #fafafa !important;
+        }
         /* Select2 Green Theme Override */
         .select2-container--bootstrap-5 .select2-selection {
             border: 1px solid #dee2e6 !important;
@@ -416,27 +429,16 @@ include '../config_admin/db_notulen.admin.php';
                 <!-- List peserta (target) -->
                 <div class="mb-4">
                     <label class="form-label fw-semibold mb-2">Daftar Peserta:</label>
-                    <div class="card border-0 shadow-sm peserta-table-wrapper">
-                        <div class="card-body p-0">
-                            <table class="table table-hover table-sm mb-0 align-middle" style="table-layout: fixed; width: 100%;">
-                                <thead class="bg-light">
-                                    <tr>
-                                        <th style="width: 35px;" class="ps-3 py-2 text-secondary small fw-semibold border-0 text-center">No</th>
-                                        <th class="py-2 text-secondary small fw-semibold border-0 text-start">Nama</th>
-                                        <th style="width: 60px;" class="pe-3 py-2 text-secondary small fw-semibold border-0 text-center">Hapus</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="addedContainer">
-                                    <tr id="emptyRow">
-                                        <td colspan="3" class="text-center text-muted py-4 border-0">
-                                            <div class="d-flex flex-column align-items-center">
-                                                <i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i>
-                                                <small>Belum ada peserta</small>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                    <div class="card border-0 shadow-sm">
+                        <div class="card-body p-0" style="max-height: 350px; overflow-y: auto;">
+                            <div class="list-group list-group-flush" id="addedContainer">
+                                <div id="emptyRow" class="p-4 text-center text-muted">
+                                    <div class="d-flex flex-column align-items-center">
+                                        <i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i>
+                                        <small>Belum ada peserta</small>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -479,6 +481,7 @@ include '../config_admin/db_notulen.admin.php';
                                     type="checkbox"
                                     value="<?= $u['id'] ?>"
                                     data-name="<?= htmlspecialchars($u['nama']) ?>"
+                                    data-email="<?= htmlspecialchars(strtolower($u['email'])) ?>"
                                     id="u<?= $u['id'] ?>">
                                 <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
                                     <?= htmlspecialchars($u['nama']) ?>

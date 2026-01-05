@@ -69,28 +69,32 @@ $current_participants = array_filter(array_map('trim', explode(',', $notulen['pe
   return $v !== '';
 });
 // Jika peserta disimpan sebagai ID, ambil nama-nama peserta dari DB
-$participants_map = []; // id => nama
+$participants_map = []; // id => [nama, email]
 if (!empty($current_participants)) {
   // sanitize ke int
   $ids = array_map('intval', $current_participants);
   $ids_list = implode(',', array_unique($ids));
   if ($ids_list !== '') {
-    $sql_part = "SELECT id, nama FROM users WHERE id IN ($ids_list)";
+    $sql_part = "SELECT id, nama, email FROM users WHERE id IN ($ids_list)";
     $res_part = $conn->query($sql_part);
     while ($r = $res_part->fetch_assoc()) {
-      $participants_map[(int)$r['id']] = $r['nama'];
+      $participants_map[(int)$r['id']] = ['nama' => $r['nama'], 'email' => $r['email']];
     }
   }
 }
-// for display, build array of ['id'=>..,'nama'=>..]
+// for display, build array of ['id'=>..,'nama'=>..,'email'=>..]
 $current_participant_items = [];
 foreach ($current_participants as $pid) {
   $pid_int = (int)$pid;
   if ($pid_int > 0 && isset($participants_map[$pid_int])) {
-    $current_participant_items[] = ['id' => $pid_int, 'nama' => $participants_map[$pid_int]];
+    $current_participant_items[] = [
+      'id' => $pid_int, 
+      'nama' => $participants_map[$pid_int]['nama'],
+      'email' => $participants_map[$pid_int]['email']
+    ];
   } elseif ($pid !== '') {
     // fallback: jika DB tidak punya, tampilkan apa yang ada (biasanya not expected)
-    $current_participant_items[] = ['id' => $pid, 'nama' => $pid];
+    $current_participant_items[] = ['id' => $pid, 'nama' => $pid, 'email' => ''];
   }
 }
 ?>

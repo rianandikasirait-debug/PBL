@@ -284,26 +284,26 @@ document.addEventListener('DOMContentLoaded', function () {
             if (hiddenPesertaContainer) hiddenPesertaContainer.innerHTML = '';
 
             if (selected.length === 0) {
-                addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-4 border-0"><div class="d-flex flex-column align-items-center"><i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i><small>Belum ada peserta</small></div></td></tr>';
+                addedContainer.innerHTML = '<div id="emptyRow" class="p-4 text-center text-muted"><div class="d-flex flex-column align-items-center"><i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i><small>Belum ada peserta</small></div></div>';
             } else {
                 selected.forEach((cb, index) => {
                     const id = cb.value;
                     const name = cb.dataset.name;
+                    const email = cb.dataset.email || '';
 
-                    // Visual Row
-                    const tr = document.createElement('tr');
-                    tr.className = 'added-item';
-                    tr.dataset.id = id;
-                    tr.innerHTML = `
-                        <td class="ps-3 text-center text-muted small border-0">${index + 1}</td>
-                        <td class="border-0 text-start text-truncate" style="max-width: 0;">${escapeHtml(name)}</td>
-                        <td class="pe-3 text-center border-0">
-                            <button type="button" class="btn btn-sm btn-danger remove-btn" data-id="${id}">
-                                <i class="bi bi-trash"></i>
-                            </button>
-                        </td>
+                    // Visual Item (List Group)
+                    const item = document.createElement('div');
+                        item.className = 'list-group-item d-flex align-items-center py-3 px-3 border-bottom-0 border-top-0 border-end-0 border-start-0 added-item';
+                    item.dataset.id = id;
+                    item.innerHTML = `
+                        <span class="me-3 fw-bold text-secondary small" style="min-width: 25px;">${index + 1}.</span>
+                        <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>
+                        <div class="flex-grow-1">
+                            <div class="fw-medium text-dark">${escapeHtml(name)}</div>
+                            ${email ? `<div class="text-muted small" style="font-size: 0.75rem;">${escapeHtml(email)}</div>` : ''}
+                        </div>
                     `;
-                    addedContainer.appendChild(tr);
+                    addedContainer.appendChild(item);
 
                     // Hidden Input
                     if (hiddenPesertaContainer) {
@@ -327,38 +327,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Event delegation for remove buttons (Hapus dari tabel)
-    if (addedContainer) {
-        addedContainer.addEventListener('click', function (e) {
-            if (e.target.classList.contains('remove-btn') || e.target.closest('.remove-btn')) {
-                e.preventDefault();
-                const btn = e.target.classList.contains('remove-btn') ? e.target : e.target.closest('.remove-btn');
-                const id = btn.dataset.id;
-
-                // Uncheck di modal (agar sinkron jika dibuka lagi)
-                const modalCb = document.querySelector(`.notulen-checkbox[value="${id}"]`);
-                if (modalCb) modalCb.checked = false;
-
-                // Remove Visual Row
-                const item = btn.closest('.added-item');
-                if (item) item.remove();
-
-                // Remove Hidden Input
-                const hiddenInput = document.getElementById('input-peserta-' + id);
-                if (hiddenInput) hiddenInput.remove();
-
-                // Re-numbering
-                const remainingItems = addedContainer.querySelectorAll('.added-item');
-                remainingItems.forEach((row, index) => {
-                    row.querySelector('td').innerText = index + 1;
-                });
-
-                if (remainingItems.length === 0) {
-                    addedContainer.innerHTML = '<tr id="emptyRow"><td colspan="3" class="text-center text-muted py-4 border-0"><div class="d-flex flex-column align-items-center"><i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i><small>Belum ada peserta</small></div></td></tr>';
-                }
-            }
-        });
-    }
+    // Note: Remove button functionality removed since we no longer show delete buttons
 
     /* =======================
        MODAL TAMBAH PENGGUNA BARU
@@ -456,6 +425,7 @@ document.addEventListener('DOMContentLoaded', function () {
                                 type="checkbox"
                                 value="${result.data.id}"
                                 data-name="${escapeHtml(result.data.nama)}"
+                                data-email="${escapeHtml(result.data.email.toLowerCase())}"
                                 id="u${result.data.id}"
                                 checked>
                             <label class="form-check-label w-100" for="u${result.data.id}" style="cursor: pointer;">
@@ -466,7 +436,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         notulenList.prepend(newItem);
                     }
 
-                    // Auto-add to participant table
+                    // Auto-add to participant list
                     if (addedContainer && result.data) {
                         // Remove empty row if exists
                         const emptyRow = document.getElementById('emptyRow');
@@ -476,19 +446,18 @@ document.addEventListener('DOMContentLoaded', function () {
                         const currentItems = addedContainer.querySelectorAll('.added-item');
                         const newIndex = currentItems.length + 1;
 
-                        const tr = document.createElement('tr');
-                        tr.className = 'added-item';
-                        tr.dataset.id = result.data.id;
-                        tr.innerHTML = `
-                            <td class="ps-3 text-center text-muted small border-0">${newIndex}</td>
-                            <td class="border-0 text-start text-truncate" style="max-width: 0;">${escapeHtml(result.data.nama)}</td>
-                            <td class="pe-3 text-center border-0">
-                                <button type="button" class="btn btn-sm btn-danger remove-btn" data-id="${result.data.id}">
-                                    <i class="bi bi-trash"></i>
-                                </button>
-                            </td>
+                        const item = document.createElement('div');
+                        item.className = 'list-group-item d-flex align-items-center py-3 px-3 border-bottom-0 border-top-0 border-end-0 border-start-0 added-item';
+                        item.dataset.id = result.data.id;
+                        item.innerHTML = `
+                            <span class="me-3 fw-bold text-secondary small" style="min-width: 25px;">${newIndex}.</span>
+                            <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>
+                            <div class="flex-grow-1">
+                                <div class="fw-medium text-dark">${escapeHtml(result.data.nama)}</div>
+                                <div class="text-muted small" style="font-size: 0.75rem;">${escapeHtml(result.data.email.toLowerCase())}</div>
+                            </div>
                         `;
-                        addedContainer.appendChild(tr);
+                        addedContainer.appendChild(item);
 
                         // Add hidden input
                         if (hiddenPesertaContainer) {

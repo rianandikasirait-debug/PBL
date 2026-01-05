@@ -105,6 +105,19 @@ include '../config_admin/db_edit_rapat_admin.php';
         font-size: 0.875rem !important;
         color: #fff !important;
     }
+    /* List Group Item Style - Match Detail Page */
+    .list-group-item.added-item {
+        border: none !important;
+        border-left: none !important;
+        border-right: none !important;
+        border-top: none !important;
+        border-bottom: none !important;
+        background-color: #fff !important;
+        box-shadow: none !important;
+    }
+    .list-group-item.added-item:hover {
+        background-color: #fafafa !important;
+    }
     /* Select2 Green Theme Override */
     .select2-container--bootstrap-5 .select2-selection {
         border: 1px solid #dee2e6 !important;
@@ -335,44 +348,34 @@ include '../config_admin/db_edit_rapat_admin.php';
           </div>
         </div>
 
-        <!-- List peserta (Table View) -->
+        <!-- List peserta (List View like Detail Page) -->
         <div class="mb-4">
           <label class="form-label fw-semibold mb-2">Daftar Peserta:</label>
-          <div class="card border-0 shadow-sm peserta-table-wrapper">
-            <div class="card-body p-0">
-              <table class="table table-hover table-sm mb-0 align-middle" style="table-layout: fixed; width: 100%;">
-                <thead class="bg-light">
-                  <tr>
-                    <th style="width: 35px;" class="ps-3 py-2 text-secondary small fw-semibold border-0 text-center">No</th>
-                    <th class="py-2 text-secondary small fw-semibold border-0 text-start">Nama</th>
-                    <th style="width: 60px;" class="pe-3 py-2 text-secondary small fw-semibold border-0 text-center">Hapus</th>
-                  </tr>
-                </thead>
-                <tbody id="addedContainer">
-                  <?php if (empty($current_participant_items)): ?>
-                  <tr id="emptyRow">
-                    <td colspan="3" class="text-center text-muted py-4 border-0">
-                      <div class="d-flex flex-column align-items-center">
-                        <i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i>
-                        <small>Belum ada peserta</small>
-                      </div>
-                    </td>
-                  </tr>
-                  <?php else: ?>
-                  <?php $no = 1; foreach ($current_participant_items as $item): ?>
-                  <tr class="added-item" data-id="<?= htmlspecialchars($item['id']) ?>">
-                    <td class="ps-3 text-center text-muted small border-0"><?= $no++ ?></td>
-                    <td class="border-0 text-start text-truncate" style="max-width: 0;"><?= htmlspecialchars($item['nama']) ?></td>
-                    <td class="pe-3 text-center border-0">
-                      <button type="button" class="btn btn-sm btn-danger remove-btn" data-id="<?= htmlspecialchars($item['id']) ?>">
-                        <i class="bi bi-trash"></i>
-                      </button>
-                    </td>
-                  </tr>
-                  <?php endforeach; ?>
-                  <?php endif; ?>
-                </tbody>
-              </table>
+          <div class="card border-0 shadow-sm">
+            <div class="card-body p-0" style="max-height: 350px; overflow-y: auto;">
+              <div class="list-group list-group-flush" id="addedContainer">
+                <?php if (empty($current_participant_items)): ?>
+                <div id="emptyRow" class="p-4 text-center text-muted">
+                  <div class="d-flex flex-column align-items-center">
+                    <i class="bi bi-people text-secondary mb-2" style="font-size: 1.5rem; opacity: 0.5;"></i>
+                    <small>Belum ada peserta</small>
+                  </div>
+                </div>
+                <?php else: ?>
+                <?php $no = 1; foreach ($current_participant_items as $item): ?>
+                <div class="list-group-item d-flex align-items-center py-3 px-3 border-bottom-0 border-top-0 border-end-0 border-start-0 added-item" data-id="<?= htmlspecialchars($item['id']) ?>">
+                  <span class="me-3 fw-bold text-secondary small" style="min-width: 25px;"><?= $no++ ?>.</span>
+                  <div class="bg-light rounded-circle d-flex align-items-center justify-content-center me-3 border" style="width: 38px; height: 38px; flex-shrink: 0;"><i class="bi bi-person-fill text-secondary fs-5"></i></div>
+                  <div class="flex-grow-1">
+                    <div class="fw-medium text-dark"><?= htmlspecialchars($item['nama']) ?></div>
+                    <?php if (!empty($item['email'])): ?>
+                    <div class="text-muted small" style="font-size: 0.75rem;"><?= htmlspecialchars(strtolower($item['email'])) ?></div>
+                    <?php endif; ?>
+                  </div>
+                </div>
+                <?php endforeach; ?>
+                <?php endif; ?>
+              </div>
             </div>
           </div>
         </div>
@@ -425,6 +428,7 @@ include '../config_admin/db_edit_rapat_admin.php';
                                   type="checkbox"
                                   value="<?= $u['id'] ?>"
                                   data-name="<?= htmlspecialchars($u['nama']) ?>"
+                                  data-email="<?= htmlspecialchars(strtolower($u['email'])) ?>"
                                   id="u<?= $u['id'] ?>"
                                   <?= $isChecked ?>>
                               <label class="form-check-label w-100" for="u<?= $u['id'] ?>" style="cursor: pointer;">
