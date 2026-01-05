@@ -23,6 +23,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 // Ambil field form dan beri nilai default jika tidak ada
 $judul = trim($_POST['judul'] ?? '');
 $tanggal = $_POST['tanggal'] ?? '';
+$jam_mulai = $_POST['jam_mulai'] ?? null;
+$jam_selesai = $_POST['jam_selesai'] ?? null;
 $isi = $_POST['isi'] ?? '';
 // Peserta bisa dikirim sebagai array (peserta[]) atau satu nilai
 $peserta_ids = $_POST['peserta'] ?? [];
@@ -30,9 +32,9 @@ $peserta_ids = $_POST['peserta'] ?? [];
 // Penanggung Jawab (ID user yang bertanggung jawab) - Validasi awal
 $penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
 
-// Validasi wajib: judul, tanggal, penanggung jawab, dan isi harus diisi
-if ($judul === '' || $tanggal === '' || $penanggung_jawab === null || $penanggung_jawab <= 0 || $isi === '') {
-    echo json_encode(['success' => false, 'message' => 'Judul, tanggal, penanggung jawab, dan isi wajib diisi']);
+// Validasi wajib: judul, tanggal, jam, penanggung jawab, dan isi harus diisi
+if ($judul === '' || $tanggal === '' || empty($jam_mulai) || empty($jam_selesai) || $penanggung_jawab === null || $penanggung_jawab <= 0 || $isi === '') {
+    echo json_encode(['success' => false, 'message' => 'Judul, tanggal, jam, penanggung jawab, dan isi wajib diisi']);
     exit;
 }
 
@@ -71,8 +73,8 @@ $tempat = '';
 $legacyFileCol = ''; 
 // Penanggung Jawab sudah divalidasi di awal file
 
-$stmt = $conn->prepare("INSERT INTO tambah_notulen (id_user, judul, tanggal, tempat, peserta, hasil, tindak_lanjut, status, penanggung_jawab) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
-$stmt->bind_param('isssssssi', $userId, $judul, $tanggal, $tempat, $peserta_csv, $isi, $legacyFileCol, $status, $penanggung_jawab);
+$stmt = $conn->prepare("INSERT INTO tambah_notulen (id_user, judul, tanggal, jam_mulai, jam_selesai, tempat, peserta, hasil, tindak_lanjut, status, penanggung_jawab) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+$stmt->bind_param('isssssssssi', $userId, $judul, $tanggal, $jam_mulai, $jam_selesai, $tempat, $peserta_csv, $isi, $legacyFileCol, $status, $penanggung_jawab);
 
 // Eksekusi dan berikan respons JSON sesuai hasil
 if ($stmt->execute()) {

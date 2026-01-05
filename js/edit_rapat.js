@@ -103,9 +103,11 @@ document.addEventListener('DOMContentLoaded', function () {
                     tinymce.triggerSave();
                 }
 
-                // Validasi: Judul, Tanggal, Penanggung Jawab, dan Isi wajib diisi
+                // Validasi: Judul, Tanggal, Jam, Penanggung Jawab, dan Isi wajib diisi
                 const judul = document.querySelector('input[name="judul"]').value.trim();
                 const tanggal = document.querySelector('input[name="tanggal"]').value.trim();
+                const jamMulai = document.getElementById('jam_mulai') ? document.getElementById('jam_mulai').value.trim() : '';
+                const jamSelesai = document.getElementById('jam_selesai') ? document.getElementById('jam_selesai').value.trim() : '';
                 const penanggungJawab = document.getElementById('penanggungJawab');
                 const penanggungJawabValue = penanggungJawab ? penanggungJawab.value : '';
 
@@ -119,8 +121,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 // Strip HTML tags and check if content is empty
                 const isiText = isiContent.replace(/<[^>]*>/g, '').trim();
 
-                if (!judul || !tanggal || !penanggungJawabValue || !isiText) {
-                    showToast('Judul, tanggal, penanggung jawab, dan isi wajib diisi', 'error');
+                if (!judul || !tanggal || !jamMulai || !jamSelesai || !penanggungJawabValue || !isiText) {
+                    showToast('Judul, tanggal, jam, penanggung jawab, dan isi wajib diisi', 'error');
                     return;
                 }
 

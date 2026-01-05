@@ -39,18 +39,6 @@ document.addEventListener("DOMContentLoaded", function () {
             const pesertaCount = (item.peserta && item.peserta.trim() !== '') ? item.peserta.split(',').length : 0;
             const status = escapeHtml(item.status || 'draft');
 
-            // Format tanggal dengan jam
-            let tanggalDenganJam = tanggal;
-            if (item.created_at) {
-                // Parse MySQL timestamp and extract time directly (format: YYYY-MM-DD HH:MM:SS)
-                const timePart = item.created_at.split(' ')[1]; // Get "HH:MM:SS"
-                if (timePart) {
-                    const [hour, minute] = timePart.split(':');
-                    const jam = `${hour}.${minute}`;
-                    tanggalDenganJam = `${tanggal} • ${jam}`;
-                }
-            }
-
             // Map status ke badge color
             const statusBadge = status === 'final'
                 ? '<span class="badge d-flex align-items-center gap-1" style="background-color: #198754 !important; color: white;"><i class="bi bi-check-circle"></i> Final</span>'
@@ -78,7 +66,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         <div class="d-flex flex-column gap-2 text-secondary small">
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-calendar-event"></i>
-                                <span>${tanggalDenganJam}</span>
+                                <span>${tanggal}</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <i class="bi bi-person"></i>

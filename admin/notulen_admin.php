@@ -321,6 +321,18 @@ include '../config_admin/db_notulen.admin.php';
                     <input type="date" class="form-control" name="tanggal" id="tanggal" required>
                 </div>
 
+                <!-- Jam Mulai dan Jam Selesai -->
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <label class="form-label">Jam Mulai</label>
+                        <input type="time" class="form-control" name="jam_mulai" id="jam_mulai" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">Jam Selesai</label>
+                        <input type="time" class="form-control" name="jam_selesai" id="jam_selesai" required>
+                    </div>
+                </div>
+
                 <!-- Penanggung Jawab -->
                 <div class="mb-3">
                     <label class="form-label">Penanggung Jawab</label>

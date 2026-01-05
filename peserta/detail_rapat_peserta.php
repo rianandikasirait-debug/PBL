@@ -102,6 +102,16 @@ require_once __DIR__ . '/../config_peserta/db_detail_rapat_peserta.php';
                 <div class="text-end">
                     <p class="fw-semibold mb-0">Tanggal Rapat:</p>
                     <p class="mb-0"><?= htmlspecialchars($tanggal); ?></p>
+                    <?php if (!empty($notulen['jam_mulai']) || !empty($notulen['jam_selesai'])): ?>
+                    <p class="fw-semibold mb-0 mt-2">Waktu Rapat:</p>
+                    <p class="mb-0">
+                        <?php 
+                            $jam_mulai = !empty($notulen['jam_mulai']) ? date('H:i', strtotime($notulen['jam_mulai'])) : '-';
+                            $jam_selesai = !empty($notulen['jam_selesai']) ? date('H:i', strtotime($notulen['jam_selesai'])) : '-';
+                            echo $jam_mulai . ' - ' . $jam_selesai;
+                        ?>
+                    </p>
+                    <?php endif; ?>
                 </div>
             </div>
 

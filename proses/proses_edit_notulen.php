@@ -20,6 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
 $id = isset($_POST['id']) ? (int) $_POST['id'] : 0;
 $judul = trim($_POST['judul'] ?? '');
 $tanggal = $_POST['tanggal'] ?? '';
+$jam_mulai = $_POST['jam_mulai'] ?? null;
+$jam_selesai = $_POST['jam_selesai'] ?? null;
 $isi = $_POST['isi'] ?? '';
 $status = $_POST['status'] ?? 'draft'; // Ambil status
 // Sanitasi peserta
@@ -40,9 +42,9 @@ $peserta_str = implode(',', array_unique($clean_peserta));
 // Penanggung Jawab (ID user yang bertanggung jawab) - Validasi awal
 $penanggung_jawab = isset($_POST['penanggung_jawab']) && $_POST['penanggung_jawab'] !== '' ? (int)$_POST['penanggung_jawab'] : null;
 
-// Validasi sederhana: cek field wajib (judul, tanggal, penanggung jawab, dan isi)
-if ($id <= 0 || empty($judul) || empty($tanggal) || $penanggung_jawab === null || $penanggung_jawab <= 0 || empty($isi)) {
-    echo json_encode(['success' => false, 'message' => 'Judul, tanggal, penanggung jawab, dan isi wajib diisi']);
+// Validasi sederhana: cek field wajib (judul, tanggal, jam, penanggung jawab, dan isi)
+if ($id <= 0 || empty($judul) || empty($tanggal) || empty($jam_mulai) || empty($jam_selesai) || $penanggung_jawab === null || $penanggung_jawab <= 0 || empty($isi)) {
+    echo json_encode(['success' => false, 'message' => 'Judul, tanggal, jam, penanggung jawab, dan isi wajib diisi']);
     exit;
 }
 
@@ -98,9 +100,9 @@ if (isset($_FILES['file_lampiran']) && isset($_POST['judul_lampiran'])) {
 // --- 2. Update Database Notulen (Data Utama) ---
 // Penanggung Jawab sudah divalidasi di awal file
 
-$sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, hasil=?, peserta=?, status=?, penanggung_jawab=? WHERE id=?";
+$sql = "UPDATE tambah_notulen SET judul=?, tanggal=?, jam_mulai=?, jam_selesai=?, hasil=?, peserta=?, status=?, penanggung_jawab=? WHERE id=?";
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssii", $judul, $tanggal, $isi, $peserta_str, $status, $penanggung_jawab, $id);
+$stmt->bind_param("sssssssii", $judul, $tanggal, $jam_mulai, $jam_selesai, $isi, $peserta_str, $status, $penanggung_jawab, $id);
 
 if ($stmt->execute()) {
     echo json_encode(['success' => true, 'message' => 'Notulen berhasil diperbarui!']);
