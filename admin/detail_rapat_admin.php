@@ -178,21 +178,23 @@ include '../config_admin/db_detail_rapat_admin.php';
                 <div>
                     <h4 class="fw-bold mb-1"><?= htmlspecialchars($notulen['judul']); ?></h4>
                     <p class="text-muted mb-1">Dibuat oleh: <?= htmlspecialchars($notulen['created_by'] ?? 'Admin'); ?></p>
-                    <p class="text-muted mb-2">Penanggung Jawab: <?= htmlspecialchars($notulen['penanggung_jawab_nama'] ?? '-'); ?></p>
+                    <p class="text-muted mb-2">PIC: <?= htmlspecialchars($notulen['penanggung_jawab_nama'] ?? '-'); ?></p>
                 </div>
                 <div class="text-end">
                     <p class="fw-semibold mb-0">Tanggal Rapat:</p>
-                    <p class="mb-0"><?= $tanggal; ?></p>
-                    <?php if (!empty($notulen['jam_mulai']) || !empty($notulen['jam_selesai'])): ?>
-                    <p class="fw-semibold mb-0 mt-2">Waktu Rapat:</p>
-                    <p class="mb-0">
+                    <p class="mb-2"><?= $tanggal; ?></p>
+                    
+                    <p class="fw-semibold mb-0">Waktu Rapat:</p>
+                    <p class="mb-2">
                         <?php 
                             $jam_mulai = !empty($notulen['jam_mulai']) ? date('H:i', strtotime($notulen['jam_mulai'])) : '-';
                             $jam_selesai = !empty($notulen['jam_selesai']) ? date('H:i', strtotime($notulen['jam_selesai'])) : '-';
                             echo $jam_mulai . ' - ' . $jam_selesai;
                         ?>
                     </p>
-                    <?php endif; ?>
+                    
+                    <p class="fw-semibold mb-0">Lokasi:</p>
+                    <p class="mb-0"><?= htmlspecialchars($notulen['lokasi'] ?? '-'); ?></p>
                 </div>
             </div>
 

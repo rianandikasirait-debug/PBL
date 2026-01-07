@@ -346,11 +346,17 @@ include '../config_admin/db_notulen.admin.php';
                     </div>
                 </div>
 
-                <!-- Penanggung Jawab -->
+                <!-- Lokasi -->
                 <div class="mb-3">
-                    <label class="form-label">Penanggung Jawab</label>
+                    <label class="form-label">Lokasi</label>
+                    <input type="text" class="form-control" name="lokasi" id="lokasi" placeholder="Masukkan lokasi rapat" required>
+                </div>
+
+                <!-- PIC -->
+                <div class="mb-3">
+                    <label class="form-label">PIC</label>
                     <select class="form-select" name="penanggung_jawab" id="penanggungJawab" required>
-                        <option value="">-- Pilih Penanggung Jawab --</option>
+                        <option value="">-- Pilih PIC --</option>
                         <?php foreach ($users as $u): 
                             $roleDisplay = ($u['role'] === 'admin') ? 'Notulis' : ucfirst($u['role']);
                         ?>
@@ -564,11 +570,11 @@ include '../config_admin/db_notulen.admin.php';
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
     
     <script>
-        // Initialize Select2 for Penanggung Jawab dropdown
+        // Initialize Select2 for PIC dropdown
         $(document).ready(function() {
             $('#penanggungJawab').select2({
                 theme: 'bootstrap-5',
-                placeholder: '-- Pilih Penanggung Jawab --',
+                placeholder: '-- Pilih PIC --',
                 allowClear: true,
                 width: '100%'
             });

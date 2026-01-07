@@ -2,7 +2,7 @@
 session_start(); 
 
 // TEST MODE - uncomment untuk debugging
-$TEST_MODE = true;
+$TEST_MODE = false;
 
 if ($TEST_MODE) {
     // Test hash
