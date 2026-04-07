@@ -25,7 +25,7 @@
 **SmartNote** adalah solusi inovatif untuk mengelola seluruh aspek administrasi rapat dalam satu platform terpusat. Dikembangkan oleh tim **Alpha Tech** dari **Politeknik Negeri Batam**, aplikasi ini dirancang untuk memudahkan proses pencatatan, pengarsipan, hingga distribusi hasil rapat kepada seluruh anggota secara efisien dan transparan.
 
 Link Website:
-smartnote.wuaze.com
+http://smartnote.wuaze.com
 ## ✨ Fitur Unggulan
 
 - 📂 **Arsip Digital**: Simpan seluruh riwayat rapat Anda secara terorganisir dalam satu tempat yang aman.
