@@ -65,15 +65,6 @@ Ingin menjalankan proyek ini di komputer Anda sendiri? Ikuti langkah-langkah ber
     - Letakkan folder proyek di dalam folder `www` (Laragon) atau `htdocs` (XAMPP).
     - Akses melalui browser: `http://localhost/smartnote`.
 
-## 📸 Tampilan UI
-
-| Landing Page | Login | Dashboard Notulis |
-| --- | --- | --- |
-| ![Landing Page](https://via.placeholder.com/400x250?text=Landing+Page) | ![Login](https://via.placeholder.com/400x250?text=Login+Page) | ![Dashboard](https://via.placeholder.com/400x250?text=Dashboard+Admin) |
-
-> [!NOTE]
-> Ganti placeholder di atas dengan screenshot asli aplikasi Anda untuk hasil yang lebih maksimal!
-
 ## 👥 Tim Pengembang (Alpha Tech)
 
 Kami adalah mahasiswa Politeknik Negeri Batam yang berdedikasi membangun solusi digital masa depan:
@@ -85,5 +76,5 @@ Kami adalah mahasiswa Politeknik Negeri Batam yang berdedikasi membangun solusi 
 ---
 
 <p align="center">
-  Dibuat dengan ❤️ oleh <b>Alpha Tech</b> &copy; 2024
+  Dibuat dengan ❤️ oleh <b>Alpha Tech</b> &copy; 2025
 </p>
